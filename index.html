@@ -6,7 +6,8 @@
     <title>Açougue Portal - Oferta do Dia</title>
     <style>
         body {
-            background: url('https://i.imgur.com/5YJZ7Qp.jpg') no-repeat center center fixed;
+            /* Fundo local */
+            background: url('imagens/fundo.jpg') no-repeat center center fixed;
             background-size: cover;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
@@ -85,6 +86,7 @@
             border-radius: 10px;
             margin: 15px auto;
             box-shadow: 0 0 15px rgba(0,0,0,0.5);
+            display: block;
         }
 
         .oferta-price {
@@ -166,6 +168,7 @@
         .logo img {
             width: 100%;
             height: auto;
+            display: block;
         }
 
         .supermarket-tag {
@@ -198,85 +201,101 @@
 <body>
 
     <div class="container">
-
         <div class="header">OFERTA DO DIA</div>
 
-        <div class="oferta-section">
-            <!-- Oferta 1 -->
-            <div class="oferta-item active" data-name="Bisteca Bovina">
-                <div class="oferta-title">BISTECA BOVINA</div>
-                <img src="https://i.imgur.com/8kGgCjI.jpg" alt="Bisteca Bovina" class="oferta-image">
-                <div class="oferta-price">18,90</div>
-                <div class="oferta-unit">/ KG</div>
-            </div>
-
-            <!-- Oferta 2 -->
-            <div class="oferta-item" data-name="Costelinha Suína">
-                <div class="oferta-title">COSTELINHA SUÍNA</div>
-                <img src="https://i.imgur.com/rWvLhXb.jpg" alt="Costelinha Suína" class="oferta-image">
-                <div class="oferta-price">16,90</div>
-                <div class="oferta-unit">/ KG</div>
-            </div>
-
-            <!-- Oferta 3 -->
-            <div class="oferta-item" data-name="Picanha Especial">
-                <div class="oferta-title">PICANHA ESPECIAL</div>
-                <img src="https://i.imgur.com/7KqzQqU.jpg" alt="Picanha" class="oferta-image">
-                <div class="oferta-price">42,90</div>
-                <div class="oferta-unit">/ KG</div>
-            </div>
+        <div class="oferta-section" id="ofertas-container">
+            <!-- Será preenchido pelo JavaScript -->
         </div>
 
         <div class="menu-section">
             <div class="category">
                 <div class="category-title">BOVINOS</div>
-                <table>
-                    <tr><td>Paleta kg</td><td>18,90</td></tr>
-                    <tr><td>Acem kg</td><td>15,00</td></tr>
-                    <tr><td>Ponta de Peito kg</td><td>15,00</td></tr>
-                    <tr><td>Capa de Filé kg</td><td>15,00</td></tr>
-                    <tr><td>Fraudinha kg</td><td>18,90</td></tr>
-                    <tr><td>Bistecão de Acem kg</td><td>14,50</td></tr>
-                    <tr><td>Setinho Kg</td><td>14,60</td></tr>
-                    <tr><td>Cupim kg</td><td>18,00</td></tr>
-                    <tr><td>Carne Moída kg</td><td>15,00</td></tr>
-                    <tr><td>Costela kg</td><td>11,50</td></tr>
-                    <tr><td>Costelão kg</td><td>15,90</td></tr>
-                </table>
+                <table id="bovinos-table"></table>
             </div>
-
             <div class="category">
                 <div class="category-title">SUÍNOS</div>
-                <table>
-                    <tr><td>Lombo kg</td><td>14,00</td></tr>
-                    <tr><td>Bisteca Lombo kg</td><td>10,90</td></tr>
-                    <tr><td>Bisteca Copa Lombo kg</td><td>10,00</td></tr>
-                    <tr><td>Pernil s/ Osso kg</td><td>10,90</td></tr>
-                    <tr><td>Pernil Traseiro kg</td><td>9,90</td></tr>
-                    <tr><td>Pernil Dianteiro kg</td><td>8,75</td></tr>
-                    <tr><td>Panceta kg</td><td>13,90</td></tr>
-                    <tr><td>Joelho kg</td><td>10,90</td></tr>
-                    <tr><td>Toucinho kg</td><td>7,50</td></tr>
-                    <tr><td>Costelinha kg</td><td>16,90</td></tr>
-                    <tr><td>Papada kg</td><td>7,90</td></tr>
-                </table>
+                <table id="suinos-table"></table>
             </div>
         </div>
 
-        <!-- LOGO -->
         <div class="logo">
-            <img src="https://i.imgur.com/9mLqUzS.png" alt="Logo Açougue Portal">
+            <img src="imagens/logo.png" alt="Logo Açougue Portal">
         </div>
 
-        <!-- TAG DO SUPERMERCADO -->
         <div class="supermarket-tag">Dentro do Supermercado Portal</div>
-
     </div>
 
     <script>
-        // Rotação automática das ofertas
-        const items = document.querySelectorAll('.oferta-item');
+        // 💾 DADOS LOCAIS – tudo em um só lugar
+        const dados = {
+            ofertas: [
+                { nome: "Bisteca Bovina", preco: "18,90", imagem: "imagens/bisteca.jpg" },
+                { nome: "Costelinha Suína", preco: "16,90", imagem: "imagens/costelinha.jpg" },
+                { nome: "Picanha Especial", preco: "42,90", imagem: "imagens/picanha.jpg" }
+            ],
+            bovinos: [
+                { corte: "Paleta kg", preco: "18,90" },
+                { corte: "Acem kg", preco: "15,00" },
+                { corte: "Ponta de Peito kg", preco: "15,00" },
+                { corte: "Capa de Filé kg", preco: "15,00" },
+                { corte: "Fraudinha kg", preco: "18,90" },
+                { corte: "Bistecão de Acem kg", preco: "14,50" },
+                { corte: "Setinho Kg", preco: "14,60" },
+                { corte: "Cupim kg", preco: "18,00" },
+                { corte: "Carne Moída kg", preco: "15,00" },
+                { corte: "Costela kg", preco: "11,50" },
+                { corte: "Costelão kg", preco: "15,90" }
+            ],
+            suinos: [
+                { corte: "Lombo kg", preco: "14,00" },
+                { corte: "Bisteca Lombo kg", preco: "10,90" },
+                { corte: "Bisteca Copa Lombo kg", preco: "10,00" },
+                { corte: "Pernil s/ Osso kg", preco: "10,90" },
+                { corte: "Pernil Traseiro kg", preco: "9,90" },
+                { corte: "Pernil Dianteiro kg", preco: "8,75" },
+                { corte: "Panceta kg", preco: "13,90" },
+                { corte: "Joelho kg", preco: "10,90" },
+                { corte: "Toucinho kg", preco: "7,50" },
+                { corte: "Costelinha kg", preco: "16,90" },
+                { corte: "Papada kg", preco: "7,90" }
+            ]
+        };
+
+        // 🖼️ Renderiza ofertas
+        function renderOfertas() {
+            const container = document.getElementById('ofertas-container');
+            container.innerHTML = '';
+
+            dados.ofertas.forEach((oferta, index) => {
+                const div = document.createElement('div');
+                div.className = 'oferta-item';
+                if (index === 0) div.classList.add('active');
+                div.innerHTML = `
+                    <div class="oferta-title">${oferta.nome.toUpperCase()}</div>
+                    <img src="${oferta.imagem}" alt="${oferta.nome}" class="oferta-image" onerror="this.style.display='none'">
+                    <div class="oferta-price">${oferta.preco}</div>
+                    <div class="oferta-unit">/ KG</div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        // 📋 Renderiza tabelas
+        function renderTabela(id, items) {
+            const table = document.getElementById(id);
+            table.innerHTML = items.map(item => 
+                `<tr><td>${item.corte}</td><td>${item.preco}</td></tr>`
+            ).join('');
+        }
+
+        // ▶️ Inicializa
+        renderOfertas();
+        renderTabela('bovinos-table', dados.bovinos);
+        renderTabela('suinos-table', dados.suinos);
+
+        // 🔁 Rotação automática
         let currentIndex = 0;
+        const items = document.querySelectorAll('.oferta-item');
 
         function showNext() {
             items[currentIndex].classList.remove('active');
@@ -284,7 +303,6 @@
             items[currentIndex].classList.add('active');
         }
 
-        // Troca a cada 10 segundos
         setInterval(showNext, 10000);
     </script>
 
