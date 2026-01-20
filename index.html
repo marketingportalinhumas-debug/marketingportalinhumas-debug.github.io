@@ -1,37 +1,166 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-  <meta charset="utf-8">
-  <title>Google Sheets + GitHub Pages</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Planilha Google Sheets - Leitor</title>
+    <style>
+        body {
+            background: #121212;
+            color: white;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            margin: 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .section {
+            background: #1e1e1e;
+            border: 1px solid #444;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .section h2 {
+            color: #4fc3f7;
+            border-bottom: 1px solid #444;
+            padding-bottom: 8px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #333;
+        }
+        th {
+            background: #2c2c2c;
+            color: #ffd700;
+        }
+        .loading {
+            color: #ff9800;
+            font-style: italic;
+        }
+        .error {
+            color: #f44336;
+        }
+    </style>
 </head>
 <body>
-  <div id="data"></div>
 
-  <!-- Carrega Papa Parse -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-  
-  <script>
-    const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/SEU_ID_PUBLICO/pub?output=csv";
+<div class="container" id="content">
+    <h1>Carregando dados da planilha...</h1>
+</div>
 
-    Papa.parse(SHEET_URL, {
-      download: true,
-      header: true, // usa a primeira linha como chaves
-      dynamicTyping: true, // converte números automaticamente
-      complete: function(results) {
-        console.log("Dados carregados:", results.data);
-        
-        // Exibir no HTML
-        const container = document.getElementById("data");
-        results.data.forEach(row => {
-          const p = document.createElement("p");
-          p.textContent = JSON.stringify(row);
-          container.appendChild(p);
+<!-- Papa Parse (para CSV → JSON) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+
+<script>
+    // 🔑 Substitua pelo seu ID público da planilha
+    const SPREADSHEET_ID = '16QqyYOD_NwWP1GmUZ6HBDcCeO7LdB20tsIh2XUpukMg';
+
+    // 📋 Liste aqui os nomes das abas que deseja carregar
+    const SHEETS_TO_LOAD = ['ofertas', 'bovinos', 'suinos', 'aves', 'outros']; // ← personalize!
+
+    // Função para buscar dados de uma aba específica
+    function fetchSheet(sheetName) {
+        return new Promise((resolve, reject) => {
+            const url = `https://docs.google.com/spreadsheets/d/e/${SPREADSHEET_ID}/pub?output=csv&sheet=${encodeURIComponent(sheetName)}`;
+            Papa.parse(url, {
+                download: true,
+                header: true,
+                dynamicTyping: false, // mantém tudo como string (preserva "18,90")
+                skipEmptyLines: true,
+                complete: function(results) {
+                    if (results.data && results.data.length > 0) {
+                        // Remove linhas vazias
+                        const validData = results.data.filter(row =>
+                            row && Object.values(row).some(val => val !== "")
+                        );
+                        resolve({ sheetName, data: validData });
+                    } else {
+                        resolve({ sheetName, data: [] });
+                    }
+                },
+                error: function(error) {
+                    reject({ sheetName, error });
+                }
+            });
         });
-      },
-      error: function(error) {
-        console.error("Erro ao carregar a planilha:", error);
-      }
-    });
-  </script>
+    }
+
+    // Função para renderizar uma tabela a partir dos dados
+    function renderTable(data, container) {
+        if (data.length === 0) {
+            container.innerHTML = '<p class="loading">Nenhum dado encontrado.</p>';
+            return;
+        }
+
+        const headers = Object.keys(data[0]);
+        let html = '<table><thead><tr>';
+        headers.forEach(h => {
+            html += `<th>${h}</th>`;
+        });
+        html += '</tr></thead><tbody>';
+
+        data.forEach(row => {
+            html += '<tr>';
+            headers.forEach(h => {
+                html += `<td>${row[h] || ''}</td>`;
+            });
+            html += '</tr>';
+        });
+
+        html += '</tbody></table>';
+        container.innerHTML = html;
+    }
+
+    // Função principal: carrega e exibe todas as abas
+    async function loadAllSheets() {
+        const content = document.getElementById('content');
+        content.innerHTML = '<h1>Carregando dados da planilha...</h1>';
+
+        try {
+            const promises = SHEETS_TO_LOAD.map(name => fetchSheet(name));
+            const results = await Promise.allSettled(promises);
+
+            content.innerHTML = ''; // limpa o carregando...
+
+            results.forEach(result => {
+                const section = document.createElement('div');
+                section.className = 'section';
+
+                if (result.status === 'fulfilled') {
+                    const { sheetName, data } = result.value;
+                    section.innerHTML = `<h2>${sheetName.toUpperCase()}</h2>`;
+                    const tableContainer = document.createElement('div');
+                    renderTable(data, tableContainer);
+                    section.appendChild(tableContainer);
+                } else {
+                    const { sheetName } = result.reason;
+                    section.innerHTML = `
+                        <h2>${sheetName.toUpperCase()} <span class="error">(Erro ao carregar)</span></h2>
+                        <p class="error">Verifique se a aba existe e está publicada.</p>
+                    `;
+                }
+
+                content.appendChild(section);
+            });
+
+        } catch (err) {
+            content.innerHTML = `<p class="error">Erro geral: ${err.message}</p>`;
+        }
+    }
+
+    // Carrega imediatamente e atualiza a cada 2 minutos
+    loadAllSheets();
+    setInterval(loadAllSheets, 120000); // 2 minutos
+</script>
+
 </body>
 </html>
