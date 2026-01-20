@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Açougue Portal - Oferta do Dia</title>
+    <style>
+        body { background: #1a1a1a; color: white; font-family: Arial, sans-serif; margin: 0; padding: 20px; }
+        .container { max-width: 1000px; margin: auto; text-align: center; }
+        h1 { color: #ffcc00; }
+        table { width: 100%; margin: 20px 0; border-collapse: collapse; }
+        th, td { padding: 10px; border: 1px solid #444; text-align: left; }
+        td:last-child { text-align: right; color: #ffcc00; }
+        .loading { color: #ff9900; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔄 Carregando dados do Açougue Portal...</h1>
+        <div id="content"></div>
+    </div>
+
+    <script>
+        // 🔑 SUBSTITUA PELO SEU ID DA PLANILHA DO GOOGLE
+        const SPREADSHEET_ID = 'SEU_ID_AQUI';
+
+        async function fetchSheet(range) {
+            const url = `https://docs.google.com/spreadsheets/d/e/${SPREADSHEET_ID}/pub?output=csv&range=${range}`;
+            const res = await fetch(url);
+            const text = await res.text();
+            const lines = text.split('\n').filter(l => l.trim());
+            const headers = lines[0].split(',').map(h => h.trim());
+            return lines.slice(1).map(line => {
+                const vals = line.split(',').map(v => v.trim().replace(/^"(.*)"$/, '$1'));
+                const obj = {};
+                headers.forEach((h, i) => obj[h] = vals[i] || '');
+                return obj;
+            });
+        }
+
+        async function render() {
+            try {
+                const ofertas = await fetchSheet('ofertas');
+                const bovinos = await fetchSheet('bovinos');
+                const suinos = await fetchSheet('suinos');
+
+                let html = '<h1>OFERTA DO DIA</h1>';
+                if (ofertas.length > 0) {
+                    const o = ofertas[0];
+                    html += `<h2>${o.nome}</h2><p>Preço: ${o.preco} /kg</p>`;
+                }
+
+                html += '<h2>BOVINOS</h2><table><tr><th>Corte</th><th>Preço</th></tr>';
+                bovinos.forEach(item => html += `<tr><td>${item.corte}</td><td>${item.preco}</td></tr>`);
+                html += '</table>';
+
+                html += '<h2>SUÍNOS</h2><table><tr><th>Corte</th><th>Preço</th></tr>';
+                suinos.forEach(item => html += `<tr><td>${item.corte}</td><td>${item.preco}</td></tr>`);
+                html += '</table>';
+
+                document.getElementById('content').innerHTML = html;
+            } catch (e) {
+                document.getElementById('content').innerHTML = '<p class="loading">Erro ao carregar. Verifique o ID da planilha.</p>';
+            }
+        }
+
+        render();
+        setInterval(render, 60000); // Atualiza a cada 60s
+    </script>
+</body>
+</html>
