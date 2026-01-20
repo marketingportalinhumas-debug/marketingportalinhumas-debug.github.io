@@ -3,163 +3,78 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Planilha Google Sheets - Leitor</title>
+    <title>Preço da Picanha - Hoje</title>
     <style>
         body {
-            background: #121212;
-            color: white;
+            background: #f5f5f5;
             font-family: Arial, sans-serif;
-            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
             margin: 0;
         }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            text-align: center;
+            max-width: 400px;
         }
-        .section {
-            background: #1e1e1e;
-            border: 1px solid #444;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 20px;
+        h1 {
+            color: #d32f2f;
         }
-        .section h2 {
-            color: #4fc3f7;
-            border-bottom: 1px solid #444;
-            padding-bottom: 8px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
-        th, td {
-            padding: 8px;
-            text-align: left;
-            border-bottom: 1px solid #333;
-        }
-        th {
-            background: #2c2c2c;
-            color: #ffd700;
+        .price {
+            font-size: 2em;
+            font-weight: bold;
+            color: #1976d2;
+            margin: 15px 0;
         }
         .loading {
-            color: #ff9800;
-            font-style: italic;
-        }
-        .error {
-            color: #f44336;
+            color: #888;
         }
     </style>
 </head>
 <body>
 
-<div class="container" id="content">
-    <h1>Carregando dados da planilha...</h1>
+<div class="card">
+    <h1>Preço da Picanha</h1>
+    <div id="message" class="loading">Carregando...</div>
 </div>
 
-<!-- Papa Parse (para CSV → JSON) -->
+<!-- Papa Parse para ler CSV -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 
 <script>
-    // 🔑 Substitua pelo seu ID público da planilha
-    const SPREADSHEET_ID = '16QqyYOD_NwWP1GmUZ6HBDcCeO7LdB20tsIh2XUpukMg';
+    // 🔑 Substitua pelo seu ID público
+    const SPREADSHEET_ID = '1heADsLHq4DuWMu3NOeJaZxaaftS9yinsvsPgKz2p2PQ'; // ← COLOQUE SEU ID AQUI
 
-    // 📋 Liste aqui os nomes das abas que deseja carregar
-    const SHEETS_TO_LOAD = ['ofertas', 'bovinos', 'suinos', 'aves', 'outros']; // ← personalize!
+    function loadPrice() {
+        const url = `https://docs.google.com/spreadsheets/d/e/${SPREADSHEET_ID}/pub?output=csv&sheet=precos`;
+        const messageEl = document.getElementById('message');
 
-    // Função para buscar dados de uma aba específica
-    function fetchSheet(sheetName) {
-        return new Promise((resolve, reject) => {
-            const url = `https://docs.google.com/spreadsheets/d/e/${SPREADSHEET_ID}/pub?output=csv&sheet=${encodeURIComponent(sheetName)}`;
-            Papa.parse(url, {
-                download: true,
-                header: true,
-                dynamicTyping: false, // mantém tudo como string (preserva "18,90")
-                skipEmptyLines: true,
-                complete: function(results) {
-                    if (results.data && results.data.length > 0) {
-                        // Remove linhas vazias
-                        const validData = results.data.filter(row =>
-                            row && Object.values(row).some(val => val !== "")
-                        );
-                        resolve({ sheetName, data: validData });
-                    } else {
-                        resolve({ sheetName, data: [] });
-                    }
-                },
-                error: function(error) {
-                    reject({ sheetName, error });
-                }
-            });
-        });
-    }
-
-    // Função para renderizar uma tabela a partir dos dados
-    function renderTable(data, container) {
-        if (data.length === 0) {
-            container.innerHTML = '<p class="loading">Nenhum dado encontrado.</p>';
-            return;
-        }
-
-        const headers = Object.keys(data[0]);
-        let html = '<table><thead><tr>';
-        headers.forEach(h => {
-            html += `<th>${h}</th>`;
-        });
-        html += '</tr></thead><tbody>';
-
-        data.forEach(row => {
-            html += '<tr>';
-            headers.forEach(h => {
-                html += `<td>${row[h] || ''}</td>`;
-            });
-            html += '</tr>';
-        });
-
-        html += '</tbody></table>';
-        container.innerHTML = html;
-    }
-
-    // Função principal: carrega e exibe todas as abas
-    async function loadAllSheets() {
-        const content = document.getElementById('content');
-        content.innerHTML = '<h1>Carregando dados da planilha...</h1>';
-
-        try {
-            const promises = SHEETS_TO_LOAD.map(name => fetchSheet(name));
-            const results = await Promise.allSettled(promises);
-
-            content.innerHTML = ''; // limpa o carregando...
-
-            results.forEach(result => {
-                const section = document.createElement('div');
-                section.className = 'section';
-
-                if (result.status === 'fulfilled') {
-                    const { sheetName, data } = result.value;
-                    section.innerHTML = `<h2>${sheetName.toUpperCase()}</h2>`;
-                    const tableContainer = document.createElement('div');
-                    renderTable(data, tableContainer);
-                    section.appendChild(tableContainer);
+        Papa.parse(url, {
+            download: true,
+            header: true,
+            dynamicTyping: false,
+            complete: function(results) {
+                const data = results.data;
+                const picanha = data.find(row => row.produto === 'Picanha');
+                if (picanha && picanha.preco) {
+                    messageEl.innerHTML = `Hoje a Picanha está por <span class="price">R$ ${picanha.preco}</span>`;
                 } else {
-                    const { sheetName } = result.reason;
-                    section.innerHTML = `
-                        <h2>${sheetName.toUpperCase()} <span class="error">(Erro ao carregar)</span></h2>
-                        <p class="error">Verifique se a aba existe e está publicada.</p>
-                    `;
+                    messageEl.innerHTML = '<span style="color:red">Picanha não encontrada.</span>';
                 }
-
-                content.appendChild(section);
-            });
-
-        } catch (err) {
-            content.innerHTML = `<p class="error">Erro geral: ${err.message}</p>`;
-        }
+            },
+            error: function() {
+                messageEl.innerHTML = '<span style="color:red">Erro ao carregar os dados.</span>';
+            }
+        });
     }
 
-    // Carrega imediatamente e atualiza a cada 2 minutos
-    loadAllSheets();
-    setInterval(loadAllSheets, 120000); // 2 minutos
+    // Carrega ao abrir a página
+    loadPrice();
 </script>
 
 </body>
