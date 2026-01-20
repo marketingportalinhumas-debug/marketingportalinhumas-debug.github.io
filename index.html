@@ -1,81 +1,292 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Preço da Picanha - Hoje</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Açougue Portal - Oferta do Dia</title>
     <style>
         body {
-            background: #f5f5f5;
-            font-family: Arial, sans-serif;
+            background: url('https://i.imgur.com/5YJZ7Qp.jpg') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: white;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            margin: 0;
+            overflow: hidden;
         }
-        .card {
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            text-align: center;
-            max-width: 400px;
+
+        .container {
+            width: 95%;
+            max-width: 1200px;
+            background: rgba(0, 0, 0, 0.85);
+            border: 4px solid #654321;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+            display: flex;
+            gap: 20px;
+            position: relative;
         }
-        h1 {
-            color: #d32f2f;
-        }
-        .price {
-            font-size: 2em;
+
+        .header {
+            position: absolute;
+            top: -20px;
+            left: 20px;
+            background: #222;
+            padding: 5px 15px;
+            border-radius: 5px;
             font-weight: bold;
-            color: #1976d2;
-            margin: 15px 0;
+            font-size: 1.2em;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
         }
-        .loading {
-            color: #888;
+
+        .oferta-section {
+            flex: 0 0 350px;
+            background: linear-gradient(135deg, #ffcc00, #ff9900);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 0 15px rgba(0,0,0,0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .oferta-item {
+            display: none;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .oferta-item.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .oferta-title {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #c00;
+            margin: 10px 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .oferta-image {
+            width: 100%;
+            max-width: 250px;
+            border-radius: 10px;
+            margin: 15px auto;
+            box-shadow: 0 0 15px rgba(0,0,0,0.5);
+        }
+
+        .oferta-price {
+            font-size: 3em;
+            font-weight: bold;
+            color: #c00;
+            margin: 15px 0;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.7);
+        }
+
+        .oferta-unit {
+            font-size: 0.8em;
+            color: #333;
+            background: white;
+            padding: 2px 8px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .menu-section {
+            flex: 1;
+            display: flex;
+            gap: 20px;
+        }
+
+        .category {
+            flex: 1;
+            background: rgba(30, 30, 30, 0.85);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+        }
+
+        .category-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 15px;
+            color: #ffcc00;
+            border-bottom: 2px solid #ffcc00;
+            padding-bottom: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9em;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #444;
+        }
+
+        td:first-child {
+            width: 70%;
+        }
+
+        td:last-child {
+            width: 30%;
+            text-align: right;
+            font-weight: bold;
+            color: #ffcc00;
+        }
+
+        .logo {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            width: 150px;
+            height: auto;
+            background: white;
+            padding: 5px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        .logo img {
+            width: 100%;
+            height: auto;
+        }
+
+        .supermarket-tag {
+            position: absolute;
+            bottom: -20px;
+            right: 20px;
+            background: #004d00;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+        }
+
+        @media (max-width: 800px) {
+            .container {
+                flex-direction: column;
+            }
+            .oferta-section {
+                flex: none;
+                width: 100%;
+            }
+            .menu-section {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
 <body>
 
-<div class="card">
-    <h1>Preço da Picanha</h1>
-    <div id="message" class="loading">Carregando...</div>
-</div>
+    <div class="container">
 
-<!-- Papa Parse para ler CSV -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+        <div class="header">OFERTA DO DIA</div>
 
-<script>
-    // 🔑 Substitua pelo seu ID público
-    const SPREADSHEET_ID = '1heADsLHq4DuWMu3NOeJaZxaaftS9yinsvsPgKz2p2PQ'; // ← COLOQUE SEU ID AQUI
+        <div class="oferta-section">
+            <!-- Oferta 1 -->
+            <div class="oferta-item active" data-name="Bisteca Bovina">
+                <div class="oferta-title">BISTECA BOVINA</div>
+                <img src="https://i.imgur.com/8kGgCjI.jpg" alt="Bisteca Bovina" class="oferta-image">
+                <div class="oferta-price">18,90</div>
+                <div class="oferta-unit">/ KG</div>
+            </div>
 
-    function loadPrice() {
-        const url = `https://docs.google.com/spreadsheets/d/e/${SPREADSHEET_ID}/pub?output=csv&sheet=precos`;
-        const messageEl = document.getElementById('message');
+            <!-- Oferta 2 -->
+            <div class="oferta-item" data-name="Costelinha Suína">
+                <div class="oferta-title">COSTELINHA SUÍNA</div>
+                <img src="https://i.imgur.com/rWvLhXb.jpg" alt="Costelinha Suína" class="oferta-image">
+                <div class="oferta-price">16,90</div>
+                <div class="oferta-unit">/ KG</div>
+            </div>
 
-        Papa.parse(url, {
-            download: true,
-            header: true,
-            dynamicTyping: false,
-            complete: function(results) {
-                const data = results.data;
-                const picanha = data.find(row => row.produto === 'Picanha');
-                if (picanha && picanha.preco) {
-                    messageEl.innerHTML = `Hoje a Picanha está por <span class="price">R$ ${picanha.preco}</span>`;
-                } else {
-                    messageEl.innerHTML = '<span style="color:red">Picanha não encontrada.</span>';
-                }
-            },
-            error: function() {
-                messageEl.innerHTML = '<span style="color:red">Erro ao carregar os dados.</span>';
-            }
-        });
-    }
+            <!-- Oferta 3 -->
+            <div class="oferta-item" data-name="Picanha Especial">
+                <div class="oferta-title">PICANHA ESPECIAL</div>
+                <img src="https://i.imgur.com/7KqzQqU.jpg" alt="Picanha" class="oferta-image">
+                <div class="oferta-price">42,90</div>
+                <div class="oferta-unit">/ KG</div>
+            </div>
+        </div>
 
-    // Carrega ao abrir a página
-    loadPrice();
-</script>
+        <div class="menu-section">
+            <div class="category">
+                <div class="category-title">BOVINOS</div>
+                <table>
+                    <tr><td>Paleta kg</td><td>18,90</td></tr>
+                    <tr><td>Acem kg</td><td>15,00</td></tr>
+                    <tr><td>Ponta de Peito kg</td><td>15,00</td></tr>
+                    <tr><td>Capa de Filé kg</td><td>15,00</td></tr>
+                    <tr><td>Fraudinha kg</td><td>18,90</td></tr>
+                    <tr><td>Bistecão de Acem kg</td><td>14,50</td></tr>
+                    <tr><td>Setinho Kg</td><td>14,60</td></tr>
+                    <tr><td>Cupim kg</td><td>18,00</td></tr>
+                    <tr><td>Carne Moída kg</td><td>15,00</td></tr>
+                    <tr><td>Costela kg</td><td>11,50</td></tr>
+                    <tr><td>Costelão kg</td><td>15,90</td></tr>
+                </table>
+            </div>
+
+            <div class="category">
+                <div class="category-title">SUÍNOS</div>
+                <table>
+                    <tr><td>Lombo kg</td><td>14,00</td></tr>
+                    <tr><td>Bisteca Lombo kg</td><td>10,90</td></tr>
+                    <tr><td>Bisteca Copa Lombo kg</td><td>10,00</td></tr>
+                    <tr><td>Pernil s/ Osso kg</td><td>10,90</td></tr>
+                    <tr><td>Pernil Traseiro kg</td><td>9,90</td></tr>
+                    <tr><td>Pernil Dianteiro kg</td><td>8,75</td></tr>
+                    <tr><td>Panceta kg</td><td>13,90</td></tr>
+                    <tr><td>Joelho kg</td><td>10,90</td></tr>
+                    <tr><td>Toucinho kg</td><td>7,50</td></tr>
+                    <tr><td>Costelinha kg</td><td>16,90</td></tr>
+                    <tr><td>Papada kg</td><td>7,90</td></tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- LOGO -->
+        <div class="logo">
+            <img src="https://i.imgur.com/9mLqUzS.png" alt="Logo Açougue Portal">
+        </div>
+
+        <!-- TAG DO SUPERMERCADO -->
+        <div class="supermarket-tag">Dentro do Supermercado Portal</div>
+
+    </div>
+
+    <script>
+        // Rotação automática das ofertas
+        const items = document.querySelectorAll('.oferta-item');
+        let currentIndex = 0;
+
+        function showNext() {
+            items[currentIndex].classList.remove('active');
+            currentIndex = (currentIndex + 1) % items.length;
+            items[currentIndex].classList.add('active');
+        }
+
+        // Troca a cada 10 segundos
+        setInterval(showNext, 10000);
+    </script>
 
 </body>
 </html>
