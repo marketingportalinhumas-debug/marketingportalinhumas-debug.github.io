@@ -1,289 +1,37 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Açougue Portal - Oferta do Dia</title>
-    <style>
-        body {
-            background: #1a1a1a;
-            color: white;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            overflow: hidden;
-        }
-
-        .container {
-            width: 95%;
-            max-width: 1200px;
-            background: #121212;
-            border: 3px solid #ffd700;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
-            display: flex;
-            gap: 20px;
-            position: relative;
-        }
-
-        .header {
-            position: absolute;
-            top: -20px;
-            left: 20px;
-            background: #222;
-            padding: 5px 15px;
-            border-radius: 5px;
-            font-weight: bold;
-            font-size: 1.2em;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: #ffd700;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
-        }
-
-        .oferta-section {
-            flex: 0 0 350px;
-            background: linear-gradient(135deg, #ffcc00, #ff9900);
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            box-shadow: 0 0 15px rgba(0,0,0,0.5);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .oferta-title {
-            font-size: 1.8em;
-            font-weight: bold;
-            color: #c00;
-            margin: 10px 0;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-        }
-
-        .oferta-image {
-            width: 100%;
-            max-width: 250px;
-            border-radius: 10px;
-            margin: 15px auto;
-            box-shadow: 0 0 15px rgba(0,0,0,0.5);
-            border: 2px solid #fff;
-        }
-
-        .oferta-price {
-            font-size: 3em;
-            font-weight: bold;
-            color: #c00;
-            margin: 15px 0;
-            text-shadow: 3px 3px 6px rgba(0,0,0,0.7);
-        }
-
-        .oferta-unit {
-            font-size: 0.8em;
-            color: #333;
-            background: white;
-            padding: 2px 8px;
-            border-radius: 5px;
-            font-weight: bold;
-            display: inline-block;
-            margin-top: 5px;
-        }
-
-        .menu-section {
-            flex: 1;
-            display: flex;
-            gap: 20px;
-        }
-
-        .category {
-            flex: 1;
-            background: #1a1a1a;
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.3);
-            border: 1px solid #444;
-        }
-
-        .category-title {
-            font-size: 1.3em;
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 15px;
-            color: #ffd700;
-            border-bottom: 2px solid #ffd700;
-            padding-bottom: 5px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.9em;
-        }
-
-        th, td {
-            padding: 8px;
-            text-align: left;
-            border-bottom: 1px solid #444;
-        }
-
-        td:first-child {
-            width: 70%;
-        }
-
-        td:last-child {
-            width: 30%;
-            text-align: right;
-            font-weight: bold;
-            color: #ffd700;
-        }
-
-        .supermarket-tag {
-            position: absolute;
-            bottom: -20px;
-            right: 20px;
-            background: #004d00;
-            color: white;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.9em;
-            font-weight: bold;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
-        }
-
-        @media (max-width: 800px) {
-            .container {
-                flex-direction: column;
-            }
-            .oferta-section {
-                flex: none;
-                width: 100%;
-            }
-            .menu-section {
-                flex-direction: column;
-            }
-        }
-
-        .loading {
-            color: #ffd700;
-            font-size: 1.2em;
-            text-align: center;
-            padding: 20px;
-        }
-    </style>
+  <meta charset="utf-8">
+  <title>Google Sheets + GitHub Pages</title>
 </head>
 <body>
+  <div id="data"></div>
 
-    <div class="container">
-        <div class="header">OFERTA DO DIA</div>
-        <div class="oferta-section" id="oferta-container">
-            <div class="loading">Carregando...</div>
-        </div>
-        <div class="menu-section">
-            <div class="category">
-                <div class="category-title">BOVINOS</div>
-                <table id="bovinos-table"><tr><td colspan="2" class="loading">Carregando...</td></tr></table>
-            </div>
-            <div class="category">
-                <div class="category-title">SUÍNOS</div>
-                <table id="suinos-table"><tr><td colspan="2" class="loading">Carregando...</td></tr></table>
-            </div>
-        </div>
-        <div class="supermarket-tag">Dentro do Supermercado Portal</div>
-    </div>
+  <!-- Carrega Papa Parse -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+  
+  <script>
+    const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/SEU_ID_PUBLICO/pub?output=csv";
 
-    <!-- Carrega Papa Parse -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-
-    <script>
-        // 🔑 Substitua pelo seu ID público da planilha (do link de "Publicar na web")
-        const SPREADSHEET_ID = '16QqyYOD_NwWP1GmUZ6HBDcCeO7LdB20tsIh2XUpukMg';
-
-        /**
-         * Busca dados de uma aba específica da planilha pública do Google Sheets
-         * @param {string} sheetName - Nome exato da aba (ex: 'ofertas')
-         * @param {function} callback - Função para tratar os dados retornados
-         */
-        function fetchAndRenderSheet(sheetName, callback) {
-            const url = `https://docs.google.com/spreadsheets/d/e/${SPREADSHEET_ID}/pub?output=csv&sheet=${encodeURIComponent(sheetName)}`;
-            Papa.parse(url, {
-                download: true,
-                header: true,
-                dynamicTyping: false, // mantém tudo como string (preserva "18,90")
-                skipEmptyLines: true,
-                complete: function(results) {
-                    if (results.data && results.data.length > 0) {
-                        const validData = results.data.filter(row => 
-                            row && Object.keys(row).some(key => row[key] !== "")
-                        );
-                        callback(validData);
-                    } else {
-                        callback([]);
-                    }
-                },
-                error: function(error) {
-                    console.error(`Erro ao carregar a aba "${sheetName}":`, error);
-                    callback([]);
-                }
-            });
-        }
-
-        /**
-         * Renderiza todos os dados na página
-         */
-        function renderData() {
-            // Oferta do dia
-            fetchAndRenderSheet('ofertas', function(ofertas) {
-                const container = document.getElementById('oferta-container');
-                if (ofertas.length > 0) {
-                    const o = ofertas[0];
-                    const imgPath = o.imagem || '';
-                    const safeName = o.nome || 'Oferta indisponível';
-                    const safePrice = o.preco || '0,00';
-                    container.innerHTML = `
-                        <div class="oferta-title">${safeName}</div>
-                        <img src="${imgPath}" alt="${safeName}" class="oferta-image" 
-                             onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22250%22 height=%22200%22><rect width=%22100%22 height=%22100%22 fill=%22%23ccc%22/></svg>'">
-                        <div class="oferta-price">${safePrice}</div>
-                        <div class="oferta-unit">/ KG</div>
-                    `;
-                } else {
-                    container.innerHTML = '<div class="loading">Sem oferta cadastrada.</div>';
-                }
-            });
-
-            // Bovinos
-            fetchAndRenderSheet('bovinos', function(bovinos) {
-                const table = document.getElementById('bovinos-table');
-                if (bovinos.length > 0) {
-                    table.innerHTML = bovinos.map(item => 
-                        `<tr><td>${item.corte || ''}</td><td>${item.preco || ''}</td></tr>`
-                    ).join('');
-                } else {
-                    table.innerHTML = '<tr><td colspan="2">Sem dados</td></tr>';
-                }
-            });
-
-            // Suínos
-            fetchAndRenderSheet('suinos', function(suinos) {
-                const table = document.getElementById('suinos-table');
-                if (suinos.length > 0) {
-                    table.innerHTML = suinos.map(item => 
-                        `<tr><td>${item.corte || ''}</td><td>${item.preco || ''}</td></tr>`
-                    ).join('');
-                } else {
-                    table.innerHTML = '<tr><td colspan="2">Sem dados</td></tr>';
-                }
-            });
-        }
-
-        // Carrega os dados imediatamente e atualiza a cada 60 segundos
-        renderData();
-        setInterval(renderData, 60000);
-    </script>
-
+    Papa.parse(SHEET_URL, {
+      download: true,
+      header: true, // usa a primeira linha como chaves
+      dynamicTyping: true, // converte números automaticamente
+      complete: function(results) {
+        console.log("Dados carregados:", results.data);
+        
+        // Exibir no HTML
+        const container = document.getElementById("data");
+        results.data.forEach(row => {
+          const p = document.createElement("p");
+          p.textContent = JSON.stringify(row);
+          container.appendChild(p);
+        });
+      },
+      error: function(error) {
+        console.error("Erro ao carregar a planilha:", error);
+      }
+    });
+  </script>
 </body>
 </html>
