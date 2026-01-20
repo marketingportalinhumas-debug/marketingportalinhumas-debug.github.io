@@ -5,68 +5,177 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Açougue Portal - Oferta do Dia</title>
     <style>
-        body { background: #1a1a1a; color: white; font-family: Arial, sans-serif; margin: 0; padding: 20px; }
-        .container { max-width: 1000px; margin: auto; text-align: center; }
-        h1 { color: #ffcc00; }
-        table { width: 100%; margin: 20px 0; border-collapse: collapse; }
-        th, td { padding: 10px; border: 1px solid #444; text-align: left; }
-        td:last-child { text-align: right; color: #ffcc00; }
-        .loading { color: #ff9900; }
+        body {
+            background: #1a1a1a;
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+        .container {
+            width: 95%;
+            max-width: 1000px;
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid #654321;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+        }
+        h1, h2 {
+            text-align: center;
+            margin: 15px 0;
+            color: #ffcc00;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+        }
+        .offer-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .offer-image {
+            max-width: 300px;
+            border-radius: 10px;
+            margin: 10px auto;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
+            display: block;
+        }
+        .offer-price {
+            font-size: 2.2em;
+            font-weight: bold;
+            color: #ffcc00;
+            margin: 10px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            background: rgba(30, 30, 30, 0.9);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #444;
+        }
+        th {
+            background: #222;
+            color: #ffcc00;
+        }
+        td:last-child {
+            text-align: right;
+            color: #ffcc00;
+            font-weight: bold;
+        }
+        .loading {
+            text-align: center;
+            color: #ff9900;
+            padding: 20px;
+            font-size: 1.2em;
+        }
+        @media (max-width: 768px) {
+            .container { padding: 15px; }
+            .offer-price { font-size: 1.8em; }
+            table { font-size: 0.9em; }
+        }
     </style>
 </head>
 <body>
+
     <div class="container">
-        <h1>🔄 Carregando dados do Açougue Portal...</h1>
-        <div id="content"></div>
+        <div id="content" class="loading">🔄 Carregando dados do Açougue Portal...</div>
     </div>
 
     <script>
-        // 🔑 SUBSTITUA PELO SEU ID DA PLANILHA DO GOOGLE
+        // 🔑 ID da sua planilha do Google Sheets (já preenchido com o seu)
         const SPREADSHEET_ID = '16QqyYOD_NwWP1GmUZ6HBDcCeO7LdB20tsIh2XUpukMg';
 
+        // Função para buscar dados do Google Sheets
         async function fetchSheet(range) {
-            const url = `https://docs.google.com/spreadsheets/d/e/${SPREADSHEET_ID}/pub?output=csv&range=${range}`;
-            
-            const res = await fetch(url);
-            const text = await res.text();
-            const lines = text.split('\n').filter(l => l.trim());
-            const headers = lines[0].split(',').map(h => h.trim());
-            return lines.slice(1).map(line => {
-                const vals = line.split(',').map(v => v.trim().replace(/^"(.*)"$/, '$1'));
-                const obj = {};
-                headers.forEach((h, i) => obj[h] = vals[i] || '');
-                return obj;
-            });
+            try {
+                const url = `https://docs.google.com/spreadsheets/d/e/${SPREADSHEET_ID}/pub?output=csv&range=${range}`;
+                const response = await fetch(url);
+                const text = await response.text();
+                const lines = text.split('\n').filter(line => line.trim() !== '');
+                if (lines.length < 2) return [];
+                const headers = lines[0].split(',').map(h => h.trim());
+                return lines.slice(1).map(line => {
+                    const values = line.split(',').map(v => v.trim().replace(/^"(.*)"$/, '$1'));
+                    const obj = {};
+                    headers.forEach((header, index) => {
+                        obj[header] = values[index] || '';
+                    });
+                    return obj;
+                });
+            } catch (error) {
+                console.error('Erro ao buscar dados:', error);
+                return [];
+            }
         }
 
+        // Função para renderizar os dados na tela
         async function render() {
             try {
                 const ofertas = await fetchSheet('ofertas');
                 const bovinos = await fetchSheet('bovinos');
                 const suinos = await fetchSheet('suinos');
 
-                let html = '<h1>OFERTA DO DIA</h1>';
+                let html = '';
+
+                // OFERTA DO DIA
+                html += '<div class="offer-section">';
+                html += '<h1>OFERTA DO DIA</h1>';
                 if (ofertas.length > 0) {
                     const o = ofertas[0];
-                    html += `<h2>${o.nome}</h2><p>Preço: ${o.preco} /kg</p>`;
+                    html += `<h2>${o.nome || 'Sem nome'}</h2>`;
+                    html += `<img src="${o.imagem || 'placeholder.jpg'}" alt="${o.nome || 'Oferta'}" class="offer-image" onerror="this.src='placeholder.jpg'">`;
+                    html += `<div class="offer-price">R$ ${o.preco || '0,00'} / kg</div>`;
+                } else {
+                    html += '<p class="loading">Nenhuma oferta cadastrada.</p>';
+                }
+                html += '</div>';
+
+                // BOVINOS
+                html += '<h2>BOVINOS</h2>';
+                if (bovinos.length > 0) {
+                    html += '<table><thead><tr><th>Corte</th><th>Preço</th></tr></thead><tbody>';
+                    bovinos.forEach(item => {
+                        html += `<tr><td>${item.corte || ''}</td><td>${item.preco || ''}</td></tr>`;
+                    });
+                    html += '</tbody></table>';
+                } else {
+                    html += '<p class="loading">Sem dados</p>';
                 }
 
-                html += '<h2>BOVINOS</h2><table><tr><th>Corte</th><th>Preço</th></tr>';
-                bovinos.forEach(item => html += `<tr><td>${item.corte}</td><td>${item.preco}</td></tr>`);
-                html += '</table>';
-
-                html += '<h2>SUÍNOS</h2><table><tr><th>Corte</th><th>Preço</th></tr>';
-                suinos.forEach(item => html += `<tr><td>${item.corte}</td><td>${item.preco}</td></tr>`);
-                html += '</table>';
+                // SUÍNOS
+                html += '<h2>SUÍNOS</h2>';
+                if (suinos.length > 0) {
+                    html += '<table><thead><tr><th>Corte</th><th>Preço</th></tr></thead><tbody>';
+                    suinos.forEach(item => {
+                        html += `<tr><td>${item.corte || ''}</td><td>${item.preco || ''}</td></tr>`;
+                    });
+                    html += '</tbody></table>';
+                } else {
+                    html += '<p class="loading">Sem dados</p>';
+                }
 
                 document.getElementById('content').innerHTML = html;
-            } catch (e) {
-                document.getElementById('content').innerHTML = '<p class="loading">Erro ao carregar. Verifique o ID da planilha.</p>';
+
+            } catch (error) {
+                console.error('Erro na renderização:', error);
+                document.getElementById('content').innerHTML = 
+                    '<p class="loading">❌ Erro ao carregar dados.<br>Verifique o Google Sheets e conexão.</p>';
             }
         }
 
+        // Carrega imediatamente e atualiza a cada 60 segundos
         render();
-        setInterval(render, 60000); // Atualiza a cada 60s
+        setInterval(render, 60000);
     </script>
+
 </body>
 </html>
