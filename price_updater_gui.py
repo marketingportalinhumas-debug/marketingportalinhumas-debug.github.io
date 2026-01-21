@@ -5,25 +5,27 @@ import tkinter as tk
 from tkinter import messagebox
 
 # --- Configurações (Substitua pelos seus dados reais) ---
-GITHUB_TOKEN = "SEU_TOKEN_DE_ACESSO_PESSOAL"
-REPO_OWNER = "seu_usuario_ou_organizacao"
-REPO_NAME = "nome_do_seu_repositorio"
-FILE_PATH = "precos.json" # Ex: precos.json
+GITHUB_TOKEN = ""
+REPO_OWNER = "marketingportalinhumas"
+REPO_NAME = "marketingportalinhumas-debug.github.io"
+FILE_PATH = "precos.json"  # Caminho do arquivo no repositório
 COMMIT_MESSAGE = "Atualização automática de preços via GUI"
 # -----------------------------------------------------
 
 def update_github_file(owner, repo, file_path, new_content, token, commit_message):
     """Lógica para atualizar o arquivo no GitHub."""
-    api_url = f"https://api.github.com{owner}/{repo}/contents/{file_path}"
+    # 🔴 CORRIGIDO: URL SEM ESPAÇOS!
+    api_url = f"https://api.github.com/repos/{owner}/{repo}/contents/{file_path}"
+    
     headers = {
         "Authorization": f"token {token}",
         "Accept": "application/vnd.github+json",
-        "X-GitHub-Api-Version": "2022-11-28" 
+        "X-GitHub-Api-Version": "2022-11-28"
     }
 
     # 1. Obter o SHA do arquivo atual
     try:
-        response = requests.get(api_url, headers=headers)
+        response = requests.get(api_url, headers=headers, timeout=10)
         response.raise_for_status()
         current_file_data = response.json()
         current_sha = current_file_data['sha']
@@ -37,11 +39,11 @@ def update_github_file(owner, repo, file_path, new_content, token, commit_messag
     payload = {
         "message": commit_message,
         "content": encoded_content,
-        "sha": current_sha 
+        "sha": current_sha
     }
 
     try:
-        update_response = requests.put(api_url, headers=headers, data=json.dumps(payload))
+        update_response = requests.put(api_url, headers=headers, data=json.dumps(payload), timeout=10)
         update_response.raise_for_status()
         return True, f"Arquivo '{file_path}' atualizado com sucesso!"
     except requests.exceptions.RequestException as e:
@@ -49,16 +51,18 @@ def update_github_file(owner, repo, file_path, new_content, token, commit_messag
 
 def on_update_button_click():
     """Função chamada quando o botão 'Atualizar Preços' é clicado."""
-    # Coleta os preços dos campos de entrada (exemplo para 2 itens)
-    price_lombo = entry_lombo.get()
-    price_bisteca = entry_bisteca.get()
-    
-    # Formata o novo conteúdo (ajuste o formato para o que seu site espera, ex: JSON)
+    price_lombo = entry_lombo.get().strip()
+    price_bisteca = entry_bisteca.get().strip()
+
+    if not price_lombo or not price_bisteca:
+        messagebox.showwarning("Atenção", "Preencha todos os campos!")
+        return
+
+    # Formata o novo conteúdo em JSON
     novo_conteudo = json.dumps({
         "Lombo": price_lombo,
         "Bisteca Lombo": price_bisteca,
-        # Adicione todos os campos de entrada e mapeie-os aqui
-    }, indent=4)
+    }, indent=4, ensure_ascii=False)
 
     success, message = update_github_file(
         REPO_OWNER, REPO_NAME, FILE_PATH, novo_conteudo, GITHUB_TOKEN, COMMIT_MESSAGE
@@ -72,7 +76,7 @@ def on_update_button_click():
 # --- Configuração da Interface Gráfica ---
 root = tk.Tk()
 root.title("Atualizador de Preços do Açougue Portal")
-root.geometry("350x200") # Define o tamanho da janela
+root.geometry("350x200")
 
 tk.Label(root, text="Novo Preço do Lombo (kg):").pack(pady=5)
 entry_lombo = tk.Entry(root)
@@ -86,8 +90,9 @@ update_button = tk.Button(root, text="Atualizar Preços no GitHub", command=on_u
 update_button.pack(pady=20)
 
 if __name__ == "__main__":
-    # Verificação simples se as configurações padrão foram alteradas
-    if GITHUB_TOKEN == "SEU_TOKEN_DE_ACESSO_PESSOAL":
-        messagebox.showerror("Configuração Necessária", "Por favor, edite o arquivo Python e insira seu GITHUB_TOKEN, REPO_OWNER, etc.")
+    # Verificação se o token foi alterado
+    if GITHUB_TOKEN == "SE É O MESMO TOKEN":
+        messagebox.showerror("Configuração Necessária", 
+            "Por favor, edite o arquivo Python e substitua o GITHUB_TOKEN pelo seu token real.")
     else:
-        root.mainloop() # Inicia o loop principal da interface gráfica
+        root.mainloop()
