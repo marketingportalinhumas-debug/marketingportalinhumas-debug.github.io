@@ -6,7 +6,6 @@
     <title>Açougue Portal - Oferta do Dia</title>
     <style>
         body {
-            img src="imagens/logoPortal.jpg" alt="Logo Açougue Portal"
             background: url('imagens/fundo.jpg') no-repeat center center fixed;
             background-size: cover;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -146,23 +145,37 @@
             padding-bottom: 5px;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.9em;
+        /* Estilo da tabela em 2 colunas */
+        .tabela-grid {
+            display: flex;
+            gap: 20px;
+            height: 100%;
         }
 
-        th, td {
-            padding: 8px;
-            text-align: left;
+        .coluna-tabela {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .item-tabela {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
             border-bottom: 1px solid #444;
         }
 
-        td:first-child {
-            width: 70%;
+        .item-tabela:last-child {
+            border-bottom: none;
         }
 
-        td:last-child {
+        .item-tabela .corte {
+            width: 70%;
+            text-align: left;
+        }
+
+        .item-tabela .preco {
             width: 30%;
             text-align: right;
             font-weight: bold;
@@ -182,7 +195,8 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.5);
         }
 
-        @media (max-width: 800px) {
+        /* Responsivo: em mobile, 1 coluna */
+        @media (max-width: 768px) {
             .container {
                 flex-direction: column;
             }
@@ -193,6 +207,10 @@
             .menu-section {
                 width: 100%;
             }
+            .tabela-grid {
+                flex-direction: column;
+                gap: 10px;
+            }
         }
     </style>
 </head>
@@ -201,22 +219,22 @@
     <div class="container">
         <div class="header">OFERTA DO DIA</div>
 
-        <!-- Oferta do Dia (lado esquerdo) -->
+        <!-- Oferta do Dia -->
         <div class="oferta-section" id="ofertas-container">
             <!-- Preenchido por JS -->
         </div>
 
-        <!-- Tabela rotativa (lado direito) -->
+        <!-- Tabela rotativa em 2 colunas -->
         <div class="menu-section">
             <div class="category">
                 <div class="category-title" id="tabela-titulo">BOVINOS</div>
-                <table id="tabela-rotativa">
-                    <tr><td colspan="2" style="text-align:center;">Carregando...</td></tr>
-                </table>
+                <div id="tabela-rotativa" class="tabela-grid">
+                    <div class="coluna-tabela"></div>
+                    <div class="coluna-tabela"></div>
+                </div>
             </div>
         </div>
 
-        <!-- Tag do supermercado -->
         <div class="supermarket-tag">Dentro do Supermercado Portal</div>
     </div>
 
@@ -226,7 +244,7 @@
             ofertas: [
                 { nome: "Bisteca Bovina", preco: "18,90", imagem: "imagens/bisteca.jpg" },
                 { nome: "Costelinha Suína", preco: "16,90", imagem: "imagens/costelinha.jpg" },
-                { nome: "Coxinha da Asa", preco: "12,50", imagem: "imagens/paleta.jpg" }
+                { nome: "Coxinha da Asa", preco: "12,50", imagem: "imagens/coxinha-asa.jpg" }
             ],
             bovinos: [
                 { corte: "Paleta kg", preco: "18,90" },
@@ -239,7 +257,9 @@
                 { corte: "Cupim kg", preco: "18,00" },
                 { corte: "Carne Moída kg", preco: "15,00" },
                 { corte: "Costela kg", preco: "11,50" },
-                { corte: "Costelão kg", preco: "15,90" }
+                { corte: "Costelão kg", preco: "15,90" },
+                { corte: "Maminha kg", preco: "22,00" },
+                { corte: "Picanha kg", preco: "42,90" }
             ],
             suinos: [
                 { corte: "Lombo kg", preco: "14,00" },
@@ -252,14 +272,18 @@
                 { corte: "Joelho kg", preco: "10,90" },
                 { corte: "Toucinho kg", preco: "7,50" },
                 { corte: "Costelinha kg", preco: "16,90" },
-                { corte: "Papada kg", preco: "7,90" }
+                { corte: "Papada kg", preco: "7,90" },
+                { corte: "Costeleta kg", preco: "12,50" }
             ],
             aves: [
                 { corte: "Coxinha da Asa kg", preco: "12,50" },
                 { corte: "Peito de Frango kg", preco: "11,90" },
                 { corte: "Sobrecoxa kg", preco: "10,50" },
                 { corte: "Frango Inteiro kg", preco: "9,90" },
-                { corte: "Nuggets kg", preco: "13,00" }
+                { corte: "Nuggets kg", preco: "13,00" },
+                { corte: "Coração de Frango kg", preco: "8,50" },
+                { corte: "Moela kg", preco: "7,90" },
+                { corte: "Asa Inteira kg", preco: "11,00" }
             ]
         };
 
@@ -278,18 +302,16 @@
                     <div class="oferta-price">${oferta.preco}</div>
                     <div class="oferta-unit">/ KG</div>
                     <div class="oferta-logo">
-                        <img src="imagens/logoPortal.jpg" alt="Logo Açougue Portal">
+                        <img src="imagens/logo.png" alt="Logo Açougue Portal">
                     </div>
                 `;
                 container.appendChild(div);
             });
         }
 
-        // 📋 Renderiza uma tabela específica
+        // 📋 Renderiza tabela em 2 colunas
         function renderTabela(tipo) {
             const tituloEl = document.getElementById('tabela-titulo');
-            const tabelaEl = document.getElementById('tabela-rotativa');
-
             let items = [];
             let title = "";
 
@@ -312,9 +334,32 @@
             }
 
             tituloEl.textContent = title;
-            tabelaEl.innerHTML = items.length > 0
-                ? items.map(item => `<tr><td>${item.corte}</td><td>${item.preco}</td></tr>`).join('')
-                : '<tr><td colspan="2" style="text-align:center;">Sem itens</td></tr>';
+
+            const colunas = document.querySelectorAll('#tabela-rotativa .coluna-tabela');
+            colunas[0].innerHTML = '';
+            colunas[1].innerHTML = '';
+
+            if (items.length === 0) {
+                colunas[0].innerHTML = '<div style="text-align:center; color:#888;">Sem itens</div>';
+                return;
+            }
+
+            const meio = Math.ceil(items.length / 2);
+            const coluna1 = items.slice(0, meio);
+            const coluna2 = items.slice(meio);
+
+            const criarItem = (item) => {
+                const div = document.createElement('div');
+                div.className = 'item-tabela';
+                div.innerHTML = `
+                    <span class="corte">${item.corte}</span>
+                    <span class="preco">${item.preco}</span>
+                `;
+                return div;
+            };
+
+            coluna1.forEach(item => colunas[0].appendChild(criarItem(item)));
+            coluna2.forEach(item => colunas[1].appendChild(criarItem(item)));
         }
 
         // ▶️ Inicializa
