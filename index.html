@@ -242,134 +242,151 @@
     </div>
 
     <script>
-        let dados = null;
-        let ofertaIndex = 0;
-        let tabelaIndex = 0;
-        const tipos = ['bovinos', 'suinos', 'aves'];
+    let dados = null;
+    let ofertaIndex = 0;
+    let tabelaIndex = 0;
+    const tipos = ['bovinos', 'suinos', 'aves'];
+    
+    // ⏱️ Intervalos globais (para poder limpar se necessário)
+    let intervaloOfertas = null;
+    let intervaloTabelas = null;
+    let intervaloAtualizacao = null;
 
-        // 🔁 Função para carregar precos.json
-        async function carregarPrecos() {
-            try {
-                const response = await fetch('precos.json?' + new Date().getTime()); // Evita cache
-                if (!response.ok) throw new Error('Arquivo não encontrado');
-                dados = await response.json();
-                renderOfertas();
-                renderTabela(tipos[tabelaIndex]);
-            } catch (error) {
-                console.error('Erro ao carregar precos.json:', error);
-                document.getElementById('ofertas-container').innerHTML = 
-                    '<div class="loading">❌ Erro ao carregar preços.<br>Verifique se precos.json existe.</div>';
-                document.getElementById('tabela-titulo').textContent = 'ERRO';
-            }
+    // 🔁 Função para carregar precos.json
+    async function carregarPrecos() {
+        try {
+            const response = await fetch('precos.json?' + new Date().getTime());
+            if (!response.ok) throw new Error('Arquivo não encontrado');
+            dados = await response.json();
+            renderOfertas();
+            renderTabela(tipos[tabelaIndex]);
+        } catch (error) {
+            console.error('Erro ao carregar precos.json:', error);
+            document.getElementById('ofertas-container').innerHTML = 
+                '<div class="loading">❌ Erro ao carregar preços.<br>Verifique se precos.json existe.</div>';
+            document.getElementById('tabela-titulo').textContent = 'ERRO';
+        }
+    }
+
+    // 🖼️ Renderiza as ofertas do dia
+    function renderOfertas() {
+        const container = document.getElementById('ofertas-container');
+        container.innerHTML = '';
+
+        if (!dados || !dados.ofertas || dados.ofertas.length === 0) {
+            container.innerHTML = '<div class="loading">Sem ofertas cadastradas.</div>';
+            return;
         }
 
-        // 🖼️ Renderiza as ofertas do dia
-        function renderOfertas() {
-            const container = document.getElementById('ofertas-container');
-            container.innerHTML = '';
+        // Limpa intervalo anterior (evita múltiplos timers)
+        if (intervaloOfertas) clearInterval(intervaloOfertas);
 
-            if (!dados || !dados.ofertas || dados.ofertas.length === 0) {
-                container.innerHTML = '<div class="loading">Sem ofertas cadastradas.</div>';
-                return;
-            }
+        // Cria todos os itens de oferta
+        dados.ofertas.forEach((oferta, index) => {
+            const div = document.createElement('div');
+            div.className = 'oferta-item';
+            if (index === 0) div.classList.add('active');
+            div.innerHTML = `
+                <div class="oferta-title">${oferta.nome.toUpperCase()}</div>
+                <img src="${oferta.imagem}" alt="${oferta.nome}" class="oferta-image" onerror="this.style.display='none'">
+                <div class="oferta-price">${oferta.preco}</div>
+                <div class="oferta-unit">/ KG</div>
+                <div class="oferta-logo">
+                    <img src="imagens/logoPortal.jpg" alt="Logo Açougue Portal">   
+                </div>
+            `;
+            container.appendChild(div);
+        });
 
-            dados.ofertas.forEach((oferta, index) => {
-                const div = document.createElement('div');
-                div.className = 'oferta-item';
-                if (index === 0) div.classList.add('active');
-                div.innerHTML = `
-                    <div class="oferta-title">${oferta.nome.toUpperCase()}</div>
-                    <img src="${oferta.imagem}" alt="${oferta.nome}" class="oferta-image" onerror="this.style.display='none'">
-                    <div class="oferta-price">${oferta.preco}</div>
-                    <div class="oferta-unit">/ KG</div>
-                    <div class="oferta-logo">
-                        <img src="imagens/logoPortal.jpg" alt="Logo Açougue Portal">   
-                    </div>
-                `;
-                container.appendChild(div);
-            });
-
-            // Reinicia rotação
-            ofertaIndex = 0;
-            const ofertaItems = document.querySelectorAll('.oferta-item');
-            setInterval(() => {
-                if (ofertaItems.length > 1) {
-                    ofertaItems[ofertaIndex].classList.remove('active');
-                    ofertaIndex = (ofertaIndex + 1) % ofertaItems.length;
-                    ofertaItems[ofertaIndex].classList.add('active');
-                }
+        // Reinicia índice e inicia rotação (só se houver mais de uma oferta)
+        ofertaIndex = 0;
+        const ofertaItems = document.querySelectorAll('.oferta-item');
+        
+        if (ofertaItems.length > 1) {
+            intervaloOfertas = setInterval(() => {
+                ofertaItems[ofertaIndex].classList.remove('active');
+                ofertaIndex = (ofertaIndex + 1) % ofertaItems.length;
+                ofertaItems[ofertaIndex].classList.add('active');
             }, 10000);
         }
+    }
 
-        // 📋 Renderiza tabela em 2 colunas
-        function renderTabela(tipo) {
-            if (!dados) return;
+    // 📋 Renderiza tabela em 2 colunas
+    function renderTabela(tipo) {
+        if (!dados) return;
 
-            const tituloEl = document.getElementById('tabela-titulo');
-            let items = [];
-            let title = "";
+        const tituloEl = document.getElementById('tabela-titulo');
+        let items = [];
+        let title = "";
 
-            switch (tipo) {
-                case 'bovinos':
-                    items = dados.bovinos || [];
-                    title = "BOVINOS";
-                    break;
-                case 'suinos':
-                    items = dados.suinos || [];
-                    title = "SUÍNOS";
-                    break;
-                case 'aves':
-                    items = dados.aves || [];
-                    title = "AVES";
-                    break;
-                default:
-                    items = [];
-                    title = "SEM DADOS";
-            }
-
-            tituloEl.textContent = title;
-
-            const colunas = document.querySelectorAll('#tabela-rotativa .coluna-tabela');
-            colunas[0].innerHTML = '';
-            colunas[1].innerHTML = '';
-
-            if (items.length === 0) {
-                colunas[0].innerHTML = '<div style="text-align:center; color:#888;">Sem itens</div>';
-                return;
-            }
-
-            const meio = Math.ceil(items.length / 2);
-            const coluna1 = items.slice(0, meio);
-            const coluna2 = items.slice(meio);
-
-            const criarItem = (item) => {
-                const div = document.createElement('div');
-                div.className = 'item-tabela';
-                div.innerHTML = `
-                    <span class="corte">${item.corte}</span>
-                    <span class="preco">${item.preco}</span>
-                `;
-                return div;
-            };
-
-            coluna1.forEach(item => colunas[0].appendChild(criarItem(item)));
-            coluna2.forEach(item => colunas[1].appendChild(criarItem(item)));
+        switch (tipo) {
+            case 'bovinos':
+                items = dados.bovinos || [];
+                title = "BOVINOS";
+                break;
+            case 'suinos':
+                items = dados.suinos || [];
+                title = "SUÍNOS";
+                break;
+            case 'aves':
+                items = dados.aves || [];
+                title = "AVES";
+                break;
+            default:
+                items = [];
+                title = "SEM DADOS";
         }
 
-        // ▶️ Inicializa
-        carregarPrecos();
+        tituloEl.textContent = title;
 
-        // 🔁 Rotação das tabelas (a cada 10s)
-        setInterval(() => {
-            if (dados) {
-                tabelaIndex = (tabelaIndex + 1) % tipos.length;
-                renderTabela(tipos[tabelaIndex]);
-            }
-        }, 10000);
+        const colunas = document.querySelectorAll('#tabela-rotativa .coluna-tabela');
+        colunas[0].innerHTML = '';
+        colunas[1].innerHTML = '';
 
-        // 🔁 Atualiza a cada 30 segundos (para pegar mudanças no GitHub)
-        setInterval(carregarPrecos, 30000);
-    </script>
+        if (items.length === 0) {
+            colunas[0].innerHTML = '<div style="text-align:center; color:#888;">Sem itens</div>';
+            return;
+        }
+
+        const meio = Math.ceil(items.length / 2);
+        const coluna1 = items.slice(0, meio);
+        const coluna2 = items.slice(meio);
+
+        const criarItem = (item) => {
+            const div = document.createElement('div');
+            div.className = 'item-tabela';
+            div.innerHTML = `
+                <span class="corte">${item.corte}</span>
+                <span class="preco">${item.preco}</span>
+            `;
+            return div;
+        };
+
+        coluna1.forEach(item => colunas[0].appendChild(criarItem(item)));
+        coluna2.forEach(item => colunas[1].appendChild(criarItem(item)));
+    }
+
+    // ▶️ Inicializa
+    carregarPrecos();
+
+    // 🔁 Rotação das tabelas (a cada 10s)
+    intervaloTabelas = setInterval(() => {
+        if (dados) {
+            tabelaIndex = (tabelaIndex + 1) % tipos.length;
+            renderTabela(tipos[tabelaIndex]);
+        }
+    }, 10000);
+
+    // 🔁 Atualiza a cada 30 segundos
+    intervaloAtualizacao = setInterval(carregarPrecos, 30000);
+
+    // 🧹 Limpeza ao sair da página (opcional, mas boa prática)
+    window.addEventListener('beforeunload', () => {
+        if (intervaloOfertas) clearInterval(intervaloOfertas);
+        if (intervaloTabelas) clearInterval(intervaloTabelas);
+        if (intervaloAtualizacao) clearInterval(intervaloAtualizacao);
+    });
+</script>
 
 </body>
 </html>
