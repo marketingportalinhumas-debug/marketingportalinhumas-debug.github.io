@@ -1,25 +1,44 @@
 {
     "ofertas": [
-        { "nome": "Bisteca Bovina", "preco": "18,90", "imagem": "imagens/bisteca.jpg" },
-        { "nome": "Costelinha Suína", "preco": "16,90", "imagem": "imagens/costelinha.jpg" }
+        {
+            "nome": "Bisteca Bovina",
+            "preco": "1,11",
+            "imagem": "imagens/bisteca.jpg"
+        },
+        {
+            "nome": "Costelinha Suína",
+            "preco": "16,90",
+            "imagem": "imagens/costelinha.jpg"
+        }
     ],
     "bovinos": [
-        { "corte": "Picanha kg", "preco": "42,90" },
-        { "corte": "Maminha kg", "preco": "22,00" },
-        { "corte": "Paleta kg", "preco": "18,90" },
-        { "corte": "Acem kg", "preco": "15,00" },
-        { "corte": "Contra Filé kg", "preco": "29,90" },
-        { "corte": "Costela kg", "preco": "11,50" }
+        {
+            "corte": "Paleta kg",
+            "preco": "2,99"
+        },
+        {
+            "corte": "Acem kg",
+            "preco": "15,00"
+        }
     ],
     "suinos": [
-        { "corte": "Lombo kg", "preco": "14,00" },
-        { "corte": "Panceta kg", "preco": "13,90" },
-        { "corte": "Pernil kg", "preco": "10,90" },
-        { "corte": "Toucinho kg", "preco": "7,50" }
+        {
+            "corte": "Lombo kg",
+            "preco": "14,00"
+        },
+        {
+            "corte": "Bisteca Lombo kg",
+            "preco": "10,90"
+        }
     ],
     "aves": [
-        { "corte": "Peito de Frango kg", "preco": "11,90" },
-        { "corte": "Coxinha da Asa kg", "preco": "12,50" },
-        { "corte": "Frango Inteiro kg", "preco": "9,90" }
+        {
+            "corte": "Coxinha da Asa kg",
+            "preco": "12,50"
+        },
+        {
+            "corte": "Peito de Frango kg",
+            "preco": "11,90"
+        }
     ]
 }
