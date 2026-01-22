@@ -1,12 +1,12 @@
 {
     "ofertas": [
         {
-            "nome": "ACÉM",
+            "nome": "cebolina",
             "preco": "18,90",
             "imagem": "imagens/bisteca.jpg"
         },
         {
-            "nome": "PALETA",
+            "nome": "tomate",
             "preco": "16,90",
             "imagem": "imagens/costelinha.jpg"
         }
