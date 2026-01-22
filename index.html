@@ -6,11 +6,12 @@
     <title>Açougue Portal - Oferta do Dia</title>
     <style>
         body {
-            background: #1a1a1a;
-            color: white;
+            background: url('imagens/fundo.jpg') no-repeat center center fixed;
+            background-size: cover;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            color: white;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -21,11 +22,11 @@
         .container {
             width: 95%;
             max-width: 1200px;
-            background: #121212;
-            border: 3px solid #ffd700;
+            background: rgba(0, 0, 0, 0.85);
+            border: 4px solid #654321;
             border-radius: 15px;
             padding: 20px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
             display: flex;
             gap: 20px;
             position: relative;
@@ -42,7 +43,6 @@
             font-size: 1.2em;
             letter-spacing: 2px;
             text-transform: uppercase;
-            color: #ffd700;
             box-shadow: 0 2px 5px rgba(0,0,0,0.5);
         }
 
@@ -57,10 +57,24 @@
             overflow: hidden;
         }
 
+        .oferta-item {
+            display: none;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .oferta-item.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
         .oferta-title {
             font-size: 1.8em;
             font-weight: bold;
-            color: #c00;
+            color: #1976d2; /* AZUL */
             margin: 10px 0;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }
@@ -71,13 +85,13 @@
             border-radius: 10px;
             margin: 15px auto;
             box-shadow: 0 0 15px rgba(0,0,0,0.5);
-            border: 2px solid #fff;
+            display: block;
         }
 
         .oferta-price {
             font-size: 3em;
             font-weight: bold;
-            color: #c00;
+            color: #0d47a1; /* AZUL ESCURO */
             margin: 15px 0;
             text-shadow: 3px 3px 6px rgba(0,0,0,0.7);
         }
@@ -89,23 +103,36 @@
             padding: 2px 8px;
             border-radius: 5px;
             font-weight: bold;
-            display: inline-block;
-            margin-top: 5px;
+        }
+
+        .oferta-logo {
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .oferta-logo img {
+            width: 80px;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
         }
 
         .menu-section {
             flex: 1;
             display: flex;
-            gap: 20px;
+            justify-content: center;
+            align-items: flex-start;
         }
 
         .category {
             flex: 1;
-            background: #1a1a1a;
+            background: rgba(30, 30, 30, 0.85);
             padding: 15px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0,0,0,0.3);
-            border: 1px solid #444;
+            max-width: 500px;
+            width: 100%;
         }
 
         .category-title {
@@ -113,32 +140,45 @@
             font-weight: bold;
             text-align: center;
             margin-bottom: 15px;
-            color: #ffd700;
-            border-bottom: 2px solid #ffd700;
+            color: #ffcc00;
+            border-bottom: 2px solid #ffcc00;
             padding-bottom: 5px;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.9em;
+        .tabela-grid {
+            display: flex;
+            gap: 20px;
+            height: 100%;
         }
 
-        th, td {
-            padding: 8px;
-            text-align: left;
+        .coluna-tabela {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .item-tabela {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
             border-bottom: 1px solid #444;
         }
 
-        td:first-child {
-            width: 70%;
+        .item-tabela:last-child {
+            border-bottom: none;
         }
 
-        td:last-child {
+        .item-tabela .corte {
+            width: 70%;
+            text-align: left;
+        }
+
+        .item-tabela .preco {
             width: 30%;
             text-align: right;
             font-weight: bold;
-            color: #ffd700;
+            color: #ffcc00;
         }
 
         .supermarket-tag {
@@ -154,7 +194,14 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.5);
         }
 
-        @media (max-width: 800px) {
+        .loading {
+            color: #ffcc00;
+            text-align: center;
+            padding: 20px;
+            font-size: 1.2em;
+        }
+
+        @media (max-width: 768px) {
             .container {
                 flex-direction: column;
             }
@@ -163,15 +210,12 @@
                 width: 100%;
             }
             .menu-section {
-                flex-direction: column;
+                width: 100%;
             }
-        }
-
-        .loading {
-            color: #ffd700;
-            font-size: 1.2em;
-            text-align: center;
-            padding: 20px;
+            .tabela-grid {
+                flex-direction: column;
+                gap: 10px;
+            }
         }
     </style>
 </head>
@@ -179,100 +223,152 @@
 
     <div class="container">
         <div class="header">OFERTA DO DIA</div>
-        <div id="content" class="loading">🔄 Carregando dados...</div>
+
+        <div class="oferta-section" id="ofertas-container">
+            <div class="loading">Carregando ofertas...</div>
+        </div>
+
+        <div class="menu-section">
+            <div class="category">
+                <div class="category-title" id="tabela-titulo">CARREGANDO...</div>
+                <div id="tabela-rotativa" class="tabela-grid">
+                    <div class="coluna-tabela"></div>
+                    <div class="coluna-tabela"></div>
+                </div>
+            </div>
+        </div>
+
         <div class="supermarket-tag">Dentro do Supermercado Portal</div>
     </div>
 
     <script>
-        // Função para carregar e renderizar os dados do precos.json
-        async function loadPrecos() {
+        let dados = null;
+        let ofertaIndex = 0;
+        let tabelaIndex = 0;
+        const tipos = ['bovinos', 'suinos', 'aves'];
+
+        // 🔁 Função para carregar precos.json
+        async function carregarPrecos() {
             try {
-                // Adiciona timestamp para evitar cache
-                const url = 'precos.json?' + new Date().getTime();
-                const response = await fetch(url);
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
-                const dados = await response.json();
-
-                let html = '';
-
-                // --- OFERTA DO DIA (primeiro item da lista de ofertas) ---
-                if (dados.ofertas && dados.ofertas.length > 0) {
-                    const oferta = dados.ofertas[0];
-                    const imgPath = oferta.imagem || 'imagens/placeholder.jpg';
-                    html += `
-                        <div class="oferta-section">
-                            <div class="oferta-title">${oferta.nome || ''}</div>
-                            <img src="${imgPath}" alt="${oferta.nome || 'Oferta'}" 
-                                 class="oferta-image" 
-                                 onerror="this.src='imagens/placeholder.jpg'">
-                            <div class="oferta-price">${oferta.preco || '0,00'}</div>
-                            <div class="oferta-unit">/ KG</div>
-                        </div>
-                    `;
-                } else {
-                    html += '<div class="oferta-section"><div class="loading">Sem oferta cadastrada.</div></div>';
-                }
-
-                // --- SEÇÃO DE CATEGORIAS (BOVINOS, SUÍNOS, AVES) ---
-                html += '<div class="menu-section">';
-
-                // Bovinos
-                html += '<div class="category">';
-                html += '<div class="category-title">BOVINOS</div>';
-                html += '<table>';
-                if (dados.bovinos && dados.bovinos.length > 0) {
-                    dados.bovinos.forEach(item => {
-                        html += `<tr><td>${item.corte || ''}</td><td>${item.preco || ''}</td></tr>`;
-                    });
-                } else {
-                    html += '<tr><td colspan="2">Sem dados</td></tr>';
-                }
-                html += '</table></div>';
-
-                // Suínos
-                html += '<div class="category">';
-                html += '<div class="category-title">SUÍNOS</div>';
-                html += '<table>';
-                if (dados.suinos && dados.suinos.length > 0) {
-                    dados.suinos.forEach(item => {
-                        html += `<tr><td>${item.corte || ''}</td><td>${item.preco || ''}</td></tr>`;
-                    });
-                } else {
-                    html += '<tr><td colspan="2">Sem dados</td></tr>';
-                }
-                html += '</table></div>';
-
-                // Aves
-                html += '<div class="category">';
-                html += '<div class="category-title">AVES</div>';
-                html += '<table>';
-                if (dados.aves && dados.aves.length > 0) {
-                    dados.aves.forEach(item => {
-                        html += `<tr><td>${item.corte || ''}</td><td>${item.preco || ''}</td></tr>`;
-                    });
-                } else {
-                    html += '<tr><td colspan="2">Sem dados</td></tr>';
-                }
-                html += '</table></div>';
-
-                html += '</div>'; // fecha menu-section
-
-                document.getElementById('content').innerHTML = html;
-
+                const response = await fetch('precos.json?' + new Date().getTime()); // Evita cache
+                if (!response.ok) throw new Error('Arquivo não encontrado');
+                dados = await response.json();
+                renderOfertas();
+                renderTabela(tipos[tabelaIndex]);
             } catch (error) {
                 console.error('Erro ao carregar precos.json:', error);
-                document.getElementById('content').innerHTML = 
-                    '<div class="loading">❌ Erro ao carregar preços.<br>Verifique se precos.json existe e está acessível.</div>';
+                document.getElementById('ofertas-container').innerHTML = 
+                    '<div class="loading">❌ Erro ao carregar preços.<br>Verifique se precos.json existe.</div>';
+                document.getElementById('tabela-titulo').textContent = 'ERRO';
             }
         }
 
-        // Carrega imediatamente e atualiza a cada 30 segundos
-        loadPrecos();
-        setInterval(loadPrecos, 30000);
+        // 🖼️ Renderiza as ofertas do dia
+        function renderOfertas() {
+            const container = document.getElementById('ofertas-container');
+            container.innerHTML = '';
+
+            if (!dados || !dados.ofertas || dados.ofertas.length === 0) {
+                container.innerHTML = '<div class="loading">Sem ofertas cadastradas.</div>';
+                return;
+            }
+
+            dados.ofertas.forEach((oferta, index) => {
+                const div = document.createElement('div');
+                div.className = 'oferta-item';
+                if (index === 0) div.classList.add('active');
+                div.innerHTML = `
+                    <div class="oferta-title">${oferta.nome.toUpperCase()}</div>
+                    <img src="${oferta.imagem}" alt="${oferta.nome}" class="oferta-image" onerror="this.style.display='none'">
+                    <div class="oferta-price">${oferta.preco}</div>
+                    <div class="oferta-unit">/ KG</div>
+                    <div class="oferta-logo">
+                        <img src="imagens/logo.png" alt="Logo Açougue Portal">
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+
+            // Reinicia rotação
+            ofertaIndex = 0;
+            const ofertaItems = document.querySelectorAll('.oferta-item');
+            setInterval(() => {
+                if (ofertaItems.length > 1) {
+                    ofertaItems[ofertaIndex].classList.remove('active');
+                    ofertaIndex = (ofertaIndex + 1) % ofertaItems.length;
+                    ofertaItems[ofertaIndex].classList.add('active');
+                }
+            }, 10000);
+        }
+
+        // 📋 Renderiza tabela em 2 colunas
+        function renderTabela(tipo) {
+            if (!dados) return;
+
+            const tituloEl = document.getElementById('tabela-titulo');
+            let items = [];
+            let title = "";
+
+            switch (tipo) {
+                case 'bovinos':
+                    items = dados.bovinos || [];
+                    title = "BOVINOS";
+                    break;
+                case 'suinos':
+                    items = dados.suinos || [];
+                    title = "SUÍNOS";
+                    break;
+                case 'aves':
+                    items = dados.aves || [];
+                    title = "AVES";
+                    break;
+                default:
+                    items = [];
+                    title = "SEM DADOS";
+            }
+
+            tituloEl.textContent = title;
+
+            const colunas = document.querySelectorAll('#tabela-rotativa .coluna-tabela');
+            colunas[0].innerHTML = '';
+            colunas[1].innerHTML = '';
+
+            if (items.length === 0) {
+                colunas[0].innerHTML = '<div style="text-align:center; color:#888;">Sem itens</div>';
+                return;
+            }
+
+            const meio = Math.ceil(items.length / 2);
+            const coluna1 = items.slice(0, meio);
+            const coluna2 = items.slice(meio);
+
+            const criarItem = (item) => {
+                const div = document.createElement('div');
+                div.className = 'item-tabela';
+                div.innerHTML = `
+                    <span class="corte">${item.corte}</span>
+                    <span class="preco">${item.preco}</span>
+                `;
+                return div;
+            };
+
+            coluna1.forEach(item => colunas[0].appendChild(criarItem(item)));
+            coluna2.forEach(item => colunas[1].appendChild(criarItem(item)));
+        }
+
+        // ▶️ Inicializa
+        carregarPrecos();
+
+        // 🔁 Rotação das tabelas (a cada 10s)
+        setInterval(() => {
+            if (dados) {
+                tabelaIndex = (tabelaIndex + 1) % tipos.length;
+                renderTabela(tipos[tabelaIndex]);
+            }
+        }, 10000);
+
+        // 🔁 Atualiza a cada 30 segundos (para pegar mudanças no GitHub)
+        setInterval(carregarPrecos, 30000);
     </script>
 
 </body>
