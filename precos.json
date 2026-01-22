@@ -1,12 +1,12 @@
 {
     "ofertas": [
         {
-            "nome": "Bisteca Bovina",
+            "nome": "ACÉM",
             "preco": "18,90",
             "imagem": "imagens/bisteca.jpg"
         },
         {
-            "nome": "Costelinha Suína",
+            "nome": "PALETA",
             "preco": "16,90",
             "imagem": "imagens/costelinha.jpg"
         }
@@ -87,21 +87,69 @@
     ],
     "suinos": [
         {
-            "corte": "Lombo kg",
-            "preco": "14,00"
+            "corte": "PERNIL kg",
+            "preco": "23,99"
         },
         {
-            "corte": "Bisteca Lombo kg",
+            "corte": "COSTELINHA kg",
+            "preco": "26,99"
+        },
+        {
+            "corte": "LOMBO kg",
+            "preco": "24,99"
+        },
+        {
+            "corte": "BISTECA kg",
+            "preco": "19,99"
+        },
+        {
+            "corte": "BARRIGA kg",
+            "preco": "19,99"
+        },
+        {
+            "corte": "TOUCINHO kg",
+            "preco": "18,99"
+        },
+        {
+            "corte": "PÉ FRESCO kg",
+            "preco": "14,99"
+        },
+        {
+            "corte": "ORELHA FRESCO kg",
             "preco": "10,90"
         }
     ],
     "aves": [
         {
-            "corte": "Coxinha da Asa kg",
+            "corte": "FRANGO RESFRIADO kg",
             "preco": "12,50"
         },
         {
-            "corte": "Peito de Frango kg",
+            "corte": "COXA/SOBRECOXA kg",
+            "preco": "11,90"
+        },
+        {
+            "corte": "PEITO C/ OSSO kg",
+            "preco": "12,50"
+        },
+        {
+            "corte": "FILÉ DE PEITO kg",
+            "preco": "11,90"
+        },
+        {
+            "corte": "ASA kg",
+            "preco": "12,50"
+        },
+        {
+            "corte": "COXINHA DA ASA kg",
+            "preco": "11,90"
+        },
+        {
+            "corte": "CORAÇÃO",
+            "preco": "12,50"
+        },
+        {
+            "corte": "MOELA kg",
             "preco": "11,90"
         }
     ]
