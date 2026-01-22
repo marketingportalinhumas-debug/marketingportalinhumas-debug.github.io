@@ -1,14 +1,14 @@
 {
     "ofertas": [
         {
-            "nome": "cebolina",
+            "nome": "Bisteca Bovina",
             "preco": "18,90",
             "imagem": "imagens/bisteca.jpg"
         },
         {
-            "nome": "tomate",
-            "preco": "16,90",
-            "imagem": "imagens/costelinha.jpg"
+            "nome": "Tomate saladete",
+            "preco": "5,99",
+            "imagem": "imagens/tomate_saladete.jpg"
         }
     ],
     "bovinos": [
