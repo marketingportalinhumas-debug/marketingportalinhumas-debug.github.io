@@ -2,7 +2,7 @@
     "ofertas": [
         {
             "nome": "Bisteca Bovina",
-            "preco": "1,11",
+            "preco": "18,90",
             "imagem": "imagens/bisteca.jpg"
         },
         {
@@ -13,12 +13,76 @@
     ],
     "bovinos": [
         {
-            "corte": "Paleta kg",
-            "preco": "2,99"
+            "corte": "ALCATRA kg",
+            "preco": "51,99"
         },
         {
-            "corte": "Acem kg",
+            "corte": "CONTRA FILÉ kg",
+            "preco": "51,99"
+        },
+        {
+            "corte": "COXAO MOLE kg",
+            "preco": "45,99"
+        },
+        {
+            "corte": "COXAO DURO",
+            "preco": "44,99"
+        },
+        {
+            "corte": "FILÉ MIGNON",
+            "preco": "64,99"
+        },
+        {
+            "corte": "LAGARTO",
+            "preco": "44,99"
+        },
+        {
+            "corte": "MAMINHA kg",
+            "preco": "51,99"
+        },
+        {
+            "corte": "PICANHA kg",
+            "preco": "74,99"
+        },
+        {
+            "corte": "PATINHO kg",
+            "preco": "43,99"
+        },
+        {
+            "corte": "ACÉM kg",
+            "preco": "37,99"
+        },
+        {
+            "corte": "MAÇÃ DO PEITO kg",
+            "preco": "36,99"
+        },
+        {
+            "corte": "PALETA",
+            "preco": "37,99"
+        },
+        {
+            "corte": "MUSCULO DIANTEIRO kg",
+            "preco": "34,99"
+        },
+        {
+            "corte": "COSTELA DIANTEIRO kg",
+            "preco": "24,99"
+        },
+        {
+            "corte": "COSTELA PA kg",
+            "preco": "25,99"
+        },
+        {
+            "corte": "FIGADO kg",
             "preco": "15,00"
+        },
+        {
+            "corte": "RABADA kg",
+            "preco": "34,99"
+        },
+        {
+            "corte": "BUCHO kg",
+            "preco": "20,99"
         }
     ],
     "suinos": [
