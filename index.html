@@ -89,6 +89,14 @@
             gap: 8px;
         }
 
+        .coluna-unica {
+            flex: none;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
         .item-tabela {
             display: flex;
             justify-content: space-between;
@@ -206,53 +214,18 @@
                     return;
                 case 'suinos':
                     title = "SUÍNOS";
+                    renderListaUnica(dados.suinos || []);
                     break;
                 case 'aves':
                     title = "AVES";
+                    renderListaUnica(dados.aves || []);
                     break;
                 default:
                     title = "SEM DADOS";
+                    renderListaUnica([]);
             }
 
             tituloEl.textContent = title;
-
-            // Para suínos e aves: layout em 2 colunas
-            const colunas = document.querySelectorAll('#tabela-rotativa .coluna-tabela');
-            colunas[0].innerHTML = '';
-            colunas[1].innerHTML = '';
-
-            let items = [];
-            switch (tipo) {
-                case 'suinos':
-                    items = dados.suinos || [];
-                    break;
-                case 'aves':
-                    items = dados.aves || [];
-                    break;
-            }
-
-            if (items.length === 0) {
-                colunas[0].innerHTML = '<div style="text-align:center; color:#888;">Sem itens</div>';
-                return;
-            }
-
-            // Dividir em 2 colunas
-            const meio = Math.ceil(items.length / 2);
-            const coluna1 = items.slice(0, meio);
-            const coluna2 = items.slice(meio);
-
-            const criarItem = (item) => {
-                const div = document.createElement('div');
-                div.className = 'item-tabela';
-                div.innerHTML = `
-                    <span class="corte">${item.corte}</span>
-                    <span class="preco">${item.preco}</span>
-                `;
-                return div;
-            };
-
-            coluna1.forEach(item => colunas[0].appendChild(criarItem(item)));
-            coluna2.forEach(item => colunas[1].appendChild(criarItem(item)));
         }
 
         // 🥩 Renderiza bovinos com subdivisão
@@ -349,6 +322,30 @@
                 const segundaColunas = tabelaContainer.querySelectorAll('.subcategoria-bovinos.segunda .coluna-tabela');
                 segundaColunas[0].innerHTML = '<div style="text-align:center; color:#888; padding:10px;">Sem itens</div>';
             }
+        }
+
+        // 🐷 Renderiza suínos ou aves em uma única coluna
+        function renderListaUnica(itens) {
+            const tabelaContainer = document.getElementById('tabela-rotativa');
+            
+            // Limpar container e configurar para uma única coluna
+            tabelaContainer.innerHTML = `<div class="coluna-unica"></div>`;
+            const coluna = tabelaContainer.querySelector('.coluna-unica');
+            
+            if (itens.length === 0) {
+                coluna.innerHTML = '<div style="text-align:center; color:#888; padding:20px;">Sem itens</div>';
+                return;
+            }
+            
+            itens.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'item-tabela';
+                div.innerHTML = `
+                    <span class="corte">${item.corte}</span>
+                    <span class="preco">${item.preco}</span>
+                `;
+                coluna.appendChild(div);
+            });
         }
 
         // ▶️ Inicializa
