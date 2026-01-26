@@ -9,75 +9,93 @@
     "bovinos": [
         {
             "corte": "ALCATRA kg",
-            "preco": "51,99"
+            "preco": "51,99",
+            "tipo": "primeira"
         },
         {
             "corte": "CONTRA FILÉ kg",
-            "preco": "51,99"
+            "preco": "51,99",
+            "tipo": "primeira"
         },
         {
             "corte": "COXAO MOLE kg",
-            "preco": "45,99"
-        },
-        {
-            "corte": "COXAO DURO",
-            "preco": "44,99"
+            "preco": "45,99",
+            "tipo": "primeira"
         },
         {
             "corte": "FILÉ MIGNON",
-            "preco": "64,99"
+            "preco": "64,99",
+            "tipo": "primeira"
         },
         {
             "corte": "LAGARTO",
-            "preco": "44,99"
+            "preco": "44,99",
+            "tipo": "primeira"
         },
         {
             "corte": "MAMINHA kg",
-            "preco": "51,99"
+            "preco": "51,99",
+            "tipo": "primeira"
         },
         {
             "corte": "PICANHA kg",
-            "preco": "74,99"
+            "preco": "74,99",
+            "tipo": "primeira"
         },
         {
             "corte": "PATINHO kg",
-            "preco": "43,99"
+            "preco": "43,99",
+            "tipo": "primeira"
+        },
+        {
+            "corte": "COXAO DURO",
+            "preco": "44,99",
+            "tipo": "segunda"
         },
         {
             "corte": "ACÉM kg",
-            "preco": "37,99"
+            "preco": "37,99",
+            "tipo": "segunda"
         },
         {
             "corte": "MAÇÃ DO PEITO kg",
-            "preco": "36,99"
+            "preco": "36,99",
+            "tipo": "segunda"
         },
         {
             "corte": "PALETA",
-            "preco": "37,99"
+            "preco": "37,99",
+            "tipo": "segunda"
         },
         {
             "corte": "MUSCULO DIANTEIRO kg",
-            "preco": "34,99"
+            "preco": "34,99",
+            "tipo": "segunda"
         },
         {
             "corte": "COSTELA DIANTEIRO kg",
-            "preco": "24,99"
+            "preco": "24,99",
+            "tipo": "segunda"
         },
         {
             "corte": "COSTELA PA kg",
-            "preco": "25,99"
+            "preco": "25,99",
+            "tipo": "segunda"
         },
         {
             "corte": "FIGADO kg",
-            "preco": "15,00"
+            "preco": "15,00",
+            "tipo": "segunda"
         },
         {
             "corte": "RABADA kg",
-            "preco": "34,99"
+            "preco": "34,99",
+            "tipo": "segunda"
         },
         {
             "corte": "BUCHO kg",
-            "preco": "20,99"
+            "preco": "20,99",
+            "tipo": "segunda"
         }
     ],
     "suinos": [
