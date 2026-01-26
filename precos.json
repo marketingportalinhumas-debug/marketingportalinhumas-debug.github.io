@@ -2,7 +2,7 @@
     "ofertas": [
         {
             "nome": "Bisteca Bovina",
-            "preco": "8,90",
+            "preco": "18,90",
             "imagem": "imagens/bisteca.jpg"
         }
     ],
@@ -117,11 +117,11 @@
     "aves": [
         {
             "corte": "FRANGO RESFRIADO kg",
-            "preco": "19,50"
+            "preco": "12,50"
         },
         {
             "corte": "COXA/SOBRECOXA kg",
-            "preco": "13,90"
+            "preco": "11,90"
         },
         {
             "corte": "PEITO C/ OSSO kg",
