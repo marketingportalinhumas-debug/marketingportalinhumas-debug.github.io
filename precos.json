@@ -9,7 +9,7 @@
     "bovinos": [
         {
             "corte": "ALCATRA kg",
-            "preco": "49,99",
+            "preco": "51,99",
             "tipo": "primeira"
         },
         {
@@ -20,6 +20,11 @@
         {
             "corte": "COXAO MOLE kg",
             "preco": "45,99",
+            "tipo": "primeira"
+        },
+        {
+            "corte": "COXAO DURO",
+            "preco": "44,99",
             "tipo": "primeira"
         },
         {
@@ -48,9 +53,9 @@
             "tipo": "primeira"
         },
         {
-            "corte": "COXAO DURO",
-            "preco": "44,99",
-            "tipo": "segunda"
+            "corte": "FRALDINHA kg",
+            "preco": "43,99",
+            "tipo": "primeira"
         },
         {
             "corte": "ACÉM kg",
@@ -83,26 +88,37 @@
             "tipo": "segunda"
         },
         {
-            "corte": "FIGADO kg",
+            "corte": "PEIXINHO kg",
             "preco": "15,00",
             "tipo": "segunda"
         },
         {
-            "corte": "RABADA kg",
+            "corte": "LOMBÃO kg",
             "preco": "34,99",
             "tipo": "segunda"
         },
         {
-            "corte": "BUCHO kg",
+            "corte": "RETALHO kg",
+            "preco": "34,99",
+            "tipo": "segunda"
+        },
+        {
+            "corte": "CAPA CONTRA FILÉ kg",
+            "preco": "34,99",
+            "tipo": "segunda"
+        },
+        {
+            "corte": "CAPA DA PALETA kg",
+            "preco": "34,99",
+            "tipo": "segunda"
+        },
+        {
+            "corte": "PALOMA kg",
             "preco": "20,99",
             "tipo": "segunda"
         }
     ],
     "suinos": [
-        {
-            "corte": "PERNIL kg",
-            "preco": "23,99"
-        },
         {
             "corte": "COSTELINHA kg",
             "preco": "26,99"
@@ -116,7 +132,7 @@
             "preco": "19,99"
         },
         {
-            "corte": "BARRIGA kg",
+            "corte": "PANCETA kg",
             "preco": "19,99"
         },
         {
@@ -124,11 +140,11 @@
             "preco": "18,99"
         },
         {
-            "corte": "PÉ FRESCO kg",
+            "corte": "PERNIL S/ OSSO kg",
             "preco": "14,99"
         },
         {
-            "corte": "ORELHA FRESCO kg",
+            "corte": "CARRÉ kg",
             "preco": "10,90"
         }
     ],
@@ -155,14 +171,6 @@
         },
         {
             "corte": "COXINHA DA ASA kg",
-            "preco": "11,90"
-        },
-        {
-            "corte": "CORAÇÃO",
-            "preco": "12,50"
-        },
-        {
-            "corte": "MOELA kg",
             "preco": "11,90"
         }
     ]
