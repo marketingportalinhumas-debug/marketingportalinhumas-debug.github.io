@@ -29,7 +29,7 @@
         },
         {
             "corte": "FILÉ MIGNON",
-            "preco": "62,99",
+            "preco": "64,99",
             "tipo": "primeira"
         },
         {
@@ -44,7 +44,7 @@
         },
         {
             "corte": "PICANHA kg",
-            "preco": "72,99",
+            "preco": "74,99",
             "tipo": "primeira"
         },
         {
@@ -54,7 +54,7 @@
         },
         {
             "corte": "FRALDINHA kg",
-            "preco": "44,99",
+            "preco": "43,99",
             "tipo": "primeira"
         },
         {
@@ -73,7 +73,7 @@
             "tipo": "segunda"
         },
         {
-            "corte": "MUSCULO kg",
+            "corte": "MUSCULO DIANTEIRO kg",
             "preco": "34,99",
             "tipo": "segunda"
         },
@@ -89,7 +89,7 @@
         },
         {
             "corte": "PEIXINHO kg",
-            "preco": "39,99",
+            "preco": "15,00",
             "tipo": "segunda"
         },
         {
@@ -99,22 +99,22 @@
         },
         {
             "corte": "RETALHO kg",
-            "preco": "25,99",
+            "preco": "34,99",
             "tipo": "segunda"
         },
         {
             "corte": "CAPA CONTRA FILÉ kg",
-            "preco": "37,99",
+            "preco": "34,99",
             "tipo": "segunda"
         },
         {
             "corte": "CAPA DA PALETA kg",
-            "preco": "37,99",
+            "preco": "34,99",
             "tipo": "segunda"
         },
         {
             "corte": "PALOMA kg",
-            "preco": "41,99",
+            "preco": "20,99",
             "tipo": "segunda"
         }
     ],
@@ -129,7 +129,7 @@
         },
         {
             "corte": "BISTECA kg",
-            "preco": "19,99"
+            "preco": "22,99"
         },
         {
             "corte": "PANCETA kg",
@@ -141,7 +141,7 @@
         },
         {
             "corte": "PERNIL S/ OSSO kg",
-            "preco": "14,99"
+            "preco": "23,99"
         },
         {
             "corte": "SUAN kg",
