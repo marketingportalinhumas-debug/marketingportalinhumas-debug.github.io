@@ -1,70 +1,48 @@
 {
-  "config_promocoes": {
-    "categoria_mostrar": "bovinos",
-    "mostrar_ofertas": true
-  },
-  "ofertas": [
-    {
-      "nome": "Bisteca Bovina",
-      "preco": "18,90",
-      "imagem": "imagens/bisteca.jpg"
-    }
-  ],
-  "promocoes": [
-    {
-      "nome": "Picanha Especial",
-      "preco_promocao": "59,90",
-      "categoria": "bovinos",
-      "corte_original": "PICANHA kg"
-    },
-    {
-      "nome": "Costelinha Suína",
-      "preco_promocao": "19,90",
-      "categoria": "suinos",
-      "corte_original": "COSTELINHA kg"
-    },
-    {
-      "nome": "Frango Resfriado",
-      "preco_promocao": "10,90",
-      "categoria": "aves",
-      "corte_original": "FRANGO RESFRIADO kg"
-    }
-  ],
-  "bovinos": [
-    {
-      "corte": "ALCATRA kg",
-      "preco": "51,99",
-      "tipo": "primeira"
-    },
-    {
-      "corte": "CONTRA FILÉ kg",
-      "preco": "51,99",
-      "tipo": "primeira"
-    },
-    {
-      "corte": "COXAO DURO",
-      "preco": "44,99",
-      "tipo": "segunda"
-    }
-  ],
-  "suinos": [
-    {
-      "corte": "PERNIL kg",
-      "preco": "23,99"
-    },
-    {
-      "corte": "COSTELINHA kg",
-      "preco": "26,99"
-    }
-  ],
-  "aves": [
-    {
-      "corte": "FRANGO RESFRIADO kg",
-      "preco": "12,50"
-    },
-    {
-      "corte": "COXA/SOBRECOXA kg",
-      "preco": "11,90"
-    }
-  ]
+    "config_promocoes": {},
+    "ofertas": [
+        {
+            "nome": "Acem Bovina",
+            "preco": "27,99",
+            "imagem": "imagens/bisteca.jpg"
+        }
+    ],
+    "promocoes": [],
+    "bovinos": [
+        {
+            "corte": "ALCATRA kg",
+            "preco": "51,99",
+            "tipo": "primeira"
+        },
+        {
+            "corte": "CONTRA FILÉ kg",
+            "preco": "51,99",
+            "tipo": "primeira"
+        },
+        {
+            "corte": "COXAO DURO",
+            "preco": "44,99",
+            "tipo": "segunda"
+        }
+    ],
+    "suinos": [
+        {
+            "corte": "PERNIL kg",
+            "preco": "23,99"
+        },
+        {
+            "corte": "COSTELINHA kg",
+            "preco": "26,99"
+        }
+    ],
+    "aves": [
+        {
+            "corte": "FRANGO RESFRIADO kg",
+            "preco": "12,50"
+        },
+        {
+            "corte": "COXA/SOBRECOXA kg",
+            "preco": "11,90"
+        }
+    ]
 }
