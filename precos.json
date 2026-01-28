@@ -6,6 +6,16 @@
             "imagem": "imagens/bisteca.jpg"
         }
     ],
+    "promocoes": [
+        {
+            "corte": "Picanha Especial",
+            "preco": "69,90"
+        },
+        {
+            "corte": "Alcatra Premium",
+            "preco": "49,90"
+        }
+    ],
     "bovinos": [
         {
             "corte": "ALCATRA kg",
@@ -18,160 +28,29 @@
             "tipo": "primeira"
         },
         {
-            "corte": "COXAO MOLE kg",
-            "preco": "45,99",
-            "tipo": "primeira"
-        },
-        {
             "corte": "COXAO DURO",
             "preco": "44,99",
-            "tipo": "primeira"
-        },
-        {
-            "corte": "FILÉ MIGNON",
-            "preco": "62,99",
-            "tipo": "primeira"
-        },
-        {
-            "corte": "LAGARTO",
-            "preco": "44,99",
-            "tipo": "primeira"
-        },
-        {
-            "corte": "MAMINHA kg",
-            "preco": "51,99",
-            "tipo": "primeira"
-        },
-        {
-            "corte": "PICANHA kg",
-            "preco": "72,99",
-            "tipo": "primeira"
-        },
-        {
-            "corte": "PATINHO kg",
-            "preco": "43,99",
-            "tipo": "primeira"
-        },
-        {
-            "corte": "FRALDINHA kg",
-            "preco": "44,99",
-            "tipo": "primeira"
-        },
-        {
-            "corte": "ACÉM kg",
-            "preco": "37,99",
-            "tipo": "segunda"
-        },
-        {
-            "corte": "MAÇÃ DO PEITO kg",
-            "preco": "36,99",
-            "tipo": "segunda"
-        },
-        {
-            "corte": "PALETA",
-            "preco": "37,99",
-            "tipo": "segunda"
-        },
-        {
-            "corte": "MUSCULO kg",
-            "preco": "34,99",
-            "tipo": "segunda"
-        },
-        {
-            "corte": "COSTELA DIANTEIRO kg",
-            "preco": "24,99",
-            "tipo": "segunda"
-        },
-        {
-            "corte": "COSTELA PA kg",
-            "preco": "25,99",
-            "tipo": "segunda"
-        },
-        {
-            "corte": "PEIXINHO kg",
-            "preco": "39,99",
-            "tipo": "segunda"
-        },
-        {
-            "corte": "LOMBÃO kg",
-            "preco": "34,99",
-            "tipo": "segunda"
-        },
-        {
-            "corte": "RETALHO kg",
-            "preco": "34,99",
-            "tipo": "segunda"
-        },
-        {
-            "corte": "CAPA CONTRA FILÉ kg",
-            "preco": "37,99",
-            "tipo": "segunda"
-        },
-        {
-            "corte": "CAPA DA PALETA kg",
-            "preco": "37,99",
-            "tipo": "segunda"
-        },
-        {
-            "corte": "PALOMA kg",
-            "preco": "41,99",
             "tipo": "segunda"
         }
     ],
     "suinos": [
         {
+            "corte": "PERNIL kg",
+            "preco": "23,99"
+        },
+        {
             "corte": "COSTELINHA kg",
             "preco": "26,99"
-        },
-        {
-            "corte": "LOMBO kg",
-            "preco": "24,99"
-        },
-        {
-            "corte": "BISTECA kg",
-            "preco": "22,99"
-        },
-        {
-            "corte": "PANCETA kg",
-            "preco": "19,99"
-        },
-        {
-            "corte": "TOUCINHO kg",
-            "preco": "18,99"
-        },
-        {
-            "corte": "PERNIL S/ OSSO kg",
-            "preco": "24,99"
-        },
-        {
-            "corte": "SUAN kg",
-            "preco": "13,99"
-        },
-        {
-            "corte": "CARRE kg",
-            "preco": "18,99"
         }
     ],
     "aves": [
         {
             "corte": "FRANGO RESFRIADO kg",
-            "preco": "11,99"
+            "preco": "12,50"
         },
         {
             "corte": "COXA/SOBRECOXA kg",
-            "preco": "10,99"
-        },
-        {
-            "corte": "FILÉ DE PEITO kg",
-            "preco": "19,99"
-        },
-        {
-            "corte": "MEIO ASA kg",
-            "preco": "22,99"
-        },
-        {
-            "corte": "COXINHA DA ASA kg",
-            "preco": "16,99"
+            "preco": "11,90"
         }
     ]
 }
