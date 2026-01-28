@@ -3,11 +3,11 @@
     "promocoes": [
         {
             "corte": "Picanha",
-            "preco": "69,90"
+            "preco": "72,99"
         },
         {
-            "corte": "Alcatra",
-            "preco": "49,90"
+            "corte": "CONTRA FILE",
+            "preco": "64,99"
         }
     ],
     "bovinos": [
