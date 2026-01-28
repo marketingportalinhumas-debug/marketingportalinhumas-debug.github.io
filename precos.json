@@ -62,6 +62,21 @@
             "tipo": "primeira"
         },
         {
+            "corte": "COXAO DURO kg",
+            "preco": "44,99",
+            "tipo": "primeira"
+        },
+        {
+            "corte": "FRALDINHA kg",
+            "preco": "44,99",
+            "tipo": "primeira"
+        },
+        {
+            "corte": "LAGARTO",
+            "preco": "44,99",
+            "tipo": "primeira"
+        },
+        {
             "corte": "COSTELA kg",
             "preco": "24,99",
             "tipo": "segunda"
@@ -157,7 +172,7 @@
             "preco": "13,99"
         },
         {
-            "corte": "CARRE",
+            "corte": "CARRE kg",
             "preco": "18,99"
         }
     ],
