@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Açougue Portal - Promoções</title>
+    <style>
+        body {
+            background: url('imagens/fundo.jpg') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 1400px;
+            background: rgba(0, 0, 0, 0.85);
+            border: 4px solid #654321;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+            display: flex;
+            gap: 25px;
+            position: relative;
+        }
+
+        .header {
+            position: absolute;
+            top: -25px;
+            left: 30px;
+            background: linear-gradient(135deg, #ff0000, #cc0000);
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1.5em;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+            border: 2px solid #ffd700;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 15px rgba(255, 215, 0, 0.8); }
+            50% { box-shadow: 0 0 25px rgba(255, 215, 0, 1); }
+        }
+
+        /* Seção de Ofertas */
+        .oferta-section {
+            flex: 0 0 500px;
+            background: linear-gradient(135deg, #ffd700, #ffcc00);
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(0,0,0,0.6);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .oferta-item {
+            display: none;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .oferta-item.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .oferta-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(135deg, #ff0000, #cc0000);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.8);
+            border: 2px solid #ffd700;
+            animation: bounce 1.5s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .oferta-title {
+            font-size: 2em;
+            font-weight: bold;
+            color: #cc0000;
+            margin: 15px 0 10px 0;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.7);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .oferta-subtitle {
+            font-size: 1.1em;
+            color: #660000;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .oferta-image {
+            width: 100%;
+            max-width: 300px;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin: 15px auto;
+            box-shadow: 0 0 20px rgba(0,0,0,0.7);
+            border: 3px solid #ffd700;
+            display: block;
+            background: #333;
+        }
+
+        .oferta-price-container {
+            background: rgba(204, 0, 0, 0.9);
+            padding: 18px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 3px solid #ffd700;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+        }
+
+        .oferta-price-label {
+            font-size: 0.95em;
+            color: #ffd700;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .oferta-price {
+            font-size: 3.5em;
+            font-weight: bold;
+            color: #ffd700;
+            margin: 0;
+            text-shadow: 4px 4px 8px rgba(0,0,0,0.8);
+            line-height: 1;
+        }
+
+        .oferta-unit {
+            font-size: 0.95em;
+            color: #ffd700;
+            background: rgba(0,0,0,0.3);
+            padding: 3px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 5px;
+        }
+
+        .contador-tempo {
+            margin-top: 12px;
+            font-size: 0.9em;
+            color: #ffd700;
+            font-weight: bold;
+        }
+
+        .oferta-logo {
+            margin-top: 18px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .oferta-logo img {
+            width: 80px;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 0 12px rgba(0,0,0,0.5);
+            border: 2px solid #ffd700;
+        }
+
+        /* Seção de Lista de Cortes/Promoções */
+        .menu-section {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .category {
+            flex: 1;
+            background: rgba(30, 30, 30, 0.85);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+            max-width: 650px;
+            width: 100%;
+        }
+
+        .category-title {
+            font-size: 1.8em;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 22px;
+            color: #ffcc00;
+            border-bottom: 3px solid #ffcc00;
+            padding-bottom: 10px;
+        }
+
+        .tabela-grid {
+            display: flex;
+            gap: 20px;
+            height: 100%;
+        }
+
+        .coluna-tabela {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .item-tabela {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            border-bottom: 1px solid #444;
+        }
+
+        .item-tabela:last-child {
+            border-bottom: none;
+        }
+
+        .item-tabela .corte {
+            width: 65%;
+            text-align: left;
+            font-size: 0.95em;
+        }
+
+        .item-tabela .preco {
+            width: 35%;
+            text-align: right;
+            font-weight: bold;
+            color: #ffcc00;
+            font-size: 0.95em;
+        }
+
+        .supermarket-tag {
+            position: absolute;
+            bottom: -22px;
+            right: 30px;
+            background: #004d00;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+            border: 2px solid #ffd700;
+        }
+
+        .loading {
+            color: #ffcc00;
+            text-align: center;
+            padding: 30px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        @media (max-width: 1200px) {
+            .container {
+                flex-direction: column;
+            }
+            .oferta-section {
+                flex: none;
+                width: 100%;
+            }
+            .menu-section {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                font-size: 1.2em;
+            }
+            
+            .oferta-title {
+                font-size: 1.6em;
+            }
+            
+            .oferta-price {
+                font-size: 2.5em;
+            }
+            
+            .category-title {
+                font-size: 1.5em;
+            }
+            
+            .item-tabela .corte {
+                width: 60%;
+                font-size: 0.85em;
+            }
+            
+            .item-tabela .preco {
+                width: 40%;
+                font-size: 0.85em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">🔥 OFERTAS DO DIA 🔥</div>
+
+        <!-- Seção de Ofertas -->
+        <div class="oferta-section" id="ofertas-container">
+            <div class="loading">Carregando ofertas...</div>
+        </div>
+
+        <!-- Seção de Lista de Cortes/Promoções -->
+        <div class="menu-section">
+            <div class="category">
+                <div class="category-title" id="lista-titulo">CARREGANDO...</div>
+                <div id="lista-cortes" class="tabela-grid">
+                    <div class="coluna-tabela"></div>
+                    <div class="coluna-tabela"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="supermarket-tag">Dentro do Supermercado Portal você encontra:</div>
+    </div>
+
+    <script>
+        let dados = null;
+        let ofertaIndex = 0;
+        let listaIndex = 0;
+        
+        // 🔧 CONFIGURAÇÃO: Escolha quais categorias aparecem na lista ao lado
+        // Opções: 'promocoes', 'bovinos', 'suinos', 'aves', 'especiais'
+        const categoriasLista = ['promocoes', 'bovinos', 'suinos', 'aves'];
+        // const categoriasLista = ['promocoes', 'especiais']; // Exemplo alternativo
+
+        // 🔁 Função para carregar precos.json
+        async function carregarPrecos() {
+            try {
+                const response = await fetch('precos.json?' + new Date().getTime());
+                if (!response.ok) throw new Error('Arquivo não encontrado');
+                dados = await response.json();
+                renderOfertas();
+                renderLista(categoriasLista[listaIndex]);
+            } catch (error) {
+                console.error('Erro ao carregar precos.json:', error);
+                document.getElementById('ofertas-container').innerHTML = 
+                    '<div class="loading">❌ Erro ao carregar ofertas.</div>';
+                document.getElementById('lista-titulo').textContent = 'ERRO';
+            }
+        }
+
+        // 🖼️ Renderiza as ofertas do dia
+        function renderOfertas() {
+            const container = document.getElementById('ofertas-container');
+            container.innerHTML = '';
+
+            if (!dados || !dados.ofertas || dados.ofertas.length === 0) {
+                container.innerHTML = '<div class="loading">Sem ofertas cadastradas.</div>';
+                return;
+            }
+
+            dados.ofertas.forEach((oferta, index) => {
+                const div = document.createElement('div');
+                div.className = 'oferta-item';
+                if (index === 0) div.classList.add('active');
+                
+                const imagem = oferta.imagem || 'imagens/placeholder.jpg';
+                
+                div.innerHTML = `
+                    <div class="oferta-badge">🔥 PROMOÇÃO 🔥</div>
+                    <div class="oferta-title">${oferta.nome.toUpperCase()}</div>
+                    <div class="oferta-subtitle">Não perca!</div>
+                    <img src="${imagem}" alt="${oferta.nome}" class="oferta-image" onerror="this.src='imagens/placeholder.jpg'">
+                    <div class="oferta-price-container">
+                        <div class="oferta-price-label">Preço Especial</div>
+                        <div class="oferta-price">${oferta.preco}</div>
+                        <div class="oferta-unit">POR KG</div>
+                    </div>
+                    <div class="contador-tempo">⏰ Oferta por tempo limitado</div>
+                    <div class="oferta-logo">
+                        <img src="imagens/logoPortal.jpg" alt="Logo Açougue Portal">
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+
+            // Reinicia rotação
+            ofertaIndex = 0;
+            const ofertaItems = document.querySelectorAll('.oferta-item');
+            
+            if (ofertaItems.length > 1) {
+                setInterval(() => {
+                    ofertaItems.forEach(item => item.classList.remove('active'));
+                    ofertaIndex = (ofertaIndex + 1) % ofertaItems.length;
+                    ofertaItems[ofertaIndex].classList.add('active');
+                }, 8000);
+            }
+        }
+
+        // 📋 Renderiza lista de cortes (sem subdivisão)
+        function renderLista(tipo) {
+            if (!dados) return;
+
+            const tituloEl = document.getElementById('lista-titulo');
+            const listaContainer = document.getElementById('lista-cortes');
+            
+            let title = "";
+            let items = [];
+
+            switch (tipo) {
+                case 'promocoes':
+                    title = "PROMOÇÕES";
+                    items = dados.promocoes || dados.ofertas || [];
+                    break;
+                case 'bovinos':
+                    title = "BOVINOS";
+                    items = dados.bovinos || [];
+                    break;
+                case 'suinos':
+                    title = "SUÍNOS";
+                    items = dados.suinos || [];
+                    break;
+                case 'aves':
+                    title = "AVES";
+                    items = dados.aves || [];
+                    break;
+                case 'especiais':
+                    title = "ESPECIAIS";
+                    items = dados.especiais || [];
+                    break;
+                default:
+                    title = "SEM DADOS";
+                    items = [];
+            }
+
+            tituloEl.textContent = title;
+
+            // Limpar container
+            const colunas = listaContainer.querySelectorAll('.coluna-tabela');
+            colunas[0].innerHTML = '';
+            colunas[1].innerHTML = '';
+
+            if (items.length === 0) {
+                colunas[0].innerHTML = '<div style="text-align:center; color:#888; padding:20px;">Sem itens</div>';
+                return;
+            }
+
+            // Dividir em 2 colunas
+            const meio = Math.ceil(items.length / 2);
+            const coluna1 = items.slice(0, meio);
+            const coluna2 = items.slice(meio);
+
+            const criarItem = (item) => {
+                const div = document.createElement('div');
+                div.className = 'item-tabela';
+                // Suporta tanto "corte" quanto "nome" como chave
+                const nome = item.corte || item.nome || '';
+                div.innerHTML = `
+                    <span class="corte">${nome}</span>
+                    <span class="preco">${item.preco}</span>
+                `;
+                return div;
+            };
+
+            coluna1.forEach(item => colunas[0].appendChild(criarItem(item)));
+            coluna2.forEach(item => colunas[1].appendChild(criarItem(item)));
+        }
+
+        // ▶️ Inicializa
+        carregarPrecos();
+
+        // 🔁 Rotação das listas (a cada 12s)
+        if (categoriasLista.length > 1) {
+            setInterval(() => {
+                if (dados) {
+                    listaIndex = (listaIndex + 1) % categoriasLista.length;
+                    renderLista(categoriasLista[listaIndex]);
+                }
+            }, 12000);
+        }
+
+        // 🔁 Atualiza a cada 30 segundos
+        setInterval(carregarPrecos, 30000);
+    </script>
+
+</body>
+</html>
