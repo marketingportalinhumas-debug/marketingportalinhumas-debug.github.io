@@ -1,14 +1,14 @@
 {
     "ofertas": [
         {
-            "nome": "Bisteca Bovina",
-            "preco": "18,90",
+            "nome": "Acem",
+            "preco": "27,99",
             "imagem": "imagens/bisteca.jpg"
         }
     ],
     "promocoes": [
         {
-            "corte": "Picanha Especial",
+            "corte": "peixe especial",
             "preco": "69,90"
         },
         {
