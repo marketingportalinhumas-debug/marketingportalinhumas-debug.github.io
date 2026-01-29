@@ -2,9 +2,9 @@
     "config_promocoes": {},
     "ofertas": [
         {
-            "nome": "Acem Bovina",
-            "preco": "27,99",
-            "imagem": "imagens/bisteca.jpg"
+            "nome": "Bisteca Bovina",
+            "preco": "18,90",
+            "imagem": "imagens/cupim.png"
         }
     ],
     "promocoes": [],
