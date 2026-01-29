@@ -7,7 +7,26 @@
             "imagem": "imagens/cupim.png"
         }
     ],
-    "promocoes": [],
+    "promocoes": [
+        {
+            "nome": "Picanha",
+            "preco_promocao": "59,99",
+            "categoria": "bovinos",
+            "corte_original": ""
+        },
+        {
+            "nome": "Costelinha Suína",
+            "preco_promocao": "18,99",
+            "categoria": "suinos",
+            "corte_original": ""
+        },
+        {
+            "nome": "Frango Resfriado",
+            "preco_promocao": "9,99",
+            "categoria": "aves",
+            "corte_original": ""
+        }
+    ],
     "bovinos": [
         {
             "corte": "ALCATRA kg",
