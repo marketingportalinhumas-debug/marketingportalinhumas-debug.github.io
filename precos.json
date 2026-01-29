@@ -2,8 +2,8 @@
     "config_promocoes": {},
     "ofertas": [
         {
-            "nome": "Bisteca Bovina",
-            "preco": "18,90",
+            "nome": "Cupim Bovina",
+            "preco": "29,90",
             "imagem": "imagens/cupim.png"
         }
     ],
