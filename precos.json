@@ -36,19 +36,31 @@
             "nome": "Picanha",
             "preco_promocao": "59,99",
             "categoria": "bovinos",
-            "corte_original": ""
+            "corte_original": "imagens/picanha.jpg"
         },
         {
             "nome": "Costelinha Suína",
-            "preco_promocao": "18,99",
+            "preco_promocao": "16,99",
             "categoria": "suinos",
-            "corte_original": ""
+            "corte_original": "imagens/costelinha.jpg"
         },
         {
             "nome": "Frango Resfriado",
             "preco_promocao": "9,99",
             "categoria": "aves",
             "corte_original": ""
+        },
+        {
+            "nome": "COSTELA kg",
+            "preco_promocao": "21,99",
+            "categoria": "bovinos",
+            "corte_original": "24,99"
+        },
+        {
+            "nome": "PALOMA kg",
+            "preco_promocao": "38,99",
+            "categoria": "bovinos",
+            "corte_original": "41,99"
         }
     ],
     "bovinos": [
