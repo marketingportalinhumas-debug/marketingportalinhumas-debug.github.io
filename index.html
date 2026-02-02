@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Açougue Portal - Preços</title>
     <style>
-        /* Mantenha todo o CSS do seu layout original */
         body {
             background: url('imagens/fundo.jpg') no-repeat center center fixed;
             background-size: cover;
@@ -19,8 +18,7 @@
             min-height: 100vh;
             overflow: hidden;
         }
-        
-        /* Mantenha todo o CSS do seu layout original */
+
         .container {
             width: 95%;
             max-width: 1100px;
@@ -31,16 +29,14 @@
             box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
             position: relative;
         }
-        
-        /* Mantenha todo o CSS do seu layout original */
+
         .category {
             background: rgba(30, 30, 30, 0.85);
             padding: 25px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0,0,0,0.3);
         }
-        
-        /* Mantenha todo o CSS do seu layout original */
+
         .category-title {
             font-size: 2.2em;
             font-weight: bold;
@@ -50,14 +46,13 @@
             border-bottom: 3px solid #ffcc00;
             padding-bottom: 12px;
         }
-        
-        /* Mantenha todo o CSS do seu layout original */
+
+        /* Divisão em duas colunas para subtítulos de bovinos */
         .bovinos-subdivisao {
             display: flex;
             gap: 25px;
         }
-        
-        /* Mantenha todo o CSS do seu layout original */
+
         .subcategoria-bovinos {
             flex: 1;
             background: rgba(40, 40, 40, 0.85);
@@ -65,8 +60,7 @@
             border-radius: 8px;
             box-shadow: 0 0 8px rgba(0,0,0,0.3);
         }
-        
-        /* Mantenha todo o CSS do seu layout original */
+
         .subcategoria-titulo {
             font-size: 1.4em;
             font-weight: bold;
@@ -76,29 +70,25 @@
             border-bottom: 2px solid #4CAF50;
             color: #4CAF50;
         }
-        
-        /* Mantenha todo o CSS do seu layout original */
+
         .subcategoria-bovinos.segunda .subcategoria-titulo {
             border-bottom-color: #ff9800;
             color: #ff9800;
         }
-        
-        /* Mantenha todo o CSS do seu layout original */
+
         .tabela-grid {
             display: flex;
             gap: 25px;
             height: 100%;
         }
-        
-        /* Mantenha todo o CSS do seu layout original */
+
         .coluna-tabela {
             flex: 1;
             display: flex;
             flex-direction: column;
             gap: 10px;
         }
-        
-        /* Mantenha todo o CSS do seu layout original */
+
         .coluna-unica {
             flex: none;
             width: 100%;
@@ -106,28 +96,24 @@
             flex-direction: column;
             gap: 10px;
         }
-        
-        /* Mantenha todo o CSS do seu layout original */
+
         .item-tabela {
             display: flex;
             justify-content: space-between;
             padding: 8px 0;
             border-bottom: 1px solid #444;
         }
-        
-        /* Mantenha todo o CSS do seu layout original */
+
         .item-tabela:last-child {
             border-bottom: none;
         }
-        
-        /* Mantenha todo o CSS do seu layout original */
+
         .item-tabela .corte {
             width: 65%;
             text-align: left;
             font-size: 1.05em;
         }
-        
-        /* Mantenha todo o CSS do seu layout original */
+
         .item-tabela .preco {
             width: 35%;
             text-align: right;
@@ -135,8 +121,7 @@
             color: #ffcc00;
             font-size: 1.1em;
         }
-        
-        /* Mantenha todo o CSS do seu layout original */
+
         .supermarket-tag {
             position: absolute;
             bottom: -20px;
@@ -149,8 +134,7 @@
             font-weight: bold;
             box-shadow: 0 2px 5px rgba(0,0,0,0.5);
         }
-        
-        /* Mantenha todo o CSS do seu layout original */
+
         .loading {
             color: #ffcc00;
             text-align: center;
@@ -158,8 +142,37 @@
             font-size: 1.3em;
             font-weight: bold;
         }
-        
-        /* Mantenha todo o CSS do seu layout original */
+
+        /* Indicadores de rotação */
+        .rotation-indicators {
+            position: absolute;
+            bottom: -45px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 12px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: 2px solid #ffcc00;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+        }
+
+        .indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #666;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .indicator.active {
+            background: #ffcc00;
+            transform: scale(1.2);
+            box-shadow: 0 0 8px rgba(255, 204, 0, 0.7);
+        }
+
         @media (max-width: 768px) {
             .bovinos-subdivisao {
                 flex-direction: column;
@@ -183,6 +196,12 @@
                 width: 40%;
                 font-size: 1em;
             }
+            
+            .rotation-indicators {
+                bottom: -65px;
+                flex-direction: column;
+                align-items: center;
+            }
         }
     </style>
 </head>
@@ -198,26 +217,54 @@
         </div>
 
         <div class="supermarket-tag">Dentro do Supermercado Portal você encontra:</div>
+        
+        <!-- Indicadores de rotação -->
+        <div class="rotation-indicators" id="rotation-indicators">
+            <div class="indicator active" data-index="0" onclick="mudarCategoria(0)"></div>
+            <div class="indicator" data-index="1" onclick="mudarCategoria(1)"></div>
+            <div class="indicator" data-index="2" onclick="mudarCategoria(2)"></div>
+        </div>
     </div>
 
     <script>
         let dados = null;
         let tabelaIndex = 0;
+        let intervaloRotacao = null;
+        let ultimaAtualizacao = null;
         const tipos = ['bovinos', 'suinos', 'aves'];
+        const JSON_URL = 'https://marketingportalinhumas-debug.github.io/precos.json';
 
-        // 🔁 Função para carregar precos.json
+        // 🔁 Função para carregar precos.json do GitHub com cache busting
         async function carregarPrecos() {
             try {
-                // Use a URL completa do arquivo JSON no GitHub
-                const response = await fetch('https://marketingportalinhumas-debug.github.io/precos.json?' + new Date().getTime());
+                // Adicionar timestamp para evitar cache
+                const timestamp = new Date().getTime();
+                const response = await fetch(`${JSON_URL}?t=${timestamp}`, {
+                    cache: 'no-cache'
+                });
+                
                 if (!response.ok) throw new Error('Arquivo não encontrado');
-                dados = await response.json();
-                renderTabela(tipos[tabelaIndex]);
+                
+                const novoDados = await response.json();
+                
+                // Verificar se os dados foram atualizados
+                const dadosJSON = JSON.stringify(novoDados);
+                if (ultimaAtualizacao !== dadosJSON) {
+                    dados = novoDados;
+                    ultimaAtualizacao = dadosJSON;
+                    console.log('✅ Dados atualizados do GitHub');
+                    renderTabela(tipos[tabelaIndex]);
+                    
+                    // Iniciar rotação automática se ainda não iniciada
+                    if (!intervaloRotacao) {
+                        iniciarRotacaoAutomatica();
+                    }
+                }
             } catch (error) {
-                console.error('Erro ao carregar precos.json:', error);
-                document.getElementById('tabela-titulo').textContent = 'ERRO';
+                console.error('❌ Erro ao carregar precos.json:', error);
+                document.getElementById('tabela-titulo').textContent = 'ERRO DE CONEXÃO';
                 document.getElementById('tabela-rotativa').innerHTML = 
-                    '<div class="loading">❌ Erro ao carregar preços.<br>Verifique se precos.json existe.</div>';
+                    '<div class="loading">❌ Erro ao carregar preços.<br>Verifique sua conexão com a internet.</div>';
             }
         }
 
@@ -230,10 +277,19 @@
 
         // 📋 Renderiza tabela
         function renderTabela(tipo) {
-            if (!dados) return;
+            if (!dados) {
+                console.log('⚠️ Dados ainda não carregados');
+                return;
+            }
 
             const tituloEl = document.getElementById('tabela-titulo');
             const tabelaContainer = document.getElementById('tabela-rotativa');
+            const indicators = document.querySelectorAll('.indicator');
+            
+            // Atualizar indicadores
+            indicators.forEach((ind, idx) => {
+                ind.classList.toggle('active', idx === tabelaIndex);
+            });
             
             let title = "";
 
@@ -241,7 +297,7 @@
                 case 'bovinos':
                     title = "BOVINOS";
                     renderBovinosComSubdivisao();
-                    return;
+                    break;
                 case 'suinos':
                     title = "SUÍNOS";
                     renderListaDuasColunas(dados.suinos || []);
@@ -285,7 +341,7 @@
                 <div class="bovinos-subdivisao">
                     <!-- Coluna Carne de Primeira -->
                     <div class="subcategoria-bovinos primeira">
-                        <div class="subcategoria-titulo">Carne de Primeira</div>
+                        <div class="subcategoria-titulo">🥩 Carne de Primeira</div>
                         <div class="tabela-grid">
                             <div class="coluna-tabela"></div>
                             <div class="coluna-tabela"></div>
@@ -294,7 +350,7 @@
                     
                     <!-- Coluna Carne de Segunda -->
                     <div class="subcategoria-bovinos segunda">
-                        <div class="subcategoria-titulo">Carne de Segunda</div>
+                        <div class="subcategoria-titulo">🍖 Carne de Segunda</div>
                         <div class="tabela-grid">
                             <div class="coluna-tabela"></div>
                             <div class="coluna-tabela"></div>
@@ -367,7 +423,7 @@
             const colunas = tabelaContainer.querySelectorAll('.coluna-tabela');
             
             if (itens.length === 0) {
-                colunas[0].innerHTML = '<div style="text-align:center; color:#888; padding:20px;">Sem itens</div>';
+                colunas[0].innerHTML = '<div style="text-align:center; color:#888; padding:20px;">Sem itens disponíveis</div>';
                 return;
             }
             
@@ -397,18 +453,29 @@
             });
         }
 
-        // ▶️ Inicializa
-        carregarPrecos();
-
-        // 🔁 Rotação das tabelas (a cada 10s)
-        setInterval(() => {
+        // ▶️ Mudar categoria manualmente
+        window.mudarCategoria = function(index) {
+            tabelaIndex = index;
             if (dados) {
-                tabelaIndex = (tabelaIndex + 1) % tipos.length;
                 renderTabela(tipos[tabelaIndex]);
             }
-        }, 10000);
+        }
 
-        // 🔁 Atualiza a cada 30 segundos
+        // 🔁 Iniciar rotação automática
+        function iniciarRotacaoAutomatica() {
+            // Rotacionar a cada 10 segundos
+            intervaloRotacao = setInterval(() => {
+                if (dados) {
+                    tabelaIndex = (tabelaIndex + 1) % tipos.length;
+                    renderTabela(tipos[tabelaIndex]);
+                }
+            }, 10000);
+        }
+
+        // ▶️ Inicializa carregamento
+        carregarPrecos();
+
+        // 🔁 Atualiza a cada 30 segundos automaticamente
         setInterval(carregarPrecos, 30000);
     </script>
 
