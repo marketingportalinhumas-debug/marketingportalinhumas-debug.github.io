@@ -24,6 +24,11 @@
             "nome": "Cupim Bovina",
             "preco": "29,90",
             "imagem": "imagens/cupim.png"
+        },
+        {
+            "nome": "Acém kg",
+            "preco": "37,99",
+            "imagem": "imagens/acem.jpg"
         }
     ],
     "promocoes": [
