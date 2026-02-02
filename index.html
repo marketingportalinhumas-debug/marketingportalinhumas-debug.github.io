@@ -3,7 +3,476 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Açougue Portal - Preços Praticados</title>
+    <title>Açougue Portal - TABELA DE PREÇOS <<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Açougue Portal - Preços</title>
+    <style>
+        body {
+            background: url('imagens/fundo.jpg') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 1100px;
+            background: rgba(0, 0, 0, 0.85);
+            border: 4px solid #654321;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+            position: relative;
+        }
+
+        .category {
+            background: rgba(30, 30, 30, 0.85);
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+        }
+
+        .category-title {
+            font-size: 2.2em;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 25px;
+            color: #ffcc00;
+            border-bottom: 3px solid #ffcc00;
+            padding-bottom: 12px;
+        }
+
+        /* Divisão em duas colunas para subtítulos de bovinos */
+        .bovinos-subdivisao {
+            display: flex;
+            gap: 25px;
+        }
+
+        .subcategoria-bovinos {
+            flex: 1;
+            background: rgba(40, 40, 40, 0.85);
+            padding: 18px;
+            border-radius: 8px;
+            box-shadow: 0 0 8px rgba(0,0,0,0.3);
+        }
+
+        .subcategoria-titulo {
+            font-size: 1.4em;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #4CAF50;
+            color: #4CAF50;
+        }
+
+        .subcategoria-bovinos.segunda .subcategoria-titulo {
+            border-bottom-color: #ff9800;
+            color: #ff9800;
+        }
+
+        .tabela-grid {
+            display: flex;
+            gap: 25px;
+            height: 100%;
+        }
+
+        .coluna-tabela {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .coluna-unica {
+            flex: none;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .item-tabela {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #444;
+        }
+
+        .item-tabela:last-child {
+            border-bottom: none;
+        }
+
+        .item-tabela .corte {
+            width: 65%;
+            text-align: left;
+            font-size: 1.05em;
+        }
+
+        .item-tabela .preco {
+            width: 35%;
+            text-align: right;
+            font-weight: bold;
+            color: #ffcc00;
+            font-size: 1.1em;
+        }
+
+        .supermarket-tag {
+            position: absolute;
+            bottom: -20px;
+            right: 30px;
+            background: #004d00;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+        }
+
+        .loading {
+            color: #ffcc00;
+            text-align: center;
+            padding: 30px;
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+
+        /* Indicadores de rotação */
+        .rotation-indicators {
+            position: absolute;
+            bottom: -45px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 12px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: 2px solid #ffcc00;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+        }
+
+        .indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #666;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .indicator.active {
+            background: #ffcc00;
+            transform: scale(1.2);
+            box-shadow: 0 0 8px rgba(255, 204, 0, 0.7);
+        }
+
+        @media (max-width: 768px) {
+            .bovinos-subdivisao {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .category-title {
+                font-size: 1.8em;
+            }
+            
+            .subcategoria-titulo {
+                font-size: 1.2em;
+            }
+            
+            .item-tabela .corte {
+                width: 60%;
+                font-size: 0.95em;
+            }
+            
+            .item-tabela .preco {
+                width: 40%;
+                font-size: 1em;
+            }
+            
+            .rotation-indicators {
+                bottom: -65px;
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="category">
+            <div class="category-title" id="tabela-titulo">CARREGANDO...</div>
+            <div id="tabela-rotativa" class="tabela-grid">
+                <div class="coluna-tabela"></div>
+                <div class="coluna-tabela"></div>
+            </div>
+        </div>
+
+        <div class="supermarket-tag">Dentro do Supermercado Portal você encontra:</div>
+        
+        <!-- Indicadores de rotação -->
+        <div class="rotation-indicators" id="rotation-indicators">
+            <div class="indicator active" data-index="0" onclick="mudarCategoria(0)"></div>
+            <div class="indicator" data-index="1" onclick="mudarCategoria(1)"></div>
+            <div class="indicator" data-index="2" onclick="mudarCategoria(2)"></div>
+        </div>
+    </div>
+
+    <script>
+        let dados = null;
+        let tabelaIndex = 0;
+        let intervaloRotacao = null;
+        const tipos = ['bovinos', 'suinos', 'aves'];
+
+        // 🔁 Função para carregar precos.json do GitHub
+        async function carregarPrecos() {
+            try {
+                // URL do arquivo JSON no GitHub
+                const JSON_URL = 'https://marketingportalinhumas-debug.github.io/precos.json?' + new Date().getTime();
+                const response = await fetch(JSON_URL);
+                if (!response.ok) throw new Error('Arquivo não encontrado');
+                dados = await response.json();
+                renderTabela(tipos[tabelaIndex]);
+                
+                // Iniciar rotação automática se ainda não iniciada
+                if (!intervaloRotacao) {
+                    iniciarRotacaoAutomatica();
+                }
+            } catch (error) {
+                console.error('Erro ao carregar precos.json:', error);
+                document.getElementById('tabela-titulo').textContent = 'ERRO';
+                document.getElementById('tabela-rotativa').innerHTML = 
+                    '<div class="loading">❌ Erro ao carregar preços.<br>Verifique sua conexão.</div>';
+            }
+        }
+
+        // 🔍 Função para identificar carne de primeira
+        function ehCarnePrimeira(corte) {
+            const texto = corte.toLowerCase();
+            const palavrasPrimeira = ['kg', 'filé', 'picanha', 'alcatra', 'contra', 'maminha', 'lagarto', 'patinho', 'mignon'];
+            return palavrasPrimeira.some(palavra => texto.includes(palavra));
+        }
+
+        // 📋 Renderiza tabela
+        function renderTabela(tipo) {
+            if (!dados) return;
+
+            const tituloEl = document.getElementById('tabela-titulo');
+            const tabelaContainer = document.getElementById('tabela-rotativa');
+            const indicators = document.querySelectorAll('.indicator');
+            
+            // Atualizar indicadores
+            indicators.forEach((ind, idx) => {
+                if (idx === tabelaIndex) {
+                    ind.classList.add('active');
+                } else {
+                    ind.classList.remove('active');
+                }
+            });
+            
+            let title = "";
+
+            switch (tipo) {
+                case 'bovinos':
+                    title = "BOVINOS";
+                    renderBovinosComSubdivisao();
+                    return;
+                case 'suinos':
+                    title = "SUÍNOS";
+                    renderListaDuasColunas(dados.suinos || []);
+                    break;
+                case 'aves':
+                    title = "AVES";
+                    renderListaDuasColunas(dados.aves || []);
+                    break;
+                default:
+                    title = "SEM DADOS";
+                    renderListaDuasColunas([]);
+            }
+
+            tituloEl.textContent = title;
+        }
+
+        // 🥩 Renderiza bovinos com subdivisão
+        function renderBovinosComSubdivisao() {
+            const tituloEl = document.getElementById('tabela-titulo');
+            const tabelaContainer = document.getElementById('tabela-rotativa');
+            
+            tituloEl.textContent = "BOVINOS";
+            
+            // Separar cortes em duas categorias
+            const cortesPrimeira = [];
+            const cortesSegunda = [];
+            
+            const bovinos = dados.bovinos || [];
+            
+            bovinos.forEach(item => {
+                // Prioriza campo "tipo" se existir no JSON, senão usa detecção automática
+                if (item.tipo === 'primeira' || (item.tipo !== 'segunda' && ehCarnePrimeira(item.corte))) {
+                    cortesPrimeira.push(item);
+                } else {
+                    cortesSegunda.push(item);
+                }
+            });
+            
+            // Criar estrutura com subdivisão
+            tabelaContainer.innerHTML = `
+                <div class="bovinos-subdivisao">
+                    <!-- Coluna Carne de Primeira -->
+                    <div class="subcategoria-bovinos primeira">
+                        <div class="subcategoria-titulo">Carne de Primeira</div>
+                        <div class="tabela-grid">
+                            <div class="coluna-tabela"></div>
+                            <div class="coluna-tabela"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Coluna Carne de Segunda -->
+                    <div class="subcategoria-bovinos segunda">
+                        <div class="subcategoria-titulo">Carne de Segunda</div>
+                        <div class="tabela-grid">
+                            <div class="coluna-tabela"></div>
+                            <div class="coluna-tabela"></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Renderizar cortes de primeira
+            if (cortesPrimeira.length > 0) {
+                const primeiraColunas = tabelaContainer.querySelectorAll('.subcategoria-bovinos.primeira .coluna-tabela');
+                const meioPrimeira = Math.ceil(cortesPrimeira.length / 2);
+                const coluna1Primeira = cortesPrimeira.slice(0, meioPrimeira);
+                const coluna2Primeira = cortesPrimeira.slice(meioPrimeira);
+                
+                coluna1Primeira.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = 'item-tabela';
+                    div.innerHTML = `<span class="corte">${item.corte}</span><span class="preco">${item.preco}</span>`;
+                    primeiraColunas[0].appendChild(div);
+                });
+                
+                coluna2Primeira.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = 'item-tabela';
+                    div.innerHTML = `<span class="corte">${item.corte}</span><span class="preco">${item.preco}</span>`;
+                    primeiraColunas[1].appendChild(div);
+                });
+            } else {
+                const primeiraColunas = tabelaContainer.querySelectorAll('.subcategoria-bovinos.primeira .coluna-tabela');
+                primeiraColunas[0].innerHTML = '<div style="text-align:center; color:#888; padding:15px;">Sem itens</div>';
+            }
+            
+            // Renderizar cortes de segunda
+            if (cortesSegunda.length > 0) {
+                const segundaColunas = tabelaContainer.querySelectorAll('.subcategoria-bovinos.segunda .coluna-tabela');
+                const meioSegunda = Math.ceil(cortesSegunda.length / 2);
+                const coluna1Segunda = cortesSegunda.slice(0, meioSegunda);
+                const coluna2Segunda = cortesSegunda.slice(meioSegunda);
+                
+                coluna1Segunda.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = 'item-tabela';
+                    div.innerHTML = `<span class="corte">${item.corte}</span><span class="preco">${item.preco}</span>`;
+                    segundaColunas[0].appendChild(div);
+                });
+                
+                coluna2Segunda.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = 'item-tabela';
+                    div.innerHTML = `<span class="corte">${item.corte}</span><span class="preco">${item.preco}</span>`;
+                    segundaColunas[1].appendChild(div);
+                });
+            } else {
+                const segundaColunas = tabelaContainer.querySelectorAll('.subcategoria-bovinos.segunda .coluna-tabela');
+                segundaColunas[0].innerHTML = '<div style="text-align:center; color:#888; padding:15px;">Sem itens</div>';
+            }
+        }
+
+        // 🐷🐔 Renderiza suínos ou aves em duas colunas
+        function renderListaDuasColunas(itens) {
+            const tabelaContainer = document.getElementById('tabela-rotativa');
+            
+            // Limpar container
+            tabelaContainer.innerHTML = `
+                <div class="coluna-tabela"></div>
+                <div class="coluna-tabela"></div>
+            `;
+            
+            const colunas = tabelaContainer.querySelectorAll('.coluna-tabela');
+            
+            if (itens.length === 0) {
+                colunas[0].innerHTML = '<div style="text-align:center; color:#888; padding:20px;">Sem itens</div>';
+                return;
+            }
+            
+            // Dividir em 2 colunas
+            const meio = Math.ceil(itens.length / 2);
+            const coluna1 = itens.slice(0, meio);
+            const coluna2 = itens.slice(meio);
+            
+            coluna1.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'item-tabela';
+                div.innerHTML = `
+                    <span class="corte">${item.corte}</span>
+                    <span class="preco">${item.preco}</span>
+                `;
+                colunas[0].appendChild(div);
+            });
+            
+            coluna2.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'item-tabela';
+                div.innerHTML = `
+                    <span class="corte">${item.corte}</span>
+                    <span class="preco">${item.preco}</span>
+                `;
+                colunas[1].appendChild(div);
+            });
+        }
+
+        // ▶️ Mudar categoria manualmente
+        function mudarCategoria(index) {
+            tabelaIndex = index;
+            if (dados) {
+                renderTabela(tipos[tabelaIndex]);
+            }
+        }
+
+        // 🔁 Iniciar rotação automática
+        function iniciarRotacaoAutomatica() {
+            // Rotacionar a cada 10 segundos
+            intervaloRotacao = setInterval(() => {
+                if (dados) {
+                    tabelaIndex = (tabelaIndex + 1) % tipos.length;
+                    renderTabela(tipos[tabelaIndex]);
+                }
+            }, 10000);
+        }
+
+        // ▶️ Inicializa
+        carregarPrecos();
+
+        // 🔁 Atualiza a cada 30 segundos
+        setInterval(carregarPrecos, 30000);
+    </script>
+
+</body>
+</html>/title>
     <style>
         body {
             background: linear-gradient(135deg, #8B4513, #A0522D, #CD853F);
@@ -556,3 +1025,4 @@
     </script>
 </body>
 </html>
+
