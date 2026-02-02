@@ -14,7 +14,7 @@
         "titulo_color": "#FFD700",
         "rotacao_duracao": 8,
         "velocidade_animacao": "normal",
-        "tipo_animacao": "fade",
+        "tipo_animacao": "slide",
         "efeito_pulsar": true,
         "efeito_brilho": true,
         "efeito_hover": true
