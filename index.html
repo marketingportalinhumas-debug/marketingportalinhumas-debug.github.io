@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Açougue Portal - Preços Praticados</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #8B4513, #A0522D, #CD853F);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 1200px;
+            background: rgba(0, 0, 0, 0.88);
+            border: 5px solid #8B4513;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.9);
+        }
+
+        .header {
+            text-align: center;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border: 3px solid #8B4513;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.7);
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: #8B0000;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.8);
+        }
+
+        .categorias-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .categoria-card {
+            background: rgba(30, 30, 30, 0.92);
+            padding: 25px;
+            border-radius: 15px;
+            border: 3px solid #FFD700;
+            box-shadow: 0 0 15px rgba(0,0,0,0.5);
+        }
+
+        .categoria-title {
+            font-size: 1.8em;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #FFD700;
+            border-bottom: 3px solid #FFD700;
+            padding-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        }
+
+        .tabela-grid {
+            display: flex;
+            gap: 20px;
+            height: 100%;
+        }
+
+        .coluna-tabela {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .item-tabela {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 15px;
+            border-bottom: 1px solid #444;
+            background: rgba(40, 40, 40, 0.7);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .item-tabela:hover {
+            background: rgba(60, 60, 60, 0.9);
+            transform: translateX(3px);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.5);
+        }
+
+        .item-tabela:last-child {
+            border-bottom: none;
+        }
+
+        .item-tabela .nome {
+            width: 65%;
+            text-align: left;
+            font-size: 1em;
+            font-weight: 600;
+            color: #FFD700;
+        }
+
+        .item-tabela .preco {
+            width: 35%;
+            text-align: right;
+            font-weight: bold;
+            color: #FF4444;
+            font-size: 1.1em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+        }
+
+        .loading {
+            color: #FFD700;
+            text-align: center;
+            padding: 40px;
+            font-size: 1.5em;
+            font-weight: bold;
+            background: rgba(30, 30, 30, 0.8);
+            border-radius: 15px;
+            border: 3px solid #FFD700;
+        }
+
+        @media (max-width: 768px) {
+            .categorias-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .categoria-title {
+                font-size: 1.5em;
+            }
+            
+            .item-tabela .nome {
+                width: 60%;
+                font-size: 0.95em;
+            }
+            
+            .item-tabela .preco {
+                width: 40%;
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔥 PREÇOS PRATICADOS - AÇOUGUE PORTAL 🔥</h1>
+        </div>
+
+        <div class="categorias-grid">
+            <!-- Bovinos -->
+            <div class="categoria-card">
+                <div class="categoria-title">🥩 BOVINOS</div>
+                <div class="tabela-grid">
+                    <div class="coluna-tabela" id="bovinos-coluna1"></div>
+                    <div class="coluna-tabela" id="bovinos-coluna2"></div>
+                </div>
+            </div>
+
+            <!-- Suínos -->
+            <div class="categoria-card">
+                <div class="categoria-title">🐷 SUÍNOS</div>
+                <div class="tabela-grid">
+                    <div class="coluna-tabela" id="suinos-coluna1"></div>
+                    <div class="coluna-tabela" id="suinos-coluna2"></div>
+                </div>
+            </div>
+
+            <!-- Aves -->
+            <div class="categoria-card">
+                <div class="categoria-title">🐔 AVES</div>
+                <div class="tabela-grid">
+                    <div class="coluna-tabela" id="aves-coluna1"></div>
+                    <div class="coluna-tabela" id="aves-coluna2"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // URL do arquivo JSON no GitHub
+        const JSON_URL = 'https://marketingportalinhumas-debug.github.io/precos.json';
+        
+        // Carregar dados
+        fetch(JSON_URL)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erro ao carregar dados');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Filtrar apenas os dados de preços praticados
+                const precosPraticados = {
+                    bovinos: data.bovinos || [],
+                    suinos: data.suinos || [],
+                    aves: data.aves || []
+                };
+                
+                renderizarTabelas(precosPraticados);
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                document.querySelectorAll('.categoria-card').forEach(card => {
+                    card.innerHTML = '<div class="loading">Erro ao carregar preços. Tente novamente mais tarde.</div>';
+                });
+            });
+
+        function renderizarTabelas(precos) {
+            // Renderizar Bovinos
+            renderizarCategoria('bovinos', precos.bovinos);
+            
+            // Renderizar Suínos
+            renderizarCategoria('suinos', precos.suinos);
+            
+            // Renderizar Aves
+            renderizarCategoria('aves', precos.aves);
+        }
+
+        function renderizarCategoria(categoria, itens) {
+            if (!itens || itens.length === 0) {
+                document.getElementById(`${categoria}-coluna1`).innerHTML = 
+                    '<div style="text-align:center; color:#888; padding:20px;">Sem dados disponíveis</div>';
+                return;
+            }
+
+            // Dividir em duas colunas
+            const meio = Math.ceil(itens.length / 2);
+            const coluna1 = itens.slice(0, meio);
+            const coluna2 = itens.slice(meio);
+
+            const col1El = document.getElementById(`${categoria}-coluna1`);
+            const col2El = document.getElementById(`${categoria}-coluna2`);
+
+            col1El.innerHTML = '';
+            col2El.innerHTML = '';
+
+            coluna1.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'item-tabela';
+                div.innerHTML = `
+                    <span class="nome">${item.corte}</span>
+                    <span class="preco">R$ ${item.preco}</span>
+                `;
+                col1El.appendChild(div);
+            });
+
+            coluna2.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'item-tabela';
+                div.innerHTML = `
+                    <span class="nome">${item.corte}</span>
+                    <span class="preco">R$ ${item.preco}</span>
+                `;
+                col2El.appendChild(div);
+            });
+        }
+
+        // Atualizar a cada 30 segundos
+        setInterval(() => {
+            location.reload();
+        }, 30000);
+    </script>
+</body>
+</html>
