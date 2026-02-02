@@ -395,46 +395,69 @@
         let dados = null;
         let configPromocoes = null;
         let ofertaIndex = 0;
+        let ultimaAtualizacao = null;
 
-        // Carregar dados
-        fetch(JSON_URL)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Erro ao carregar dados');
-                }
-                return response.json();
-            })
-            .then(data => {
-                dados = data;
-                configPromocoes = dados.config_promocoes || {
-                    categoria_mostrar: "bovinos",
-                    mostrar_ofertas: true,
-                    rotacao_duracao: 8
-                };
+        // Carregar dados com cache busting
+        async function carregarDados() {
+            try {
+                const timestamp = new Date().getTime();
+                const response = await fetch(`${JSON_URL}?t=${timestamp}`, {
+                    cache: 'no-cache'
+                });
                 
-                if (configPromocoes.mostrar_ofertas && dados.ofertas && dados.ofertas.length > 0) {
-                    renderOfertas();
-                }
+                if (!response.ok) throw new Error('Erro ao carregar dados');
                 
-                renderPromocoes();
+                const novoDados = await response.json();
                 
-                // Rotação automática das ofertas
-                if (dados.ofertas && dados.ofertas.length > 1 && configPromocoes.mostrar_ofertas) {
-                    const duracao = configPromocoes.rotacao_duracao || 8;
-                    setInterval(() => {
-                        const ofertaItems = document.querySelectorAll('.oferta-item');
-                        ofertaItems.forEach(item => item.classList.remove('active'));
-                        ofertaIndex = (ofertaIndex + 1) % ofertaItems.length;
-                        ofertaItems[ofertaIndex].classList.add('active');
-                    }, duracao * 1000);
+                // Verificar se os dados foram atualizados
+                const dadosJSON = JSON.stringify(novoDados);
+                if (ultimaAtualizacao !== dadosJSON) {
+                    dados = novoDados;
+                    configPromocoes = dados.config_promocoes || {
+                        categoria_mostrar: "bovinos",
+                        mostrar_ofertas: true,
+                        rotacao_duracao: 8
+                    };
+                    ultimaAtualizacao = dadosJSON;
+                    
+                    console.log('✅ Dados de promoções atualizados');
+                    
+                    if (configPromocoes.mostrar_ofertas && dados.ofertas && dados.ofertas.length > 0) {
+                        renderOfertas();
+                    }
+                    
+                    renderPromocoes();
+                    
+                    // Rotação automática das ofertas
+                    if (dados.ofertas && dados.ofertas.length > 1 && configPromocoes.mostrar_ofertas) {
+                        const duracao = (configPromocoes.rotacao_duracao || 8) * 1000;
+                        iniciarRotacaoOfertas(duracao);
+                    }
                 }
-            })
-            .catch(error => {
-                console.error('Erro:', error);
+            } catch (error) {
+                console.error('❌ Erro ao carregar dados:', error);
                 document.getElementById('ofertas-container').innerHTML = 
-                    '<div class="loading">Erro ao carregar ofertas</div>';
-                document.getElementById('lista-titulo').innerHTML = 'Erro ao carregar promoções';
-            });
+                    '<div class="loading">❌ Erro ao carregar ofertas</div>';
+                document.getElementById('lista-titulo').innerHTML = 'ERRO DE CONEXÃO';
+            }
+        }
+
+        // Rotação automática das ofertas
+        let intervaloRotacao = null;
+        function iniciarRotacaoOfertas(duracao) {
+            if (intervaloRotacao) {
+                clearInterval(intervaloRotacao);
+            }
+            
+            intervaloRotacao = setInterval(() => {
+                const ofertaItems = document.querySelectorAll('.oferta-item');
+                if (ofertaItems.length > 0) {
+                    ofertaItems.forEach(item => item.classList.remove('active'));
+                    ofertaIndex = (ofertaIndex + 1) % ofertaItems.length;
+                    ofertaItems[ofertaIndex].classList.add('active');
+                }
+            }, duracao);
+        }
 
         // Renderiza as ofertas do dia
         function renderOfertas() {
@@ -538,10 +561,11 @@
             });
         }
 
+        // Inicializar
+        carregarDados();
+
         // Atualizar a cada 30 segundos
-        setInterval(() => {
-            location.reload();
-        }, 30000);
+        setInterval(carregarDados, 30000);
     </script>
 </body>
 </html>
