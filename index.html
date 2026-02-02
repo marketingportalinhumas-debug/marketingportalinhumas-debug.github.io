@@ -232,9 +232,11 @@
         let intervaloRotacao = null;
         let ultimaAtualizacao = null;
         const tipos = ['bovinos', 'suinos', 'aves'];
-        const JSON_URL = 'https://marketingportalinhumas-debug.github.io/precos.json';
+        
+        // URL do arquivo JSON (mesmo repositório)
+        const JSON_URL = 'precos.json';
 
-        // 🔁 Função para carregar precos.json do GitHub com cache busting
+        // 🔁 Função para carregar precos.json com cache busting
         async function carregarPrecos() {
             try {
                 // Adicionar timestamp para evitar cache
@@ -252,7 +254,7 @@
                 if (ultimaAtualizacao !== dadosJSON) {
                     dados = novoDados;
                     ultimaAtualizacao = dadosJSON;
-                    console.log('✅ Dados atualizados do GitHub');
+                    console.log('✅ Dados atualizados do precos.json');
                     renderTabela(tipos[tabelaIndex]);
                     
                     // Iniciar rotação automática se ainda não iniciada
@@ -264,7 +266,7 @@
                 console.error('❌ Erro ao carregar precos.json:', error);
                 document.getElementById('tabela-titulo').textContent = 'ERRO DE CONEXÃO';
                 document.getElementById('tabela-rotativa').innerHTML = 
-                    '<div class="loading">❌ Erro ao carregar preços.<br>Verifique sua conexão com a internet.</div>';
+                    '<div class="loading">❌ Erro ao carregar preços.<br>Verifique se precos.json existe no mesmo diretório.</div>';
             }
         }
 
