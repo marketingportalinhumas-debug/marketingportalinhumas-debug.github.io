@@ -15,64 +15,113 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            overflow: hidden;
         }
 
         .container {
             width: 95%;
-            max-width: 1200px;
+            max-width: 1400px;
             background: rgba(0, 0, 0, 0.88);
             border: 5px solid #8B4513;
             border-radius: 20px;
             padding: 30px;
             box-shadow: 0 0 40px rgba(0, 0, 0, 0.9);
+            display: flex;
+            gap: 30px;
+            position: relative;
         }
 
         .header {
-            text-align: center;
-            background: linear-gradient(135deg, #FFD700, #FFA500);
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 30px;
-            border: 3px solid #8B4513;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.7);
-        }
-
-        .header h1 {
-            margin: 0;
-            font-size: 2.5em;
-            color: #8B0000;
-            text-shadow: 3px 3px 6px rgba(0,0,0,0.8);
-        }
-
-        .categorias-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
-            margin-top: 20px;
-        }
-
-        .categoria-card {
-            background: rgba(30, 30, 30, 0.92);
-            padding: 25px;
-            border-radius: 15px;
-            border: 3px solid #FFD700;
-            box-shadow: 0 0 15px rgba(0,0,0,0.5);
-        }
-
-        .categoria-title {
-            font-size: 1.8em;
+            position: absolute;
+            top: -30px;
+            left: 30px;
+            background: linear-gradient(135deg, #FFD700, #FFA500, #FF8C00);
+            padding: 12px 30px;
+            border-radius: 12px;
             font-weight: bold;
-            text-align: center;
-            margin-bottom: 20px;
-            color: #FFD700;
-            border-bottom: 3px solid #FFD700;
-            padding-bottom: 10px;
+            font-size: 1.8em;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.7), 0 0 25px rgba(255, 215, 0, 0.9);
+            border: 3px solid #8B4513;
+            animation: pulse 2s infinite;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
         }
 
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 15px rgba(255, 215, 0, 0.8), 0 6px 15px rgba(0,0,0,0.7); }
+            50% { box-shadow: 0 0 30px rgba(255, 215, 0, 1), 0 6px 15px rgba(0,0,0,0.7); }
+        }
+
+        /* Seção de Categorias com Rotação */
+        .categoria-section {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .category {
+            flex: 1;
+            background: rgba(30, 30, 30, 0.92);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.5);
+            max-width: 1200px;
+            width: 100%;
+            border: 3px solid #FFD700;
+        }
+
+        .category-title {
+            font-size: 2.2em;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 28px;
+            color: #FFD700;
+            border-bottom: 4px solid #FFD700;
+            padding-bottom: 12px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.8);
+            background: linear-gradient(135deg, rgba(255,215,0,0.1), rgba(255,215,0,0.2));
+            border-radius: 8px;
+        }
+
+        /* Layout com duas colunas para bovinos */
+        .bovinos-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            height: 100%;
+        }
+
+        .coluna-bovinos {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .subcategoria-title {
+            font-size: 1.6em;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 10px;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        }
+
+        .primeira {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+        }
+
+        .segunda {
+            background: linear-gradient(135deg, #FF9800, #f57c00);
+        }
+
+        /* Layout de tabela para suínos e aves */
         .tabela-grid {
             display: flex;
-            gap: 20px;
+            gap: 25px;
             height: 100%;
         }
 
@@ -80,14 +129,14 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 10px;
         }
 
         .item-tabela {
             display: flex;
             justify-content: space-between;
             padding: 10px 15px;
-            border-bottom: 1px solid #444;
+            border-bottom: 2px solid #444;
             background: rgba(40, 40, 40, 0.7);
             border-radius: 8px;
             transition: all 0.3s ease;
@@ -95,8 +144,8 @@
 
         .item-tabela:hover {
             background: rgba(60, 60, 60, 0.9);
-            transform: translateX(3px);
-            box-shadow: 0 3px 10px rgba(0,0,0,0.5);
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
         }
 
         .item-tabela:last-child {
@@ -104,19 +153,19 @@
         }
 
         .item-tabela .nome {
-            width: 65%;
+            width: 60%;
             text-align: left;
-            font-size: 1em;
+            font-size: 1.1em;
             font-weight: 600;
             color: #FFD700;
         }
 
         .item-tabela .preco {
-            width: 35%;
+            width: 40%;
             text-align: right;
             font-weight: bold;
             color: #FF4444;
-            font-size: 1.1em;
+            font-size: 1.2em;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
         }
 
@@ -131,64 +180,128 @@
             border: 3px solid #FFD700;
         }
 
-        @media (max-width: 768px) {
-            .categorias-grid {
-                grid-template-columns: 1fr;
+        /* Indicadores de rotação */
+        .rotation-indicators {
+            position: absolute;
+            bottom: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px 20px;
+            border-radius: 25px;
+            border: 2px solid #FFD700;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+        }
+
+        .indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #666;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .indicator.active {
+            background: #FFD700;
+            transform: scale(1.3);
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+        }
+
+        /* Badge informativo */
+        .info-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #006400, #004d00);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 1em;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.6), 0 0 15px rgba(255, 215, 0, 0.5);
+            border: 2px solid #FFD700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            animation: flashBadge 3s infinite;
+        }
+
+        @keyframes flashBadge {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        @media (max-width: 1200px) {
+            .container {
+                flex-direction: column;
+                padding: 20px;
             }
             
-            .header h1 {
+            .bovinos-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                font-size: 1.4em;
+                top: -22px;
+                left: 20px;
+                padding: 8px 18px;
+            }
+            
+            .category-title {
                 font-size: 1.8em;
             }
             
-            .categoria-title {
-                font-size: 1.5em;
+            .subcategoria-title {
+                font-size: 1.4em;
             }
             
             .item-tabela .nome {
-                width: 60%;
-                font-size: 0.95em;
+                width: 55%;
+                font-size: 1em;
             }
             
             .item-tabela .preco {
-                width: 40%;
-                font-size: 1em;
+                width: 45%;
+                font-size: 1.1em;
+            }
+            
+            .rotation-indicators {
+                flex-direction: column;
+                align-items: center;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>🔥 PREÇOS PRATICADOS - AÇOUGUE PORTAL 🔥</h1>
+        <div class="header">🔥 PREÇOS PRATICADOS 🔥</div>
+
+        <!-- Seção de Categoria com Rotação -->
+        <div class="categoria-section">
+            <div class="category">
+                <div class="category-title" id="categoria-titulo">CARREGANDO...</div>
+                
+                <!-- Conteúdo que muda com a rotação -->
+                <div id="categoria-conteudo">
+                    <div class="loading">Carregando preços...</div>
+                </div>
+            </div>
         </div>
 
-        <div class="categorias-grid">
-            <!-- Bovinos -->
-            <div class="categoria-card">
-                <div class="categoria-title">🥩 BOVINOS</div>
-                <div class="tabela-grid">
-                    <div class="coluna-tabela" id="bovinos-coluna1"></div>
-                    <div class="coluna-tabela" id="bovinos-coluna2"></div>
-                </div>
-            </div>
+        <!-- Indicadores de rotação -->
+        <div class="rotation-indicators" id="rotation-indicators">
+            <div class="indicator active" data-index="0" onclick="mudarCategoria(0)"></div>
+            <div class="indicator" data-index="1" onclick="mudarCategoria(1)"></div>
+            <div class="indicator" data-index="2" onclick="mudarCategoria(2)"></div>
+        </div>
 
-            <!-- Suínos -->
-            <div class="categoria-card">
-                <div class="categoria-title">🐷 SUÍNOS</div>
-                <div class="tabela-grid">
-                    <div class="coluna-tabela" id="suinos-coluna1"></div>
-                    <div class="coluna-tabela" id="suinos-coluna2"></div>
-                </div>
-            </div>
-
-            <!-- Aves -->
-            <div class="categoria-card">
-                <div class="categoria-title">🐔 AVES</div>
-                <div class="tabela-grid">
-                    <div class="coluna-tabela" id="aves-coluna1"></div>
-                    <div class="coluna-tabela" id="aves-coluna2"></div>
-                </div>
-            </div>
+        <!-- Badge informativo -->
+        <div class="info-badge" id="info-badge">
+            🥩 BOVINOS
         </div>
     </div>
 
@@ -196,6 +309,10 @@
         // URL do arquivo JSON no GitHub
         const JSON_URL = 'https://marketingportalinhumas-debug.github.io/precos.json';
         
+        let dados = null;
+        let categoriaAtual = 0; // 0 = bovinos, 1 = suinos, 2 = aves
+        let intervaloRotacao = null;
+
         // Carregar dados
         fetch(JSON_URL)
             .then(response => {
@@ -205,70 +322,231 @@
                 return response.json();
             })
             .then(data => {
-                // Filtrar apenas os dados de preços praticados
-                const precosPraticados = {
-                    bovinos: data.bovinos || [],
-                    suinos: data.suinos || [],
-                    aves: data.aves || []
-                };
+                dados = data;
+                // Exibir a categoria inicial
+                mostrarCategoria(categoriaAtual);
                 
-                renderizarTabelas(precosPraticados);
+                // Iniciar rotação automática (a cada 15 segundos)
+                iniciarRotacaoAutomatica();
             })
             .catch(error => {
                 console.error('Erro:', error);
-                document.querySelectorAll('.categoria-card').forEach(card => {
-                    card.innerHTML = '<div class="loading">Erro ao carregar preços. Tente novamente mais tarde.</div>';
-                });
+                document.getElementById('categoria-conteudo').innerHTML = 
+                    '<div class="loading">Erro ao carregar preços. Tente novamente mais tarde.</div>';
+                document.getElementById('categoria-titulo').innerHTML = 'ERRO AO CARREGAR';
             });
 
-        function renderizarTabelas(precos) {
-            // Renderizar Bovinos
-            renderizarCategoria('bovinos', precos.bovinos);
+        // Mostrar categoria específica
+        function mostrarCategoria(index) {
+            const conteudoEl = document.getElementById('categoria-conteudo');
+            const tituloEl = document.getElementById('categoria-titulo');
+            const badgeEl = document.getElementById('info-badge');
+            const indicators = document.querySelectorAll('.indicator');
             
-            // Renderizar Suínos
-            renderizarCategoria('suinos', precos.suinos);
+            // Remover classe active de todos os indicadores
+            indicators.forEach(ind => ind.classList.remove('active'));
+            // Adicionar classe active ao indicador atual
+            indicators[index].classList.add('active');
             
-            // Renderizar Aves
-            renderizarCategoria('aves', precos.aves);
+            // Atualizar categoria atual
+            categoriaAtual = index;
+            
+            switch(index) {
+                case 0: // Bovinos
+                    tituloEl.innerHTML = "🥩 PREÇOS BOVINOS 🥩";
+                    badgeEl.innerHTML = "🥩 BOVINOS";
+                    badgeEl.style.background = 'linear-gradient(135deg, #4CAF50, #45a049)';
+                    conteudoEl.innerHTML = renderizarBovinos();
+                    break;
+                    
+                case 1: // Suínos
+                    tituloEl.innerHTML = "🐷 PREÇOS SUÍNOS 🐷";
+                    badgeEl.innerHTML = "🐷 SUÍNOS";
+                    badgeEl.style.background = 'linear-gradient(135deg, #FF9800, #f57c00)';
+                    conteudoEl.innerHTML = renderizarOutrasCategorias('suinos', '🐷');
+                    break;
+                    
+                case 2: // Aves
+                    tituloEl.innerHTML = "🐔 PREÇOS DE AVES 🐔";
+                    badgeEl.innerHTML = "🐔 AVES";
+                    badgeEl.style.background = 'linear-gradient(135deg, #2196F3, #1976D2)';
+                    conteudoEl.innerHTML = renderizarOutrasCategorias('aves', '🐔');
+                    break;
+            }
         }
 
-        function renderizarCategoria(categoria, itens) {
-            if (!itens || itens.length === 0) {
-                document.getElementById(`${categoria}-coluna1`).innerHTML = 
-                    '<div style="text-align:center; color:#888; padding:20px;">Sem dados disponíveis</div>';
-                return;
+        // Renderizar bovinos com separação de primeira e segunda
+        function renderizarBovinos() {
+            if (!dados || !dados.bovinos || dados.bovinos.length === 0) {
+                return '<div class="loading">Sem dados de bovinos disponíveis</div>';
             }
+            
+            // Separar por tipo
+            const primeira = dados.bovinos.filter(item => item.tipo === 'primeira');
+            const segunda = dados.bovinos.filter(item => item.tipo === 'segunda');
+            
+            let html = '<div class="bovinos-grid">';
+            
+            // Coluna Carne de Primeira
+            html += `
+                <div class="coluna-bovinos">
+                    <div class="subcategoria-title primeira">
+                        🥩 CARNE DE PRIMEIRA
+                    </div>
+                    <div class="tabela-grid">
+                        <div class="coluna-tabela">
+            `;
+            
+            if (primeira.length > 0) {
+                // Dividir em duas colunas
+                const meioPrimeira = Math.ceil(primeira.length / 2);
+                const col1Primeira = primeira.slice(0, meioPrimeira);
+                const col2Primeira = primeira.slice(meioPrimeira);
+                
+                col1Primeira.forEach(item => {
+                    html += `
+                        <div class="item-tabela">
+                            <span class="nome">${item.corte}</span>
+                            <span class="preco">R$ ${item.preco}</span>
+                        </div>
+                    `;
+                });
+                
+                html += `
+                        </div>
+                        <div class="coluna-tabela">
+                `;
+                
+                col2Primeira.forEach(item => {
+                    html += `
+                        <div class="item-tabela">
+                            <span class="nome">${item.corte}</span>
+                            <span class="preco">R$ ${item.preco}</span>
+                        </div>
+                    `;
+                });
+            } else {
+                html += '<div style="text-align:center; color:#888; padding:20px;">Sem itens disponíveis</div>';
+            }
+            
+            html += `
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Coluna Carne de Segunda
+            html += `
+                <div class="coluna-bovinos">
+                    <div class="subcategoria-title segunda">
+                        🍖 CARNE DE SEGUNDA
+                    </div>
+                    <div class="tabela-grid">
+                        <div class="coluna-tabela">
+            `;
+            
+            if (segunda.length > 0) {
+                // Dividir em duas colunas
+                const meioSegunda = Math.ceil(segunda.length / 2);
+                const col1Segunda = segunda.slice(0, meioSegunda);
+                const col2Segunda = segunda.slice(meioSegunda);
+                
+                col1Segunda.forEach(item => {
+                    html += `
+                        <div class="item-tabela">
+                            <span class="nome">${item.corte}</span>
+                            <span class="preco">R$ ${item.preco}</span>
+                        </div>
+                    `;
+                });
+                
+                html += `
+                        </div>
+                        <div class="coluna-tabela">
+                `;
+                
+                col2Segunda.forEach(item => {
+                    html += `
+                        <div class="item-tabela">
+                            <span class="nome">${item.corte}</span>
+                            <span class="preco">R$ ${item.preco}</span>
+                        </div>
+                    `;
+                });
+            } else {
+                html += '<div style="text-align:center; color:#888; padding:20px;">Sem itens disponíveis</div>';
+            }
+            
+            html += `
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            html += '</div>'; // fecha bovinos-grid
+            
+            return html;
+        }
 
+        // Renderizar suínos ou aves
+        function renderizarOutrasCategorias(categoria, emoji) {
+            if (!dados || !dados[categoria] || dados[categoria].length === 0) {
+                return `<div class="loading">Sem dados de ${categoria} disponíveis</div>`;
+            }
+            
+            const itens = dados[categoria];
+            
             // Dividir em duas colunas
             const meio = Math.ceil(itens.length / 2);
             const coluna1 = itens.slice(0, meio);
             const coluna2 = itens.slice(meio);
-
-            const col1El = document.getElementById(`${categoria}-coluna1`);
-            const col2El = document.getElementById(`${categoria}-coluna2`);
-
-            col1El.innerHTML = '';
-            col2El.innerHTML = '';
-
+            
+            let html = '<div class="tabela-grid">';
+            
+            html += '<div class="coluna-tabela">';
             coluna1.forEach(item => {
-                const div = document.createElement('div');
-                div.className = 'item-tabela';
-                div.innerHTML = `
-                    <span class="nome">${item.corte}</span>
-                    <span class="preco">R$ ${item.preco}</span>
+                html += `
+                    <div class="item-tabela">
+                        <span class="nome">${item.corte}</span>
+                        <span class="preco">R$ ${item.preco}</span>
+                    </div>
                 `;
-                col1El.appendChild(div);
             });
-
+            html += '</div>';
+            
+            html += '<div class="coluna-tabela">';
             coluna2.forEach(item => {
-                const div = document.createElement('div');
-                div.className = 'item-tabela';
-                div.innerHTML = `
-                    <span class="nome">${item.corte}</span>
-                    <span class="preco">R$ ${item.preco}</span>
+                html += `
+                    <div class="item-tabela">
+                        <span class="nome">${item.corte}</span>
+                        <span class="preco">R$ ${item.preco}</span>
+                    </div>
                 `;
-                col2El.appendChild(div);
             });
+            html += '</div>';
+            
+            html += '</div>';
+            
+            return html;
+        }
+
+        // Mudar categoria manualmente
+        function mudarCategoria(index) {
+            mostrarCategoria(index);
+        }
+
+        // Iniciar rotação automática
+        function iniciarRotacaoAutomatica() {
+            // Limpar intervalo anterior se existir
+            if (intervaloRotacao) {
+                clearInterval(intervaloRotacao);
+            }
+            
+            // Rotacionar a cada 15 segundos
+            intervaloRotacao = setInterval(() => {
+                categoriaAtual = (categoriaAtual + 1) % 3;
+                mostrarCategoria(categoriaAtual);
+            }, 15000);
         }
 
         // Atualizar a cada 30 segundos
