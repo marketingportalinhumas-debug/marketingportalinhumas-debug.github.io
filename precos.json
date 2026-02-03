@@ -19,6 +19,12 @@
     ],
     "suinos": [],
     "aves": [],
-    "promocoes": [],
+    "promocoes": [
+        {
+            "nome": "ACEM KG",
+            "preco_promocao": "30,99",
+            "categoria": "bovinos"
+        }
+    ],
     "ofertas": []
 }
