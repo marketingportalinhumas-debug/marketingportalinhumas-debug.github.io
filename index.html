@@ -2,204 +2,223 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Açougue Portal - Painel Inteligente</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Açougue Portal - Painel Digital</title>
     <style>
         :root {
-            /* Cores padrão (serão sobrescritas pelo JSON) */
-            --bg-body: #000;
-            --cor-header: #FFD700;
-            --cor-texto: white;
-            --cor-preco: #00ff00;
+            --cor-fundo: #0a0a0a;
+            --cor-borda: #654321;
+            --cor-primaria: #FFD700; /* Dourado */
+            --cor-preco: #00FF00;    /* Verde Neon */
+            --cor-texto: #ffffff;
+            --transicao: 0.8s;
         }
 
         body {
-            background-color: var(--bg-body);
-            color: var(--cor-texto);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--cor-fundo) url('imagens/fundo.jpg') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             margin: 0;
+            color: var(--cor-texto);
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            height: 100vh;
             overflow: hidden;
         }
 
         .container {
-            width: 95vw;
-            height: 90vh;
-            display: grid;
-            grid-template-columns: 1fr 350px; /* Tabela | Oferta */
-            gap: 20px;
-        }
-
-        /* ÁREA DA TABELA */
-        .area-tabela {
-            background: rgba(0,0,0,0.8);
-            border: 4px solid var(--cor-header);
-            border-radius: 20px;
-            padding: 25px;
+            width: 92%;
+            height: 85vh;
+            background: rgba(0, 0, 0, 0.9);
+            border: 6px solid var(--cor-borda);
+            border-radius: 30px;
+            padding: 40px;
+            box-shadow: 0 0 50px rgba(0,0,0,1);
             display: flex;
             flex-direction: column;
         }
 
-        .titulo-principal {
-            font-size: 3.5em;
+        .header {
             text-align: center;
-            color: var(--cor-header);
+            border-bottom: 4px solid var(--cor-primaria);
+            margin-bottom: 30px;
+            padding-bottom: 10px;
+        }
+
+        #titulo-categoria {
+            font-size: 4.5em;
+            font-weight: 900;
+            color: var(--cor-primaria);
             text-transform: uppercase;
-            margin: 0 0 20px 0;
-            border-bottom: 3px solid var(--cor-header);
+            margin: 0;
+            letter-spacing: 5px;
+            text-shadow: 3px 3px 10px rgba(0,0,0,0.5);
         }
 
-        .grid-precos {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
+        .conteudo-dinamico {
+            flex-grow: 1;
+            display: flex;
+            gap: 40px;
+            transition: opacity var(--transicao) ease-in-out;
         }
 
-        .coluna { flex: 1; }
+        .coluna {
+            flex: 1;
+            background: rgba(255,255,255,0.03);
+            border-radius: 20px;
+            padding: 20px;
+        }
+
         .sub-titulo {
-            font-size: 1.8em;
+            font-size: 2.2em;
             text-align: center;
+            color: var(--cor-primaria);
             background: rgba(255,255,255,0.1);
-            margin-bottom: 15px;
-            border-radius: 5px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            padding: 5px;
+            font-weight: bold;
         }
 
         .item-tabela {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 8px 0;
+            padding: 12px 10px;
             border-bottom: 1px solid rgba(255,255,255,0.1);
         }
 
-        .corte { font-size: 1.4em; font-weight: bold; text-transform: uppercase; }
-        .preco { font-size: 1.8em; color: var(--cor-preco); font-family: monospace; }
+        .item-tabela:last-child { border-bottom: none; }
 
-        /* ÁREA DE OFERTAS (LATERAL) */
-        .area-oferta {
-            background: #FF4444; /* Cor de alerta */
-            border-radius: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            text-align: center;
-            animation: pulsar 2s infinite;
+        .corte {
+            font-size: 1.8em;
+            font-weight: 700;
+            text-transform: uppercase;
         }
 
-        .area-oferta img {
-            max-width: 90%;
-            border-radius: 15px;
-            margin-bottom: 15px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        .preco {
+            font-size: 2.4em;
+            font-weight: 900;
+            color: var(--cor-preco);
+            font-family: 'Courier New', monospace;
         }
 
-        .oferta-label { font-size: 2em; font-weight: 900; color: white; margin-bottom: 10px; }
-        .oferta-nome { font-size: 2.2em; color: yellow; text-transform: uppercase; }
-        .oferta-preco { font-size: 4em; color: white; font-weight: 900; }
-
-        @keyframes pulsar {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-            100% { transform: scale(1); }
-        }
-
-        #conteudo { transition: opacity 0.6s ease; }
         .fade-out { opacity: 0; }
+
+        /* Rodapé com a Marca */
+        .footer-tag {
+            text-align: right;
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #ff4444;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <div class="area-tabela">
-            <h1 id="titulo-categoria" class="titulo-principal">CARREGANDO...</h1>
-            <div id="conteudo">
-                <div id="grade" class="grid-precos"></div>
+        <div class="header">
+            <h1 id="titulo-categoria">CARREGANDO...</h1>
+        </div>
+        
+        <div id="display" class="conteudo-dinamico">
             </div>
-        </div>
 
-        <div id="painel-oferta" class="area-oferta">
-            <div class="oferta-label">OFERTA DO DIA</div>
-            <img id="oferta-img" src="" alt="">
-            <div id="oferta-nome" class="oferta-nome"></div>
-            <div id="oferta-preco" class="oferta-preco"></div>
-        </div>
+        <div class="footer-tag">★ QUALIDADE PORTAL ★</div>
     </div>
 
     <script>
-        let dados = null;
-        let catIndex = 0;
+        let dadosPrecos = null;
+        let indexCat = 0;
         const categorias = ['bovinos', 'suinos', 'aves'];
 
-        async function carregar() {
+        // 1. Busca os dados (Lê o JSON do GitHub)
+        async function fetchDados() {
             try {
-                const res = await fetch(`precos.json?v=${new Date().getTime()}`);
-                dados = await res.json();
+                // O timestamp (?t=...) evita que a TV mostre preços antigos guardados no cache
+                const resposta = await fetch(`precos.json?t=${new Date().getTime()}`);
+                if (!resposta.ok) throw new Error();
+                dadosPrecos = await resposta.json();
                 
-                // Aplica Cores do JSON
-                const cfg = dados.config_promocoes;
-                document.documentElement.style.setProperty('--bg-body', cfg.bg_color);
-                document.documentElement.style.setProperty('--cor-header', cfg.header_color);
-                document.documentElement.style.setProperty('--cor-preco', cfg.preco_color);
-                document.documentElement.style.setProperty('--cor-texto', cfg.text_color);
-
-                atualizarOferta();
-                if (!document.getElementById('grade').innerHTML) mostrar(categorias[0]);
-            } catch (e) { console.error("Erro ao carregar JSON"); }
-        }
-
-        function atualizarOferta() {
-            if (dados.ofertas && dados.ofertas.length > 0) {
-                const off = dados.ofertas[0];
-                document.getElementById('oferta-img').src = off.imagem;
-                document.getElementById('oferta-nome').textContent = off.nome;
-                document.getElementById('oferta-preco').textContent = "R$ " + off.preco;
+                // Se for o primeiro carregamento, exibe logo
+                if (document.getElementById('titulo-categoria').textContent === "CARREGANDO...") {
+                    renderizar();
+                }
+            } catch (e) {
+                document.getElementById('titulo-categoria').textContent = "ERRO DE CONEXÃO";
             }
         }
 
-        function mostrar(cat) {
-            const grade = document.getElementById('grade');
-            const titulo = document.getElementById('titulo-categoria');
-            titulo.textContent = cat === 'bovinos' ? "CARNES BOVINAS" : cat.toUpperCase();
+        // 2. Monta o HTML na tela
+        function renderizar() {
+            if (!dadosPrecos) return;
 
-            if (cat === 'bovinos') {
-                const pri = dados.bovinos.filter(i => i.tipo === 'primeira');
-                const seg = dados.bovinos.filter(i => i.tipo === 'segunda');
-                grade.innerHTML = `
-                    <div class="coluna"><div class="sub-titulo">CORTES 1ª</div>${pri.map(i => linha(i)).join('')}</div>
-                    <div class="coluna"><div class="sub-titulo">CORTES 2ª</div>${seg.map(i => linha(i)).join('')}</div>
+            const display = document.getElementById('display');
+            const titulo = document.getElementById('titulo-categoria');
+            const catAtual = categorias[indexCat];
+
+            // Títulos amigáveis
+            const nomesTitulos = {
+                'bovinos': 'CARNES BOVINAS',
+                'suinos': 'CARNES SUÍNAS',
+                'aves': 'AVES E OUTROS'
+            };
+
+            titulo.textContent = nomesTitulos[catAtual];
+
+            if (catAtual === 'bovinos') {
+                // Lógica de 1ª e 2ª (Monitor 1)
+                const primeira = dadosPrecos.bovinos.filter(i => i.tipo === 'primeira');
+                const segunda = dadosPrecos.bovinos.filter(i => i.tipo === 'segunda');
+
+                display.innerHTML = `
+                    <div class="coluna">
+                        <div class="sub-titulo">CORTES DE 1ª</div>
+                        ${primeira.map(i => criarLinha(i)).join('')}
+                    </div>
+                    <div class="coluna">
+                        <div class="sub-titulo">CORTES DE 2ª</div>
+                        ${segunda.map(i => criarLinha(i)).join('')}
+                    </div>
                 `;
             } else {
-                const itens = dados[cat];
+                // Outras categorias: divide em 2 colunas genéricas
+                const itens = dadosPrecos[catAtual];
                 const meio = Math.ceil(itens.length / 2);
-                grade.innerHTML = `
-                    <div class="coluna">${itens.slice(0, meio).map(i => linha(i)).join('')}</div>
-                    <div class="coluna">${itens.slice(meio).map(i => linha(i)).join('')}</div>
+                display.innerHTML = `
+                    <div class="coluna">${itens.slice(0, meio).map(i => criarLinha(i)).join('')}</div>
+                    <div class="coluna">${itens.slice(meio).map(i => criarLinha(i)).join('')}</div>
                 `;
             }
         }
 
-        function linha(i) {
-            return `<div class="item-tabela"><span class="corte">${i.corte}</span><span class="preco">R$ ${i.preco}</span></div>`;
+        function criarLinha(item) {
+            return `
+                <div class="item-tabela">
+                    <span class="corte">${item.corte}</span>
+                    <span class="preco">R$ ${item.preco}</span>
+                </div>
+            `;
         }
 
-        // Rotação Automática
+        // 3. Sistema de Rotação (Troca de categoria)
         setInterval(() => {
-            if (!dados) return;
-            const cont = document.getElementById('conteudo');
-            cont.classList.add('fade-out');
-            setTimeout(() => {
-                catIndex = (catIndex + 1) % categorias.length;
-                mostrar(categorias[catIndex]);
-                cont.classList.remove('fade-out');
-            }, 600);
-        }, 10000); // 10 segundos por tela
+            const display = document.getElementById('display');
+            display.classList.add('fade-out');
 
-        carregar();
-        setInterval(carregar, 60000);
+            setTimeout(() => {
+                indexCat = (indexCat + 1) % categorias.length;
+                renderizar();
+                display.classList.remove('fade-out');
+            }, 800);
+        }, 12000); // Troca a cada 12 segundos
+
+        // 4. Sincronização em tempo real (Verifica novos preços a cada minuto)
+        fetchDados();
+        setInterval(fetchDados, 60000);
+
     </script>
 </body>
 </html>
