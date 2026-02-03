@@ -3,185 +3,199 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Promoções do Dia - Açougue Portal</title>
+    <title>Promoções Portal - Monitor 2</title>
     <style>
         :root {
-            --bg-promo: #8B4513; /* Marrom Rústico (Padrão) */
-            --cor-header: #FFD700;
-            --cor-preco: #FF4444;
-            --cor-texto: #ffffff;
+            /* Variáveis controladas pelo App Python */
+            --bg-cor: #8B4513;
+            --padding-tv: 40px;
+            --font-nome: 2.2em;
+            --font-preco: 3em;
+            --cor-primaria: #FFD700;
         }
 
         body {
-            background-color: var(--bg-promo);
-            color: var(--cor-texto);
-            font-family: 'Segoe UI', Impact, sans-serif;
+            background-color: var(--bg-cor);
             margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Impact, sans-serif;
             overflow: hidden;
             height: 100vh;
+            color: white;
+            transition: background 0.5s ease;
+        }
+
+        .externo {
+            padding: var(--padding-tv);
+            height: 100vh;
+            box-sizing: border-box;
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
         .container {
-            width: 98vw;
-            height: 95vh;
-            background: rgba(0, 0, 0, 0.85);
-            border: 10px solid var(--cor-header);
-            border-radius: 40px;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            border: 8px solid var(--cor-primaria);
+            border-radius: 30px;
             display: grid;
-            grid-template-columns: 1.2fr 0.8fr; /* Lado Tabela | Lado Foto */
+            grid-template-columns: 1.2fr 0.8fr; /* Padrão: Tabela | Foto */
             gap: 20px;
-            padding: 25px;
+            padding: 30px;
             box-sizing: border-box;
-            transition: all 0.5s ease;
+            transition: all 0.5s ease-in-out;
         }
 
-        /* LADO ESQUERDO: TABELA */
+        /* Classe aplicada quando 'mostrar_ofertas' for falso */
+        .layout-cheio {
+            grid-template-columns: 1fr !important;
+        }
+
         .area-tabela {
             display: flex;
             flex-direction: column;
         }
 
-        .titulo-promo {
-            font-size: 5em;
+        .titulo {
+            font-size: 4em;
             text-align: center;
-            color: var(--cor-header);
+            color: var(--cor-primaria);
+            margin: 0 0 20px 0;
             text-transform: uppercase;
-            margin-bottom: 20px;
-            text-shadow: 4px 4px 0px #000;
-            border-bottom: 5px solid var(--cor-header);
+            border-bottom: 4px solid var(--cor-primaria);
+            text-shadow: 3px 3px 0px #000;
         }
 
         .grid-precos {
             display: grid;
-            grid-template-columns: 1fr 1fr; /* 2 colunas padrão */
+            grid-template-columns: 1fr 1fr; /* 2 colunas */
             gap: 15px;
+            align-content: start;
         }
 
-        .item-promo {
+        .layout-cheio .grid-precos {
+            grid-template-columns: 1fr 1fr 1fr; /* 3 colunas em tela cheia */
+        }
+
+        .item {
             background: rgba(255, 255, 255, 0.05);
-            padding: 15px 25px;
+            padding: 15px 20px;
             border-radius: 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-left: 10px solid var(--cor-header);
+            border-left: 8px solid var(--cor-primaria);
         }
 
-        .nome-corte { font-size: 2.2em; font-weight: bold; text-transform: uppercase; }
-        .preco-promo { font-size: 3em; color: #00ff00; font-weight: 900; }
+        .nome { font-size: var(--font-nome); font-weight: bold; text-transform: uppercase; }
+        .preco { font-size: var(--font-preco); color: #00ff00; font-weight: 900; }
 
-        /* LADO DIREITO: FOTO DESTAQUE */
+        /* Painel Lateral de Foto */
         .painel-foto {
-            background: #ff4444;
-            border-radius: 30px;
+            background: #cc0000;
+            border-radius: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
             padding: 20px;
-            animation: pulsar 2s infinite ease-in-out;
+            animation: pulsar 2s infinite;
         }
 
         .painel-foto img {
-            max-width: 95%;
-            max-height: 55%;
-            border-radius: 20px;
-            border: 8px solid white;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+            max-width: 90%;
+            max-height: 50%;
+            border: 6px solid white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            margin-bottom: 20px;
         }
 
-        .badge-oferta { font-size: 3em; font-weight: 900; color: white; margin-bottom: 10px; }
-        .nome-oferta { font-size: 3.5em; color: yellow; text-transform: uppercase; margin: 10px 0; }
-        .preco-oferta { font-size: 6em; color: white; font-weight: 900; text-shadow: 5px 5px 0px #000; }
+        .oferta-nome { font-size: 3.5em; color: yellow; text-transform: uppercase; margin: 0; }
+        .oferta-preco { font-size: 6em; font-weight: 900; margin: 0; }
 
-        /* Animações */
         @keyframes pulsar {
             0% { transform: scale(1); }
             50% { transform: scale(1.02); }
             100% { transform: scale(1); }
         }
-
-        /* Classes de Layout Dinâmico */
-        .layout-unico { grid-template-columns: 1fr !important; }
-        .grid-3-colunas { grid-template-columns: 1fr 1fr 1fr !important; }
     </style>
 </head>
 <body>
 
-    <div id="main-container" class="container">
-        <div class="area-tabela">
-            <h1 id="titulo-dinamico" class="titulo-promo">OFERTAS</h1>
-            <div id="grade-promo" class="grid-precos">
-                </div>
-        </div>
+    <div class="externo">
+        <div id="wrapper" class="container">
+            <div class="area-tabela">
+                <h1 id="titulo-categoria" class="titulo">OFERTAS</h1>
+                <div id="grid-itens" class="grid-precos">
+                    </div>
+            </div>
 
-        <div id="painel-foto" class="painel-foto">
-            <div class="badge-oferta">OFERTA DO DIA</div>
-            <img id="img-oferta" src="" alt="Destaque">
-            <div id="nome-oferta" class="nome-oferta">...</div>
-            <div id="preco-oferta" class="preco-oferta">...</div>
+            <div id="bloco-foto" class="painel-foto">
+                <h2 style="font-size: 2.5em; margin: 0;">OFERTA DO DIA</h2>
+                <img id="img-destaque" src="" alt="">
+                <p id="nome-destaque" class="oferta-nome"></p>
+                <p id="preco-destaque" class="oferta-preco"></p>
+            </div>
         </div>
     </div>
 
     <script>
-        let ofertaIndex = 0;
+        let indexOferta = 0;
 
-        async function atualizarMonitor() {
+        async function carregarDados() {
             try {
                 const r = await fetch(`precos.json?nocache=${new Date().getTime()}`);
-                const dados = await r.json();
-                
-                const cfg = dados.config_promocoes;
-                const container = document.getElementById('main-container');
-                const painelFoto = document.getElementById('painel-foto');
-                const grade = document.getElementById('grade-promo');
-                const titulo = document.getElementById('titulo-dinamico');
+                const d = await r.json();
+                const cfg = d.config_promocoes;
 
-                // 1. Configurar Cores e Layout
-                document.documentElement.style.setProperty('--bg-promo', cfg.bg_color);
+                // 1. Aplicar Configurações Visuais
+                document.documentElement.style.setProperty('--bg-cor', cfg.bg_color);
+                document.documentElement.style.setProperty('--padding-tv', cfg.padding_tv);
+                document.documentElement.style.setProperty('--font-nome', cfg.font_size_nome);
+                document.documentElement.style.setProperty('--font-preco', cfg.font_size_preco);
+
+                // 2. Controlar Exibição do Painel de Fotos
+                const wrapper = document.getElementById('wrapper');
+                const blocoFoto = document.getElementById('bloco-foto');
                 
                 if (cfg.mostrar_ofertas) {
-                    container.classList.remove('layout-unico');
-                    grade.classList.remove('grid-3-colunas');
-                    painelFoto.style.display = "flex";
+                    wrapper.classList.remove('layout-cheio');
+                    blocoFoto.style.display = "flex";
                 } else {
-                    container.classList.add('layout-unico');
-                    grade.classList.add('grid-3-colunas');
-                    painelFoto.style.display = "none";
+                    wrapper.classList.add('layout-cheio');
+                    blocoFoto.style.display = "none";
                 }
 
-                // 2. Renderizar Lista de Promoções da Categoria Escolhida
-                const catAtual = cfg.categoria_mostrar;
-                titulo.textContent = `PROMOÇÃO DE ${catAtual.toUpperCase()}`;
-
-                const promos = dados.promocoes.filter(p => p.categoria === catAtual);
-                grade.innerHTML = promos.map(p => `
-                    <div class="item-promo">
-                        <span class="nome-corte">${p.nome}</span>
-                        <span class="preco-promo">R$ ${p.preco_promocao}</span>
+                // 3. Renderizar Lista de Promoções
+                const cat = cfg.categoria_mostrar;
+                document.getElementById('titulo-categoria').innerText = `PROMOÇÃO ${cat.toUpperCase()}`;
+                
+                const itens = d.promocoes.filter(p => p.categoria === cat);
+                document.getElementById('grid-itens').innerHTML = itens.map(i => `
+                    <div class="item">
+                        <span class="nome">${i.nome}</span>
+                        <span class="preco">R$ ${i.preco_promocao}</span>
                     </div>
                 `).join('');
 
-                // 3. Atualizar Destaque com Foto (Rotação se houver mais de uma)
-                if (dados.ofertas && dados.ofertas.length > 0) {
-                    const off = dados.ofertas[ofertaIndex];
-                    document.getElementById('img-oferta').src = off.imagem;
-                    document.getElementById('nome-oferta').textContent = off.nome;
-                    document.getElementById('preco-oferta').textContent = `R$ ${off.preco}`;
-                    
-                    ofertaIndex = (ofertaIndex + 1) % dados.ofertas.length;
+                // 4. Rotacionar Destaques da Galeria
+                if (d.ofertas && d.ofertas.length > 0) {
+                    const off = d.ofertas[indexOferta];
+                    document.getElementById('img-destaque').src = off.imagem;
+                    document.getElementById('nome-destaque').innerText = off.nome;
+                    document.getElementById('preco-destaque').innerText = `R$ ${off.preco}`;
+                    indexOferta = (indexOferta + 1) % d.ofertas.length;
                 }
 
-            } catch (e) { console.error("Erro ao sincronizar Monitor 2", e); }
+            } catch (e) { console.log("Erro ao carregar JSON:", e); }
         }
 
-        // Inicia e define intervalo
-        atualizarMonitor();
-        setInterval(atualizarMonitor, 10000); // Sincroniza e rotaciona fotos a cada 10s
+        setInterval(carregarDados, 10000);
+        carregarDados();
     </script>
 </body>
 </html>
