@@ -2,75 +2,23 @@
     "config_promocoes": {
         "categoria_mostrar": "bovinos",
         "mostrar_ofertas": true,
-        "mostrar_logo": true,
-        "mostrar_contador": true,
-        "mostrar_badge": true,
         "bg_color": "#8B4513",
-        "header_color": "#FFD700",
-        "oferta_color": "#FFA500",
-        "promocao_color": "#34495e",
-        "text_color": "white",
-        "preco_color": "#00ff00",
-        "titulo_color": "#FFD700",
-        "rotacao_duracao": 12,
-        "velocidade_animacao": "normal",
-        "tipo_animacao": "slide",
-        "efeito_pulsar": true,
-        "efeito_brilho": true,
-        "efeito_hover": true
+        "header_color": "#FFD700"
     },
-    "ofertas": [
-        {
-            "nome": "Cupim Bovina",
-            "preco": "29,90",
-            "imagem": "imagens/cupim.png"
-        }
-    ],
-    "promocoes": [
-        {
-            "nome": "Picanha",
-            "preco_promocao": "59,99",
-            "categoria": "bovinos",
-            "corte_original": ""
-        }
-    ],
     "bovinos": [
-        { "corte": "COXÃO DURO kg", "preco": "44,99", "tipo": "primeira" },
-        { "corte": "FRALDINHA", "preco": "44,99", "tipo": "primeira" },
-        { "corte": "LAGARTO kg", "preco": "44,99", "tipo": "primeira" },
-        { "corte": "FILÉ MIGNON kg", "preco": "62,99", "tipo": "primeira" },
-        { "corte": "PICANHA kg", "preco": "72,99", "tipo": "primeira" },
-        { "corte": "CONTRA FILÉ", "preco": "51,99", "tipo": "primeira" },
-        { "corte": "ALCATRA kg", "preco": "51,99", "tipo": "primeira" },
-        { "corte": "PATINHO kg", "preco": "43,99", "tipo": "primeira" },
-        { "corte": "COXÃO MOLE kg", "preco": "45,99", "tipo": "primeira" },
-        { "corte": "MAMINHA kg", "preco": "51,99", "tipo": "primeira" },
-        { "corte": "COSTELA kg", "preco": "24,99", "tipo": "segunda" },
-        { "corte": "COSTELA GAÚCHA", "preco": "25,99", "tipo": "segunda" },
-        { "corte": "MÚSCULO kg", "preco": "34,99", "tipo": "segunda" },
-        { "corte": "PEIXINHO kg", "preco": "39,99", "tipo": "segunda" },
-        { "corte": "ACÉM kg", "preco": "37,99", "tipo": "segunda" },
-        { "corte": "CAPA DA PALETA", "preco": "37,99", "tipo": "segunda" },
-        { "corte": "LOMBÃO kg", "preco": "34,99", "tipo": "segunda" },
-        { "corte": "PALOMA kg", "preco": "41,99", "tipo": "segunda" },
-        { "corte": "MAÇÃO PEITO kg", "preco": "36,99", "tipo": "segunda" },
-        { "corte": "PALETA kg", "preco": "37,99", "tipo": "segunda" },
-        { "corte": "RETALHO kg", "preco": "25,99", "tipo": "segunda" }
+        {
+            "corte": "ACÉM",
+            "preco": "38,99",
+            "tipo": "segunda"
+        },
+        {
+            "corte": "PICANHA KG",
+            "preco": "51,99",
+            "tipo": "primeira"
+        }
     ],
-    "suinos": [
-        { "corte": "PERNIL kg", "preco": "23,99" },
-        { "corte": "COSTELINHA kg", "preco": "26,99" },
-        { "corte": "SUAN kg", "preco": "13,99" },
-        { "corte": "LOMBO kg", "preco": "24,99" },
-        { "corte": "BISTECA kg", "preco": "22,99" },
-        { "corte": "PANCETA kg", "preco": "19,99" },
-        { "corte": "TOUCINHO kg", "preco": "18,99" }
-    ],
-    "aves": [
-        { "corte": "FRANGO RESFRIADO", "preco": "11,99" },
-        { "corte": "COXA/SOBRECOXA", "preco": "10,99" },
-        { "corte": "FILÉ DE PEITO", "preco": "19,99" },
-        { "corte": "MEIO DA ASA", "preco": "24,99" },
-        { "corte": "COXINHA DA ASA", "preco": "16,99" }
-    ]
+    "suinos": [],
+    "aves": [],
+    "promocoes": [],
+    "ofertas": []
 }
