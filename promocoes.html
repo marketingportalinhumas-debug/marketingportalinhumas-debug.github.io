@@ -3,569 +3,185 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Açougue Portal - Promoções</title>
+    <title>Promoções do Dia - Açougue Portal</title>
     <style>
+        :root {
+            --bg-promo: #8B4513; /* Marrom Rústico (Padrão) */
+            --cor-header: #FFD700;
+            --cor-preco: #FF4444;
+            --cor-texto: #ffffff;
+        }
+
         body {
-            background: linear-gradient(135deg, #8B4513, #A0522D, #CD853F);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-promo);
+            color: var(--cor-texto);
+            font-family: 'Segoe UI', Impact, sans-serif;
             margin: 0;
-            padding: 0;
-            color: white;
+            overflow: hidden;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            overflow: hidden;
         }
 
         .container {
-            width: 95%;
-            max-width: 1400px;
-            background: rgba(0, 0, 0, 0.88);
-            border: 5px solid #8B4513;
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 0 40px rgba(0, 0, 0, 0.9);
-            display: flex;
-            gap: 30px;
-            position: relative;
-        }
-
-        .header {
-            position: absolute;
-            top: -30px;
-            left: 30px;
-            background: linear-gradient(135deg, #FF0000, #CC0000, #8B0000);
-            padding: 12px 30px;
-            border-radius: 12px;
-            font-weight: bold;
-            font-size: 1.8em;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.7), 0 0 25px rgba(255, 215, 0, 0.9);
-            border: 3px solid #FFD700;
-            animation: pulse 2s infinite;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-        }
-
-        @keyframes pulse {
-            0%, 100% { box-shadow: 0 0 15px rgba(255, 215, 0, 0.8), 0 6px 15px rgba(0,0,0,0.7); }
-            50% { box-shadow: 0 0 30px rgba(255, 215, 0, 1), 0 6px 15px rgba(0,0,0,0.7); }
-        }
-
-        /* Seção de Ofertas */
-        .oferta-section {
-            flex: 0 0 550px;
-            background: linear-gradient(135deg, #FFD700, #FFA500, #FF8C00);
-            padding: 30px;
-            border-radius: 15px;
-            text-align: center;
-            box-shadow: 0 0 25px rgba(0,0,0,0.7);
-            position: relative;
-            overflow: hidden;
-            border: 3px solid #8B4513;
-        }
-
-        .oferta-item {
-            display: none;
-            animation: fadeIn 1s ease-in-out;
-        }
-
-        .oferta-item.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        .oferta-badge {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: linear-gradient(135deg, #FF0000, #CC0000);
-            color: white;
-            padding: 12px 20px;
-            border-radius: 25px;
-            font-size: 1.1em;
-            font-weight: bold;
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.9), 0 0 25px rgba(255, 215, 0, 0.7);
-            border: 3px solid #FFD700;
-            animation: bounce 1.5s infinite;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-12px) rotate(5deg); }
-        }
-
-        .oferta-title {
-            font-size: 2.5em;
-            font-weight: bold;
-            color: #8B0000;
-            margin: 20px 0 15px 0;
-            text-shadow: 4px 4px 8px rgba(0,0,0,0.9);
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            background: linear-gradient(135deg, #FF0000, #CC0000, #8B0000);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .oferta-subtitle {
-            font-size: 1.3em;
-            color: #660000;
-            margin-bottom: 20px;
-            font-weight: 600;
-            text-shadow: 2px 2px 4px rgba(255,255,255,0.3);
-        }
-
-        .oferta-image {
-            width: 100%;
-            max-width: 380px;
-            height: 280px;
-            object-fit: cover;
-            border-radius: 15px;
-            margin: 20px auto;
-            box-shadow: 0 0 30px rgba(0,0,0,0.8), 0 0 15px rgba(255, 215, 0, 0.5);
-            border: 4px solid #FFD700;
-            display: block;
-            background: linear-gradient(135deg, #8B4513, #A0522D);
-        }
-
-        .oferta-price-container {
-            background: rgba(139, 0, 0, 0.95);
+            width: 98vw;
+            height: 95vh;
+            background: rgba(0, 0, 0, 0.85);
+            border: 10px solid var(--cor-header);
+            border-radius: 40px;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr; /* Lado Tabela | Lado Foto */
+            gap: 20px;
             padding: 25px;
-            border-radius: 15px;
-            margin: 25px 0;
-            border: 4px solid #FFD700;
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.7), inset 0 0 15px rgba(0,0,0,0.5);
+            box-sizing: border-box;
+            transition: all 0.5s ease;
         }
 
-        .oferta-price-label {
-            font-size: 1.1em;
-            color: #FFD700;
-            margin-bottom: 12px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-weight: bold;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-        }
-
-        .oferta-price {
-            font-size: 4.5em;
-            font-weight: bold;
-            color: #FFD700;
-            margin: 0;
-            text-shadow: 6px 6px 12px rgba(0,0,0,0.9), 0 0 15px rgba(255, 215, 0, 0.8);
-            line-height: 1;
-            letter-spacing: -2px;
-        }
-
-        .oferta-unit {
-            font-size: 1.1em;
-            color: #FFD700;
-            background: rgba(0,0,0,0.4);
-            padding: 5px 15px;
-            border-radius: 8px;
-            font-weight: bold;
-            display: inline-block;
-            margin-top: 10px;
-            border: 2px solid #FFD700;
-        }
-
-        .contador-tempo {
-            margin-top: 18px;
-            font-size: 1.1em;
-            color: #FFD700;
-            font-weight: bold;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-            animation: flash 2s infinite;
-        }
-
-        @keyframes flash {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-
-        .oferta-logo {
-            margin-top: 30px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 25px;
-        }
-
-        .oferta-logo img {
-            width: 150px;
-            height: auto;
-            border-radius: 15px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.7), 0 0 15px rgba(255, 215, 0, 0.6);
-            border: 3px solid #FFD700;
-        }
-
-        /* Seção de Promoções */
-        .menu-section {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-        }
-
-        .category {
-            flex: 1;
-            background: rgba(30, 30, 30, 0.92);
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.5);
-            max-width: 700px;
-            width: 100%;
-            border: 3px solid #FFD700;
-        }
-
-        .category-title {
-            font-size: 2.2em;
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 28px;
-            color: #FFD700;
-            border-bottom: 4px solid #FFD700;
-            padding-bottom: 12px;
-            text-shadow: 3px 3px 6px rgba(0,0,0,0.8);
-            background: linear-gradient(135deg, rgba(255,215,0,0.1), rgba(255,215,0,0.2));
-            border-radius: 8px;
-        }
-
-        .tabela-grid {
-            display: flex;
-            gap: 25px;
-            height: 100%;
-        }
-
-        .coluna-tabela {
-            flex: 1;
+        /* LADO ESQUERDO: TABELA */
+        .area-tabela {
             display: flex;
             flex-direction: column;
-            gap: 10px;
         }
 
-        .item-tabela {
+        .titulo-promo {
+            font-size: 5em;
+            text-align: center;
+            color: var(--cor-header);
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            text-shadow: 4px 4px 0px #000;
+            border-bottom: 5px solid var(--cor-header);
+        }
+
+        .grid-precos {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* 2 colunas padrão */
+            gap: 15px;
+        }
+
+        .item-promo {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px 25px;
+            border-radius: 15px;
             display: flex;
             justify-content: space-between;
-            padding: 10px 15px;
-            border-bottom: 2px solid #444;
-            background: rgba(40, 40, 40, 0.7);
-            border-radius: 8px;
-            transition: all 0.3s ease;
+            align-items: center;
+            border-left: 10px solid var(--cor-header);
         }
 
-        .item-tabela:hover {
-            background: rgba(60, 60, 60, 0.9);
-            transform: translateX(5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-        }
+        .nome-corte { font-size: 2.2em; font-weight: bold; text-transform: uppercase; }
+        .preco-promo { font-size: 3em; color: #00ff00; font-weight: 900; }
 
-        .item-tabela:last-child {
-            border-bottom: none;
-        }
-
-        .item-tabela .nome {
-            width: 60%;
-            text-align: left;
-            font-size: 1.1em;
-            font-weight: 600;
-            color: #FFD700;
-        }
-
-        .item-tabela .preco {
-            width: 40%;
-            text-align: right;
-            font-weight: bold;
-            color: #FF4444;
-            font-size: 1.2em;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
-        }
-
-        .promo-badge {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background: linear-gradient(135deg, #FF0000, #CC0000);
-            color: white;
-            padding: 5px 10px;
-            border-radius: 15px;
-            font-size: 0.9em;
-            font-weight: bold;
-            box-shadow: 0 0 10px rgba(255, 0, 0, 0.8);
-        }
-
-        .loading {
-            color: #FFD700;
+        /* LADO DIREITO: FOTO DESTAQUE */
+        .painel-foto {
+            background: #ff4444;
+            border-radius: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             text-align: center;
-            padding: 40px;
-            font-size: 1.5em;
-            font-weight: bold;
-            background: rgba(30, 30, 30, 0.8);
-            border-radius: 15px;
-            border: 3px solid #FFD700;
+            padding: 20px;
+            animation: pulsar 2s infinite ease-in-out;
         }
 
-        @media (max-width: 1200px) {
-            .container {
-                flex-direction: column;
-                padding: 20px;
-            }
-            .oferta-section {
-                flex: none;
-                width: 100%;
-            }
-            .menu-section {
-                width: 100%;
-            }
+        .painel-foto img {
+            max-width: 95%;
+            max-height: 55%;
+            border-radius: 20px;
+            border: 8px solid white;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.5);
         }
 
-        @media (max-width: 768px) {
-            .header {
-                font-size: 1.4em;
-                top: -22px;
-                left: 20px;
-                padding: 8px 18px;
-            }
-            
-            .oferta-title {
-                font-size: 1.8em;
-            }
-            
-            .oferta-price {
-                font-size: 3.2em;
-            }
-            
-            .oferta-image {
-                max-width: 300px;
-                height: 220px;
-            }
-            
-            .category-title {
-                font-size: 1.8em;
-            }
-            
-            .item-tabela .nome {
-                width: 55%;
-                font-size: 1em;
-            }
-            
-            .item-tabela .preco {
-                width: 45%;
-                font-size: 1.1em;
-            }
+        .badge-oferta { font-size: 3em; font-weight: 900; color: white; margin-bottom: 10px; }
+        .nome-oferta { font-size: 3.5em; color: yellow; text-transform: uppercase; margin: 10px 0; }
+        .preco-oferta { font-size: 6em; color: white; font-weight: 900; text-shadow: 5px 5px 0px #000; }
+
+        /* Animações */
+        @keyframes pulsar {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
         }
+
+        /* Classes de Layout Dinâmico */
+        .layout-unico { grid-template-columns: 1fr !important; }
+        .grid-3-colunas { grid-template-columns: 1fr 1fr 1fr !important; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">🔥 OFERTAS DO DIA 🔥</div>
 
-        <!-- Seção de Ofertas -->
-        <div class="oferta-section" id="ofertas-container">
-            <div class="loading">Carregando ofertas...</div>
-        </div>
-
-        <!-- Seção de Promoções -->
-        <div class="menu-section">
-            <div class="category">
-                <div class="category-title" id="lista-titulo">CARREGANDO...</div>
-                <div id="lista-promocoes" class="tabela-grid">
-                    <div class="coluna-tabela"></div>
-                    <div class="coluna-tabela"></div>
+    <div id="main-container" class="container">
+        <div class="area-tabela">
+            <h1 id="titulo-dinamico" class="titulo-promo">OFERTAS</h1>
+            <div id="grade-promo" class="grid-precos">
                 </div>
-            </div>
         </div>
 
-        <div class="supermarket-tag" style="position:absolute; bottom:-28px; right:30px; background:linear-gradient(135deg, #006400, #004d00); color:white; padding:10px 20px; border-radius:30px; font-size:1.1em; font-weight:bold; box-shadow:0 4px 12px rgba(0,0,0,0.6), 0 0 15px rgba(255, 215, 0, 0.5); border:3px solid #FFD700; text-shadow:2px 2px 4px rgba(0,0,0,0.8);">
-            Dentro do Supermercado Portal você encontra:
+        <div id="painel-foto" class="painel-foto">
+            <div class="badge-oferta">OFERTA DO DIA</div>
+            <img id="img-oferta" src="" alt="Destaque">
+            <div id="nome-oferta" class="nome-oferta">...</div>
+            <div id="preco-oferta" class="preco-oferta">...</div>
         </div>
     </div>
 
     <script>
-        // URL do arquivo JSON (mesmo repositório)
-        const JSON_URL = 'precos.json';
-        
-        let dados = null;
-        let configPromocoes = null;
         let ofertaIndex = 0;
-        let ultimaAtualizacao = null;
 
-        // Carregar dados com cache busting
-        async function carregarDados() {
+        async function atualizarMonitor() {
             try {
-                const timestamp = new Date().getTime();
-                const response = await fetch(`${JSON_URL}?t=${timestamp}`, {
-                    cache: 'no-cache'
-                });
+                const r = await fetch(`precos.json?nocache=${new Date().getTime()}`);
+                const dados = await r.json();
                 
-                if (!response.ok) throw new Error('Erro ao carregar dados');
+                const cfg = dados.config_promocoes;
+                const container = document.getElementById('main-container');
+                const painelFoto = document.getElementById('painel-foto');
+                const grade = document.getElementById('grade-promo');
+                const titulo = document.getElementById('titulo-dinamico');
+
+                // 1. Configurar Cores e Layout
+                document.documentElement.style.setProperty('--bg-promo', cfg.bg_color);
                 
-                const novoDados = await response.json();
-                
-                // Verificar se os dados foram atualizados
-                const dadosJSON = JSON.stringify(novoDados);
-                if (ultimaAtualizacao !== dadosJSON) {
-                    dados = novoDados;
-                    configPromocoes = dados.config_promocoes || {
-                        categoria_mostrar: "bovinos",
-                        mostrar_ofertas: true,
-                        rotacao_duracao: 8
-                    };
-                    ultimaAtualizacao = dadosJSON;
-                    
-                    console.log('✅ Dados de promoções atualizados');
-                    
-                    if (configPromocoes.mostrar_ofertas && dados.ofertas && dados.ofertas.length > 0) {
-                        renderOfertas();
-                    }
-                    
-                    renderPromocoes();
-                    
-                    // Rotação automática das ofertas
-                    if (dados.ofertas && dados.ofertas.length > 1 && configPromocoes.mostrar_ofertas) {
-                        const duracao = (configPromocoes.rotacao_duracao || 8) * 1000;
-                        iniciarRotacaoOfertas(duracao);
-                    }
+                if (cfg.mostrar_ofertas) {
+                    container.classList.remove('layout-unico');
+                    grade.classList.remove('grid-3-colunas');
+                    painelFoto.style.display = "flex";
+                } else {
+                    container.classList.add('layout-unico');
+                    grade.classList.add('grid-3-colunas');
+                    painelFoto.style.display = "none";
                 }
-            } catch (error) {
-                console.error('❌ Erro ao carregar dados:', error);
-                document.getElementById('ofertas-container').innerHTML = 
-                    '<div class="loading">❌ Erro ao carregar ofertas</div>';
-                document.getElementById('lista-titulo').innerHTML = 'ERRO DE CONEXÃO';
-            }
-        }
 
-        // Rotação automática das ofertas
-        let intervaloRotacao = null;
-        function iniciarRotacaoOfertas(duracao) {
-            if (intervaloRotacao) {
-                clearInterval(intervaloRotacao);
-            }
-            
-            intervaloRotacao = setInterval(() => {
-                const ofertaItems = document.querySelectorAll('.oferta-item');
-                if (ofertaItems.length > 0) {
-                    ofertaItems.forEach(item => item.classList.remove('active'));
-                    ofertaIndex = (ofertaIndex + 1) % ofertaItems.length;
-                    ofertaItems[ofertaIndex].classList.add('active');
+                // 2. Renderizar Lista de Promoções da Categoria Escolhida
+                const catAtual = cfg.categoria_mostrar;
+                titulo.textContent = `PROMOÇÃO DE ${catAtual.toUpperCase()}`;
+
+                const promos = dados.promocoes.filter(p => p.categoria === catAtual);
+                grade.innerHTML = promos.map(p => `
+                    <div class="item-promo">
+                        <span class="nome-corte">${p.nome}</span>
+                        <span class="preco-promo">R$ ${p.preco_promocao}</span>
+                    </div>
+                `).join('');
+
+                // 3. Atualizar Destaque com Foto (Rotação se houver mais de uma)
+                if (dados.ofertas && dados.ofertas.length > 0) {
+                    const off = dados.ofertas[ofertaIndex];
+                    document.getElementById('img-oferta').src = off.imagem;
+                    document.getElementById('nome-oferta').textContent = off.nome;
+                    document.getElementById('preco-oferta').textContent = `R$ ${off.preco}`;
+                    
+                    ofertaIndex = (ofertaIndex + 1) % dados.ofertas.length;
                 }
-            }, duracao);
+
+            } catch (e) { console.error("Erro ao sincronizar Monitor 2", e); }
         }
 
-        // Renderiza as ofertas do dia
-        function renderOfertas() {
-            const container = document.getElementById('ofertas-container');
-            container.innerHTML = '';
-
-            if (!dados.ofertas || dados.ofertas.length === 0) {
-                container.innerHTML = '<div class="loading">Sem ofertas cadastradas.</div>';
-                return;
-            }
-
-            dados.ofertas.forEach((oferta, index) => {
-                const div = document.createElement('div');
-                div.className = 'oferta-item';
-                if (index === 0) div.classList.add('active');
-                
-                const imagem = oferta.imagem || 'imagens/placeholder.jpg';
-                
-                div.innerHTML = `
-                    <div class="oferta-badge">🔥 PROMOÇÃO 🔥</div>
-                    <div class="oferta-title">${oferta.nome.toUpperCase()}</div>
-                    <div class="oferta-subtitle">Não perca essa oportunidade!</div>
-                    <img src="${imagem}" alt="${oferta.nome}" class="oferta-image" onerror="this.src='imagens/placeholder.jpg'">
-                    <div class="oferta-price-container">
-                        <div class="oferta-price-label">Preço Especial</div>
-                        <div class="oferta-price">${oferta.preco}</div>
-                        <div class="oferta-unit">POR KG</div>
-                    </div>
-                    <div class="contador-tempo">⏰ Corra! Oferta por tempo limitado</div>
-                    <div class="oferta-logo">
-                        <img src="imagens/logoPortal.jpg" alt="Logo Açougue Portal" onerror="this.style.display='none'">
-                    </div>
-                `;
-                container.appendChild(div);
-            });
-        }
-
-        // Renderiza lista de promoções
-        function renderPromocoes() {
-            const tituloEl = document.getElementById('lista-titulo');
-            const listaContainer = document.getElementById('lista-promocoes');
-            
-            // Define o título baseado na categoria configurada
-            let title = "";
-            let categoriaMostrar = configPromocoes.categoria_mostrar;
-            
-            switch (categoriaMostrar) {
-                case 'bovinos':
-                    title = "🔥 PROMOÇÕES BOVINOS 🔥";
-                    break;
-                case 'suinos':
-                    title = "🔥 PROMOÇÕES SUÍNOS 🔥";
-                    break;
-                case 'aves':
-                    title = "🔥 PROMOÇÕES AVES 🔥";
-                    break;
-                default:
-                    title = "🔥 PROMOÇÕES ESPECIAIS 🔥";
-            }
-            
-            tituloEl.innerHTML = title;
-
-            // Limpar container
-            const colunas = listaContainer.querySelectorAll('.coluna-tabela');
-            colunas[0].innerHTML = '';
-            colunas[1].innerHTML = '';
-
-            // Filtrar promoções da categoria selecionada
-            let promocoesFiltradas = dados.promocoes.filter(promo => 
-                promo.categoria === categoriaMostrar
-            );
-
-            if (promocoesFiltradas.length === 0) {
-                colunas[0].innerHTML = '<div style="text-align:center; color:#888; padding:30px; font-size:1.2em;">Sem promoções nesta categoria</div>';
-                return;
-            }
-
-            // Dividir em 2 colunas
-            const meio = Math.ceil(promocoesFiltradas.length / 2);
-            const coluna1 = promocoesFiltradas.slice(0, meio);
-            const coluna2 = promocoesFiltradas.slice(meio);
-
-            coluna1.forEach(promo => {
-                const div = document.createElement('div');
-                div.className = 'item-tabela';
-                div.innerHTML = `
-                    <span class="nome">${promo.nome}</span>
-                    <span class="preco">R$ ${promo.preco_promocao}</span>
-                `;
-                colunas[0].appendChild(div);
-            });
-            
-            coluna2.forEach(promo => {
-                const div = document.createElement('div');
-                div.className = 'item-tabela';
-                div.innerHTML = `
-                    <span class="nome">${promo.nome}</span>
-                    <span class="preco">R$ ${promo.preco_promocao}</span>
-                `;
-                colunas[1].appendChild(div);
-            });
-        }
-
-        // Inicializar
-        carregarDados();
-
-        // Atualizar a cada 30 segundos
-        setInterval(carregarDados, 30000);
+        // Inicia e define intervalo
+        atualizarMonitor();
+        setInterval(atualizarMonitor, 10000); // Sincroniza e rotaciona fotos a cada 10s
     </script>
 </body>
 </html>
