@@ -1,0 +1,27 @@
+{
+  "config_promocoes": {
+    "categoria_mostrar": "bovinos",
+    "mostrar_ofertas": true,
+    "bg_color": "#8B4513",
+    "padding_tv": "40px",
+    "font_size_nome": "1.8em",
+    "font_size_preco": "2.8em",
+    "cor_primaria": "#FFD700",
+    "cor_preco": "#00ff00"
+  },
+  "ofertas": [
+    {
+      "nome": "Bisteca Bovina",
+      "preco": "18,90",
+      "imagem": "imagens/bisteca.jpg"
+    }
+  ],
+  "promocoes": [
+    {
+      "nome": "Picanha Especial",
+      "preco_promocao": "59,90",
+      "categoria": "bovinos",
+      "corte_original": "PICANHA kg"
+    }
+  ]
+}
