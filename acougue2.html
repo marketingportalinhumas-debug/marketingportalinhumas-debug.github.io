@@ -8,18 +8,12 @@
         :root {
             --cor-fundo: #0a0a0a;
             --cor-borda: #654321;
-            --cor-primaria: #FFD700; /* Dourado */
-            --cor-preco: #00FF00;    /* Verde Neon */
+            --cor-primaria: #FFD700;
+            --cor-preco: #00FF00;
             --cor-texto: #ffffff;
+            --cor-promocao: #FF4444;
+            --cor-oferta: #80ff00;
             --transicao: 0.5s;
-            --cor-promocao: #FF4444; /* Vermelho para promoções */
-            --cor-novo: #00FFFF;     /* Ciano para novos itens */
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
         }
 
         body {
@@ -30,260 +24,111 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            height: 100vh;
             overflow: hidden;
             background-image: linear-gradient(135deg, rgba(101, 67, 33, 0.3) 0%, rgba(0, 0, 0, 0.9) 100%);
         }
 
         .container {
-            width: 95%;
-            height: 92vh;
-            background: rgba(0, 0, 0, 0.95);
-            border: 8px solid var(--cor-borda);
-            border-radius: 35px;
-            padding: 50px;
-            box-shadow: 
-                0 0 60px rgba(255, 215, 0, 0.3),
-                inset 0 0 30px rgba(0, 0, 0, 0.8);
+            width: 92%;
+            height: 85vh;
+            background: rgba(0, 0, 0, 0.9);
+            border: 6px solid var(--cor-borda);
+            border-radius: 30px;
+            padding: 40px;
+            box-shadow: 0 0 50px rgba(0,0,0,1);
             display: flex;
             flex-direction: column;
-            position: relative;
         }
 
         .header {
             text-align: center;
-            border-bottom: 5px solid var(--cor-primaria);
-            margin-bottom: 40px;
-            padding-bottom: 20px;
-            position: relative;
-        }
-
-        .header::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80%;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, var(--cor-primaria), transparent);
+            border-bottom: 4px solid var(--cor-primaria);
+            margin-bottom: 30px;
+            padding-bottom: 10px;
         }
 
         #titulo-categoria {
-            font-size: 5em;
+            font-size: 4.5em;
             font-weight: 900;
             color: var(--cor-primaria);
             text-transform: uppercase;
             margin: 0;
-            letter-spacing: 8px;
-            text-shadow: 
-                0 0 20px rgba(255, 215, 0, 0.8),
-                3px 3px 15px rgba(0, 0, 0, 0.7);
-            background: linear-gradient(90deg, #FFD700, #FFA500, #FFD700);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-size: 200% auto;
-            animation: gradientFlow 3s linear infinite;
-        }
-
-        @keyframes gradientFlow {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            letter-spacing: 5px;
+            text-shadow: 3px 3px 10px rgba(0,0,0,0.5);
         }
 
         .conteudo-dinamico {
             flex-grow: 1;
             display: flex;
-            gap: 50px;
+            gap: 40px;
             transition: opacity var(--transicao) ease-in-out;
-            position: relative;
         }
 
         .coluna {
             flex: 1;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 25px;
-            padding: 30px;
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 215, 0, 0.2);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+            background: rgba(255,255,255,0.03);
+            border-radius: 20px;
+            padding: 20px;
         }
 
         .sub-titulo {
-            font-size: 2.5em;
+            font-size: 2.2em;
             text-align: center;
             color: var(--cor-primaria);
-            background: rgba(255, 215, 0, 0.1);
-            border-radius: 15px;
-            margin-bottom: 25px;
-            padding: 10px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            margin-bottom: 20px;
+            padding: 5px;
             font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            border: 2px solid rgba(255, 215, 0, 0.3);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
         }
 
         .item-tabela {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 20px;
-            margin: 8px 0;
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.03);
-            transition: all 0.3s ease;
-            border-left: 4px solid transparent;
-            position: relative;
-            overflow: hidden;
+            padding: 12px 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
 
-        .item-tabela:hover {
-            background: rgba(255, 215, 0, 0.1);
-            transform: translateX(5px);
-            border-left: 4px solid var(--cor-primaria);
+        .item-tabela:last-child { border-bottom: none; }
+
+        .corte {
+            font-size: 1.8em;
+            font-weight: 700;
+            text-transform: uppercase;
         }
 
-        .item-tabela::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent 0%, rgba(255, 215, 0, 0.1) 50%, transparent 100%);
-            transform: translateX(-100%);
-            transition: transform 1.5s ease;
+        .preco {
+            font-size: 2.4em;
+            font-weight: 900;
+            color: var(--cor-preco);
+            font-family: 'Courier New', monospace;
         }
 
-        .item-tabela:hover::before {
-            transform: translateX(100%);
-        }
-
-        .item-tabela.promocao {
+        .promocao-item {
             background: rgba(255, 68, 68, 0.1);
             border-left: 4px solid var(--cor-promocao);
             animation: pulse 2s infinite;
         }
 
-        .item-tabela.novo {
-            background: rgba(0, 255, 255, 0.1);
-            border-left: 4px solid var(--cor-novo);
+        .oferta-item {
+            background: rgba(128, 255, 0, 0.1);
+            border-left: 4px solid var(--cor-oferta);
         }
 
         @keyframes pulse {
-            0%, 100% { box-shadow: 0 0 15px rgba(255, 68, 68, 0.3); }
-            50% { box-shadow: 0 0 25px rgba(255, 68, 68, 0.6); }
-        }
-
-        .corte {
-            font-size: 2em;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--cor-texto);
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
-        }
-
-        .preco {
-            font-size: 2.8em;
-            font-weight: 900;
-            color: var(--cor-preco);
-            font-family: 'Courier New', monospace;
-            text-shadow: 0 0 10px rgba(0, 255, 0, 0.7);
-            position: relative;
-            display: inline-block;
-        }
-
-        .promocao .preco {
-            color: var(--cor-promocao);
-            text-shadow: 0 0 15px rgba(255, 68, 68, 0.8);
-        }
-
-        .preco::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: var(--cor-preco);
-            transform: scaleX(0);
-            transform-origin: right;
-            transition: transform 0.3s ease;
-        }
-
-        .item-tabela:hover .preco::after {
-            transform: scaleX(1);
-            transform-origin: left;
+            0%, 100% { box-shadow: 0 0 10px rgba(255, 68, 68, 0.3); }
+            50% { box-shadow: 0 0 20px rgba(255, 68, 68, 0.6); }
         }
 
         /* Rodapé com a Marca */
         .footer-tag {
-            text-align: center;
-            font-size: 2em;
+            text-align: right;
+            font-size: 1.5em;
             font-weight: bold;
-            color: var(--cor-primaria);
-            margin-top: 30px;
-            padding: 15px;
-            background: rgba(255, 215, 0, 0.1);
-            border-radius: 15px;
-            border: 3px solid var(--cor-borda);
-            letter-spacing: 3px;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .footer-tag::before {
-            content: '★';
-            position: absolute;
-            left: 10px;
-            animation: starFloat 3s ease-in-out infinite;
-        }
-
-        .footer-tag::after {
-            content: '★';
-            position: absolute;
-            right: 10px;
-            animation: starFloat 3s ease-in-out infinite 1.5s;
-        }
-
-        @keyframes starFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        /* Status de atualização */
-        .status-bar {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(0, 0, 0, 0.8);
-            color: var(--cor-preco);
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 0.9em;
-            border: 2px solid var(--cor-preco);
-            box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .status-dot {
-            width: 10px;
-            height: 10px;
-            background: var(--cor-preco);
-            border-radius: 50%;
-            display: inline-block;
-            animation: blink 1s infinite;
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
+            color: #ff4444;
+            margin-top: 20px;
         }
 
         /* Loading inicial */
@@ -303,17 +148,16 @@
         }
 
         .loading-text {
-            font-size: 3em;
+            font-size: 2.5em;
             color: var(--cor-primaria);
             font-weight: bold;
-            text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
         }
 
         .loading-spinner {
-            width: 80px;
-            height: 80px;
-            border: 8px solid rgba(255, 215, 0, 0.3);
-            border-top: 8px solid var(--cor-primaria);
+            width: 60px;
+            height: 60px;
+            border: 6px solid rgba(255, 215, 0, 0.3);
+            border-top: 6px solid var(--cor-primaria);
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
@@ -321,22 +165,6 @@
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 1920px) {
-            #titulo-categoria { font-size: 4.5em; }
-            .sub-titulo { font-size: 2.2em; }
-            .corte { font-size: 1.8em; }
-            .preco { font-size: 2.5em; }
-        }
-
-        @media (max-width: 1366px) {
-            #titulo-categoria { font-size: 3.8em; }
-            .sub-titulo { font-size: 1.8em; }
-            .corte { font-size: 1.6em; }
-            .preco { font-size: 2.2em; }
-            .container { padding: 30px; height: 90vh; }
         }
     </style>
 </head>
@@ -353,78 +181,55 @@
         </div>
         
         <div id="display" class="conteudo-dinamico">
-            <!-- Conteúdo será inserido aqui dinamicamente -->
+            <!-- Conteúdo será inserido aqui -->
         </div>
 
-        <div class="footer-tag">QUALIDADE PORTAL</div>
-        
-        <div class="status-bar" id="statusBar">
-            <span class="status-dot"></span>
-            <span id="statusText">Atualizado agora</span>
-        </div>
+        <div class="footer-tag">★ QUALIDADE PORTAL ★</div>
     </div>
 
     <script>
         let dadosPrecos = null;
-        let ultimaAtualizacao = new Date();
-        let arquivoJson = 'precos.json'; // Nome do arquivo JSON
-        
-        // ========== CONFIGURAÇÃO DA CATEGORIA ==========
-        // Escolha AQUI qual categoria você quer mostrar:
-        // Opções: 'bovinos', 'suinos', 'aves'
-        const CATEGORIA_FIXA = 'bovinos'; // <<<<< MUDE AQUI <<<<<
-        // ===============================================
-
-        // Função para formatar data e hora
-        function formatarDataHora(data) {
-            return data.toLocaleTimeString('pt-BR', { 
-                hour: '2-digit', 
-                minute: '2-digit',
-                second: '2-digit'
-            });
-        }
+        let config = null;
+        let arquivoJson = 'precos.json';
 
         // 1. Busca os dados (Lê o JSON local)
         async function fetchDados() {
             try {
-                // Adiciona timestamp para evitar cache
                 const timestamp = new Date().getTime();
                 const resposta = await fetch(`${arquivoJson}?t=${timestamp}`);
                 
-                if (!resposta.ok) {
-                    throw new Error(`Erro HTTP: ${resposta.status}`);
-                }
+                if (!resposta.ok) throw new Error(`Erro HTTP: ${resposta.status}`);
                 
                 dadosPrecos = await resposta.json();
-                ultimaAtualizacao = new Date();
                 
-                // Atualiza status
-                atualizarStatus('Dados atualizados com sucesso');
+                // Extrai a configuração
+                config = dadosPrecos.config_promocoes || {
+                    categoria_mostrar: "bovinos",
+                    mostrar_ofertas: true
+                };
                 
-                // Se for o primeiro carregamento, exibe logo e remove loading
+                // Primeiro carregamento
                 if (document.getElementById('titulo-categoria').textContent === "CARREGANDO...") {
                     setTimeout(() => {
                         document.getElementById('loadingScreen').style.display = 'none';
                         renderizar();
-                    }, 500);
+                    }, 300);
                 } else {
-                    // Atualiza os dados na tela
                     renderizar();
                 }
             } catch (e) {
                 console.error('Erro ao carregar dados:', e);
                 document.getElementById('titulo-categoria').textContent = "ERRO DE CONEXÃO";
-                atualizarStatus('Erro ao carregar dados', true);
             }
         }
 
         // 2. Monta o HTML na tela
         function renderizar() {
-            if (!dadosPrecos) return;
+            if (!dadosPrecos || !config) return;
 
             const display = document.getElementById('display');
             const titulo = document.getElementById('titulo-categoria');
-            const catAtual = CATEGORIA_FIXA;
+            const catAtual = config.categoria_mostrar || 'bovinos';
 
             // Títulos amigáveis
             const nomesTitulos = {
@@ -435,8 +240,8 @@
 
             titulo.textContent = nomesTitulos[catAtual] || catAtual.toUpperCase();
 
+            // Renderiza conforme a categoria
             if (catAtual === 'bovinos' && dadosPrecos.bovinos) {
-                // Lógica de 1ª e 2ª (Monitor 1)
                 const primeira = dadosPrecos.bovinos.filter(i => i.tipo === 'primeira');
                 const segunda = dadosPrecos.bovinos.filter(i => i.tipo === 'segunda');
 
@@ -451,7 +256,7 @@
                     </div>
                 `;
             } else if (dadosPrecos[catAtual]) {
-                // Outras categorias: divide em 2 colunas genéricas
+                // Outras categorias: divide em 2 colunas
                 const itens = dadosPrecos[catAtual];
                 const meio = Math.ceil(itens.length / 2);
                 display.innerHTML = `
@@ -459,68 +264,100 @@
                     <div class="coluna">${itens.slice(meio).map(i => criarLinha(i)).join('')}</div>
                 `;
             } else {
-                display.innerHTML = '<div class="coluna" style="text-align: center; padding: 50px;"><p style="font-size: 2em;">Nenhum item disponível</p></div>';
+                display.innerHTML = '<div class="coluna" style="text-align: center; padding: 50px;"><p style="font-size: 1.5em;">Nenhum item disponível</p></div>';
             }
+
+            // Adiciona promoções/ofertas se configurado
+            adicionarPromocoes();
         }
 
+        // 3. Cria linha de item
         function criarLinha(item) {
-            const classes = [];
-            if (item.promocao) classes.push('promocao');
-            if (item.novo) classes.push('novo');
-            
             return `
-                <div class="item-tabela ${classes.join(' ')}">
+                <div class="item-tabela">
                     <span class="corte">${item.corte}</span>
-                    <span class="preco">R$ ${parseFloat(item.preco).toFixed(2).replace('.', ',')}</span>
+                    <span class="preco">R$ ${item.preco}</span>
                 </div>
             `;
         }
 
-        // 3. Sincronização em tempo real (Verifica novos preços a cada 30 segundos)
-        function iniciarAtualizacaoAutomatica() {
-            fetchDados();
-            setInterval(fetchDados, 30000); // A cada 30 segundos
-            
-            // Atualização contínua do status
-            setInterval(() => {
-                const agora = new Date();
-                const diffSegundos = Math.floor((agora - ultimaAtualizacao) / 1000);
-                
-                if (diffSegundos < 60) {
-                    atualizarStatus(`Atualizado há ${diffSegundos}s`);
-                } else if (diffSegundos < 3600) {
-                    const minutos = Math.floor(diffSegundos / 60);
-                    atualizarStatus(`Atualizado há ${minutos}m`);
-                } else {
-                    atualizarStatus(`Última: ${formatarDataHora(ultimaAtualizacao)}`);
-                }
-            }, 1000);
-        }
+        // 4. Adiciona promoções/ofertas
+        function adicionarPromocoes() {
+            if (!config || !dadosPrecos) return;
 
-        // Atualiza o status na barra
-        function atualizarStatus(mensagem, erro = false) {
-            const statusText = document.getElementById('statusText');
-            const statusDot = document.querySelector('.status-dot');
+            const display = document.getElementById('display');
             
-            statusText.textContent = mensagem;
-            
-            if (erro) {
-                statusText.style.color = '#FF4444';
-                statusDot.style.background = '#FF4444';
-            } else {
-                statusText.style.color = 'var(--cor-preco)';
-                statusDot.style.background = 'var(--cor-preco)';
+            // Se tiver promoções na categoria atual
+            if (dadosPrecos.promocoes && dadosPrecos.promocoes.length > 0) {
+                const promosCat = dadosPrecos.promocoes.filter(p => 
+                    p.categoria === config.categoria_mostrar
+                );
+                
+                if (promosCat.length > 0) {
+                    const promoHtml = `
+                        <div class="coluna">
+                            <div class="sub-titulo" style="color: var(--cor-promocao);">PROMOÇÕES</div>
+                            ${promosCat.map(p => `
+                                <div class="item-tabela promocao-item">
+                                    <span class="corte" style="color: var(--cor-promocao);">${p.nome}</span>
+                                    <span class="preco" style="color: var(--cor-promocao); font-size: 2.6em;">R$ ${p.preco_promocao}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                    
+                    // Adiciona como terceira coluna ou substitui
+                    if (display.children.length < 3) {
+                        display.insertAdjacentHTML('beforeend', promoHtml);
+                    }
+                }
+            }
+
+            // Se tiver ofertas para mostrar
+            if (config.mostrar_ofertas && dadosPrecos.ofertas && dadosPrecos.ofertas.length > 0) {
+                // Cria seção de ofertas em nova linha
+                const container = document.querySelector('.container');
+                const display = document.getElementById('display');
+                
+                // Remove ofertas antigas se existir
+                const ofertasAntigas = document.getElementById('ofertas-secao');
+                if (ofertasAntigas) ofertasAntigas.remove();
+                
+                // Adiciona nova seção de ofertas
+                const ofertasHtml = `
+                    <div id="ofertas-secao" style="margin-top: 20px; padding-top: 20px; border-top: 3px solid var(--cor-oferta);">
+                        <div style="text-align: center; margin-bottom: 20px;">
+                            <span style="font-size: 2.5em; color: var(--cor-oferta); font-weight: bold; text-transform: uppercase;">
+                                ★ OFERTAS ESPECIAIS ★
+                            </span>
+                        </div>
+                        <div style="display: flex; gap: 30px; justify-content: center; flex-wrap: wrap;">
+                            ${dadosPrecos.ofertas.map(o => `
+                                <div class="item-tabela oferta-item" style="width: 300px; padding: 20px; text-align: center; background: rgba(128, 255, 0, 0.05);">
+                                    <div style="font-size: 2em; font-weight: bold; color: var(--cor-oferta); margin-bottom: 10px;">${o.nome}</div>
+                                    <div style="font-size: 3em; font-weight: 900; color: var(--cor-oferta); font-family: 'Courier New', monospace;">
+                                        R$ ${o.preco}
+                                    </div>
+                                    ${o.imagem ? `<div style="margin-top: 10px; font-size: 0.9em; color: #aaa;">${o.imagem}</div>` : ''}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                
+                container.insertAdjacentHTML('beforeend', ofertasHtml);
             }
         }
 
-        // Iniciar aplicação
-        window.addEventListener('load', iniciarAtualizacaoAutomatica);
+        // 5. Atualização automática a cada 30 segundos
+        fetchDados();
+        setInterval(fetchDados, 30000);
 
-        // Tecla F5 para recarregar manualmente
+        // 6. Recarregar com F5
         document.addEventListener('keydown', (e) => {
             if (e.key === 'F5' || (e.ctrlKey && e.key === 'r')) {
                 e.preventDefault();
-                atualizarStatus('Recarregando dados...');
+                document.getElementById('loadingScreen').style.display = 'flex';
                 fetchDados();
             }
         });
