@@ -1,0 +1,18 @@
+{
+  "bovinos": [
+    {"corte": "Picanha", "preco": "45.90", "tipo": "primeira"},
+    {"corte": "Alcatra", "preco": "38.50", "tipo": "primeira"},
+    {"corte": "Coxão Mole", "preco": "28.90", "tipo": "segunda", "promocao": true},
+    {"corte": "Maminha", "preco": "32.50", "tipo": "primeira", "novo": true}
+  ],
+  "suinos": [
+    {"corte": "Costela", "preco": "22.90"},
+    {"corte": "Lombo", "preco": "18.50", "promocao": true},
+    {"corte": "Pernil", "preco": "16.90"}
+  ],
+  "aves": [
+    {"corte": "Peito de Frango", "preco": "12.90"},
+    {"corte": "Coxa e Sobrecoxa", "preco": "9.90", "promocao": true},
+    {"corte": "Frango Inteiro", "preco": "8.50"}
+  ]
+}
