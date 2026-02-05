@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promoções Portal - Monitor 2</title>
+    <style>
+        :root {
+            /* Variáveis controladas pelo App Python */
+            --bg-cor: #8B4513;
+            --padding-tv: 40px;
+            --font-nome: 1.8em;
+            --font-preco: 2.8em;
+            --font-categoria: 1.4em;
+            --cor-primaria: #FFD700;
+            --cor-preco: #00ff00;
+        }
+
+        body {
+            background-color: var(--bg-cor);
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Impact, sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            color: white;
+            transition: background 0.5s ease;
+        }
+
+        .externo {
+            padding: var(--padding-tv);
+            height: 100vh;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            border: 8px solid var(--cor-primaria);
+            border-radius: 30px;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr; /* Padrão: Tabela | Foto */
+            gap: 20px;
+            padding: 30px;
+            box-sizing: border-box;
+            transition: all 0.5s ease-in-out;
+        }
+
+        /* Classe aplicada quando 'mostrar_ofertas' for falso */
+        .layout-cheio {
+            grid-template-columns: 1fr !important;
+        }
+
+        .area-tabela {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .titulo {
+            font-size: 3.5em;
+            text-align: center;
+            color: var(--cor-primaria);
+            margin: 0 0 30px 0;
+            text-transform: uppercase;
+            border-bottom: 4px solid var(--cor-primaria);
+            padding-bottom: 15px;
+            text-shadow: 3px 3px 0px #000, 6px 6px 10px rgba(0,0,0,0.5);
+            background: linear-gradient(135deg, rgba(255,215,0,0.1), rgba(255,215,0,0.2));
+            border-radius: 15px;
+        }
+
+        .grid-precos {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* 2 colunas */
+            gap: 20px;
+            align-content: start;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .layout-cheio .grid-precos {
+            grid-template-columns: 1fr 1fr 1fr; /* 3 colunas em tela cheia */
+        }
+
+        .item {
+            background: linear-gradient(135deg, rgba(255,215,0,0.1), rgba(255,255,255,0.05));
+            padding: 20px;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border-left: 8px solid var(--cor-primaria);
+            border-top: 3px solid var(--cor-primaria);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            min-height: 120px;
+        }
+
+        .item:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 25px rgba(255,215,0,0.3);
+            background: linear-gradient(135deg, rgba(255,215,0,0.15), rgba(255,255,255,0.1));
+        }
+
+        .categoria {
+            font-size: var(--font-categoria);
+            font-weight: bold;
+            color: var(--cor-primaria);
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            letter-spacing: 2px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid rgba(255,215,0,0.3);
+        }
+
+        .corte {
+            font-size: var(--font-nome);
+            font-weight: bold;
+            color: white;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .preco {
+            font-size: var(--font-preco);
+            color: var(--cor-preco);
+            font-weight: 900;
+            text-align: right;
+            text-shadow: 3px 3px 0px #000, 6px 6px 10px rgba(0,0,0,0.5);
+            margin-top: 5px;
+            letter-spacing: -2px;
+        }
+
+        /* Painel Lateral de Foto */
+        .painel-foto {
+            background: linear-gradient(135deg, #cc0000, #8B0000);
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 30px;
+            animation: pulsar 2s infinite;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .painel-foto::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,215,0,0.3) 0%, transparent 70%);
+            animation: rotate 10s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .painel-foto img {
+            max-width: 95%;
+            max-height: 45%;
+            border: 8px solid white;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+            margin-bottom: 25px;
+            object-fit: cover;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .oferta-nome {
+            font-size: 3em;
+            color: yellow;
+            text-transform: uppercase;
+            margin: 0 0 15px 0;
+            text-shadow: 3px 3px 0px #000, 6px 6px 10px rgba(0,0,0,0.5);
+            letter-spacing: 3px;
+        }
+
+        .oferta-preco {
+            font-size: 5.5em;
+            font-weight: 900;
+            margin: 0;
+            color: white;
+            text-shadow: 5px 5px 0px #000, 10px 10px 20px rgba(255,215,0,0.8);
+            letter-spacing: -3px;
+        }
+
+        .oferta-label {
+            font-size: 1.5em;
+            color: #FFD700;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        @keyframes pulsar {
+            0%, 100% { 
+                transform: scale(1);
+                box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            }
+            50% { 
+                transform: scale(1.03);
+                box-shadow: 0 15px 40px rgba(255,215,0,0.5);
+            }
+        }
+
+        /* Badge de promoção */
+        .promo-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #FF0000, #CC0000);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 1.2em;
+            font-weight: bold;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.9), 0 0 25px rgba(255, 215, 0, 0.7);
+            border: 3px solid #FFD700;
+            animation: bounce 1.5s infinite;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(3deg); }
+        }
+
+        /* Scroll personalizado */
+        .grid-precos::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .grid-precos::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.3);
+            border-radius: 5px;
+        }
+
+        .grid-precos::-webkit-scrollbar-thumb {
+            background: var(--cor-primaria);
+            border-radius: 5px;
+        }
+
+        .grid-precos::-webkit-scrollbar-thumb:hover {
+            background: #FFA500;
+        }
+
+        @media (max-width: 1200px) {
+            .container {
+                grid-template-columns: 1fr !important;
+            }
+            
+            .painel-foto {
+                display: none !important;
+            }
+            
+            .grid-precos {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .grid-precos {
+                grid-template-columns: 1fr;
+            }
+            
+            .titulo {
+                font-size: 2.5em;
+            }
+            
+            .categoria {
+                font-size: 1.2em;
+            }
+            
+            .corte {
+                font-size: 1.5em;
+            }
+            
+            .preco {
+                font-size: 2.2em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="externo">
+        <div id="wrapper" class="container">
+            <div class="area-tabela">
+                <h1 id="titulo-categoria" class="titulo">OFERTAS</h1>
+                <div id="grid-itens" class="grid-precos">
+                    <!-- Itens serão carregados aqui -->
+                </div>
+            </div>
+
+            <div id="bloco-foto" class="painel-foto">
+                <div class="promo-badge">🔥 PROMOÇÃO 🔥</div>
+                <h2 style="font-size: 2em; margin: 0 0 15px 0; color: #FFD700;">OFERTA DO DIA</h2>
+                <img id="img-destaque" src="imagens/placeholder.jpg" alt="Oferta do Dia" onerror="this.src='imagens/placeholder.jpg'">
+                <p id="nome-destaque" class="oferta-nome">CARREGANDO...</p>
+                <p class="oferta-label">PREÇO ESPECIAL</p>
+                <p id="preco-destaque" class="oferta-preco">R$ 0,00</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let indexOferta = 0;
+        let ultimaAtualizacao = null;
+
+        async function carregarDados() {
+            try {
+                const timestamp = new Date().getTime();
+                const r = await fetch(`precos.json?nocache=${timestamp}`, {
+                    cache: 'no-cache'
+                });
+                
+                if (!r.ok) throw new Error('Arquivo não encontrado');
+                
+                const d = await r.json();
+                const dadosJSON = JSON.stringify(d);
+                
+                // Verificar se os dados mudaram
+                if (ultimaAtualizacao === dadosJSON) {
+                    return; // Não precisa atualizar
+                }
+                
+                ultimaAtualizacao = dadosJSON;
+                const cfg = d.config_promocoes || {};
+
+                // 1. Aplicar Configurações Visuais
+                if (cfg.bg_color) {
+                    document.documentElement.style.setProperty('--bg-cor', cfg.bg_color);
+                }
+                if (cfg.padding_tv) {
+                    document.documentElement.style.setProperty('--padding-tv', cfg.padding_tv);
+                }
+                if (cfg.font_size_nome) {
+                    document.documentElement.style.setProperty('--font-nome', cfg.font_size_nome);
+                }
+                if (cfg.font_size_preco) {
+                    document.documentElement.style.setProperty('--font-preco', cfg.font_size_preco);
+                }
+                if (cfg.cor_primaria) {
+                    document.documentElement.style.setProperty('--cor-primaria', cfg.cor_primaria);
+                }
+                if (cfg.cor_preco) {
+                    document.documentElement.style.setProperty('--cor-preco', cfg.cor_preco);
+                }
+
+                // 2. Controlar Exibição do Painel de Fotos
+                const wrapper = document.getElementById('wrapper');
+                const blocoFoto = document.getElementById('bloco-foto');
+                
+                if (cfg.mostrar_ofertas) {
+                    wrapper.classList.remove('layout-cheio');
+                    blocoFoto.style.display = "flex";
+                } else {
+                    wrapper.classList.add('layout-cheio');
+                    blocoFoto.style.display = "none";
+                }
+
+                // 3. Renderizar Lista de Promoções com Categoria, Corte e Preço
+                const cat = cfg.categoria_mostrar || 'bovinos';
+                const tituloCategoria = document.getElementById('titulo-categoria');
+                
+                // Mapear categoria para nome amigável
+                const nomesCategoria = {
+                    'bovinos': 'BOVINOS',
+                    'suinos': 'SUÍNOS',
+                    'aves': 'AVES'
+                };
+                
+                tituloCategoria.innerText = `PROMOÇÕES ${nomesCategoria[cat] || cat.toUpperCase()}`;
+                
+                // Filtrar promoções da categoria selecionada
+                const itens = d.promocoes.filter(p => p.categoria === cat);
+                
+                if (itens.length === 0) {
+                    document.getElementById('grid-itens').innerHTML = `
+                        <div style="grid-column: span 2; text-align: center; padding: 40px; color: #888;">
+                            <h3 style="font-size: 2em; margin-bottom: 20px;">Sem promoções disponíveis</h3>
+                            <p style="font-size: 1.2em;">Nenhuma promoção cadastrada para esta categoria</p>
+                        </div>
+                    `;
+                } else {
+                    document.getElementById('grid-itens').innerHTML = itens.map(i => `
+                        <div class="item">
+                            <div class="categoria">${nomesCategoria[i.categoria] || i.categoria.toUpperCase()}</div>
+                            <div class="corte">${i.nome || i.corte_original || 'Sem nome'}</div>
+                            <div class="preco">R$ ${i.preco_promocao || '0,00'}</div>
+                        </div>
+                    `).join('');
+                }
+
+                // 4. Rotacionar Destaques da Galeria
+                if (d.ofertas && d.ofertas.length > 0) {
+                    const off = d.ofertas[indexOferta];
+                    document.getElementById('img-destaque').src = off.imagem || 'imagens/placeholder.jpg';
+                    document.getElementById('nome-destaque').innerText = off.nome || 'OFERTA ESPECIAL';
+                    document.getElementById('preco-destaque').innerText = `R$ ${off.preco || '0,00'}`;
+                    indexOferta = (indexOferta + 1) % d.ofertas.length;
+                }
+
+            } catch (e) { 
+                console.error("Erro ao carregar JSON:", e);
+                document.getElementById('grid-itens').innerHTML = `
+                    <div style="grid-column: span 2; text-align: center; padding: 40px; color: #ff4444;">
+                        <h3 style="font-size: 2em; margin-bottom: 20px;">❌ Erro ao carregar dados</h3>
+                        <p style="font-size: 1.2em;">Verifique sua conexão ou o arquivo precos.json</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Carregar dados a cada 10 segundos
+        setInterval(carregarDados, 10000);
+        
+        // Carregar imediatamente ao iniciar
+        carregarDados();
+    </script>
+</body>
+</html>
