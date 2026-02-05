@@ -16,6 +16,12 @@
             --transicao: 0.5s;
         }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             background: var(--cor-fundo);
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -24,111 +30,265 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             overflow: hidden;
             background-image: linear-gradient(135deg, rgba(101, 67, 33, 0.3) 0%, rgba(0, 0, 0, 0.9) 100%);
         }
 
         .container {
-            width: 92%;
-            height: 85vh;
-            background: rgba(0, 0, 0, 0.9);
-            border: 6px solid var(--cor-borda);
-            border-radius: 30px;
-            padding: 40px;
-            box-shadow: 0 0 50px rgba(0,0,0,1);
+            width: 95%;
+            height: 92vh;
+            background: rgba(0, 0, 0, 0.95);
+            border: 8px solid var(--cor-borda);
+            border-radius: 35px;
+            padding: 50px;
+            box-shadow: 
+                0 0 60px rgba(255, 215, 0, 0.3),
+                inset 0 0 30px rgba(0, 0, 0, 0.8);
             display: flex;
             flex-direction: column;
+            position: relative;
         }
 
         .header {
             text-align: center;
-            border-bottom: 4px solid var(--cor-primaria);
-            margin-bottom: 30px;
-            padding-bottom: 10px;
+            border-bottom: 5px solid var(--cor-primaria);
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            position: relative;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--cor-primaria), transparent);
         }
 
         #titulo-categoria {
-            font-size: 4.5em;
+            font-size: 5em;
             font-weight: 900;
             color: var(--cor-primaria);
             text-transform: uppercase;
             margin: 0;
-            letter-spacing: 5px;
-            text-shadow: 3px 3px 10px rgba(0,0,0,0.5);
+            letter-spacing: 8px;
+            text-shadow: 
+                0 0 20px rgba(255, 215, 0, 0.8),
+                3px 3px 15px rgba(0, 0, 0, 0.7);
+            background: linear-gradient(90deg, #FFD700, #FFA500, #FFD700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% auto;
+            animation: gradientFlow 3s linear infinite;
+        }
+
+        @keyframes gradientFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         .conteudo-dinamico {
             flex-grow: 1;
             display: flex;
-            gap: 40px;
+            gap: 50px;
             transition: opacity var(--transicao) ease-in-out;
+            position: relative;
         }
 
         .coluna {
             flex: 1;
-            background: rgba(255,255,255,0.03);
-            border-radius: 20px;
-            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 25px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 215, 0, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
         }
 
         .sub-titulo {
-            font-size: 2.2em;
+            font-size: 2.5em;
             text-align: center;
             color: var(--cor-primaria);
-            background: rgba(255,255,255,0.1);
-            border-radius: 10px;
-            margin-bottom: 20px;
-            padding: 5px;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 15px;
+            margin-bottom: 25px;
+            padding: 10px;
             font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
         }
 
         .item-tabela {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 10px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 15px 20px;
+            margin: 8px 0;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+            position: relative;
+            overflow: hidden;
         }
 
-        .item-tabela:last-child { border-bottom: none; }
-
-        .corte {
-            font-size: 1.8em;
-            font-weight: 700;
-            text-transform: uppercase;
+        .item-tabela:hover {
+            background: rgba(255, 215, 0, 0.1);
+            transform: translateX(5px);
+            border-left: 4px solid var(--cor-primaria);
         }
 
-        .preco {
-            font-size: 2.4em;
-            font-weight: 900;
-            color: var(--cor-preco);
-            font-family: 'Courier New', monospace;
+        .item-tabela::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent 0%, rgba(255, 215, 0, 0.1) 50%, transparent 100%);
+            transform: translateX(-100%);
+            transition: transform 1.5s ease;
         }
 
-        .promocao-item {
+        .item-tabela:hover::before {
+            transform: translateX(100%);
+        }
+
+        .item-tabela.promocao {
             background: rgba(255, 68, 68, 0.1);
             border-left: 4px solid var(--cor-promocao);
             animation: pulse 2s infinite;
         }
 
-        .oferta-item {
+        .item-tabela.oferta {
             background: rgba(128, 255, 0, 0.1);
             border-left: 4px solid var(--cor-oferta);
         }
 
         @keyframes pulse {
-            0%, 100% { box-shadow: 0 0 10px rgba(255, 68, 68, 0.3); }
-            50% { box-shadow: 0 0 20px rgba(255, 68, 68, 0.6); }
+            0%, 100% { box-shadow: 0 0 15px rgba(255, 68, 68, 0.3); }
+            50% { box-shadow: 0 0 25px rgba(255, 68, 68, 0.6); }
+        }
+
+        .corte {
+            font-size: 2em;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--cor-texto);
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+        }
+
+        .preco {
+            font-size: 2.8em;
+            font-weight: 900;
+            color: var(--cor-preco);
+            font-family: 'Courier New', monospace;
+            text-shadow: 0 0 10px rgba(0, 255, 0, 0.7);
+            position: relative;
+            display: inline-block;
+        }
+
+        .promocao .preco {
+            color: var(--cor-promocao);
+            text-shadow: 0 0 15px rgba(255, 68, 68, 0.8);
+        }
+
+        .oferta .preco {
+            color: var(--cor-oferta);
+            text-shadow: 0 0 15px rgba(128, 255, 0, 0.8);
+        }
+
+        .preco::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--cor-preco);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s ease;
+        }
+
+        .item-tabela:hover .preco::after {
+            transform: scaleX(1);
+            transform-origin: left;
         }
 
         /* Rodapé com a Marca */
         .footer-tag {
-            text-align: right;
-            font-size: 1.5em;
+            text-align: center;
+            font-size: 2em;
             font-weight: bold;
-            color: #ff4444;
-            margin-top: 20px;
+            color: var(--cor-primaria);
+            margin-top: 30px;
+            padding: 15px;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 15px;
+            border: 3px solid var(--cor-borda);
+            letter-spacing: 3px;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer-tag::before {
+            content: '★';
+            position: absolute;
+            left: 10px;
+            animation: starFloat 3s ease-in-out infinite;
+        }
+
+        .footer-tag::after {
+            content: '★';
+            position: absolute;
+            right: 10px;
+            animation: starFloat 3s ease-in-out infinite 1.5s;
+        }
+
+        @keyframes starFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Status de atualização */
+        .status-bar {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            color: var(--cor-preco);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            border: 2px solid var(--cor-preco);
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            background: var(--cor-preco);
+            border-radius: 50%;
+            display: inline-block;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
         }
 
         /* Loading inicial */
@@ -148,16 +308,17 @@
         }
 
         .loading-text {
-            font-size: 2.5em;
+            font-size: 3em;
             color: var(--cor-primaria);
             font-weight: bold;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
         }
 
         .loading-spinner {
-            width: 60px;
-            height: 60px;
-            border: 6px solid rgba(255, 215, 0, 0.3);
-            border-top: 6px solid var(--cor-primaria);
+            width: 80px;
+            height: 80px;
+            border: 8px solid rgba(255, 215, 0, 0.3);
+            border-top: 8px solid var(--cor-primaria);
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
@@ -165,6 +326,22 @@
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 1920px) {
+            #titulo-categoria { font-size: 4.5em; }
+            .sub-titulo { font-size: 2.2em; }
+            .corte { font-size: 1.8em; }
+            .preco { font-size: 2.5em; }
+        }
+
+        @media (max-width: 1366px) {
+            #titulo-categoria { font-size: 3.8em; }
+            .sub-titulo { font-size: 1.8em; }
+            .corte { font-size: 1.6em; }
+            .preco { font-size: 2.2em; }
+            .container { padding: 30px; height: 90vh; }
         }
     </style>
 </head>
@@ -184,42 +361,78 @@
             <!-- Conteúdo será inserido aqui -->
         </div>
 
-        <div class="footer-tag">★ QUALIDADE PORTAL ★</div>
+        <div class="footer-tag">QUALIDADE PORTAL</div>
+        
+        <div class="status-bar" id="statusBar">
+            <span class="status-dot"></span>
+            <span id="statusText">Atualizado agora</span>
+        </div>
     </div>
 
     <script>
         let dadosPrecos = null;
         let config = null;
-        let arquivoJson = 'precos.json';
+        let ultimaAtualizacao = new Date();
+        
+        // ========== CONFIGURAÇÃO DO REPOSITÓRIO ==========
+        // Altere estas variáveis conforme seu repositório do GitHub
+        const GITHUB_USER = 'seu-usuario';      // <<<<< MUDE AQUI <<<<<
+        const GITHUB_REPO = 'nome-do-repo';     // <<<<< MUDE AQUI <<<<<
+        const GITHUB_BRANCH = 'main';           // <<<<< MUDE AQUI <<<<<
+        const JSON_FILE = 'precos.json';        // Nome do arquivo JSON
+        // =================================================
 
-        // 1. Busca os dados (Lê o JSON local)
+        // URL completa para buscar o arquivo JSON do GitHub
+        const JSON_URL = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/${GITHUB_BRANCH}/${JSON_FILE}`;
+
+        // Função para formatar data e hora
+        function formatarDataHora(data) {
+            return data.toLocaleTimeString('pt-BR', { 
+                hour: '2-digit', 
+                minute: '2-digit',
+                second: '2-digit'
+            });
+        }
+
+        // 1. Busca os dados do GitHub
         async function fetchDados() {
             try {
                 const timestamp = new Date().getTime();
-                const resposta = await fetch(`${arquivoJson}?t=${timestamp}`);
+                const resposta = await fetch(`${JSON_URL}?t=${timestamp}`);
                 
-                if (!resposta.ok) throw new Error(`Erro HTTP: ${resposta.status}`);
+                if (!resposta.ok) {
+                    throw new Error(`Erro HTTP: ${resposta.status} - ${resposta.statusText}`);
+                }
                 
                 dadosPrecos = await resposta.json();
                 
                 // Extrai a configuração
                 config = dadosPrecos.config_promocoes || {
                     categoria_mostrar: "bovinos",
-                    mostrar_ofertas: true
+                    mostrar_ofertas: true,
+                    bg_color: "#80ff00",
+                    header_color: "#FFD700",
+                    padding_tv: "40px",
+                    font_size_nome: "2.2em",
+                    font_size_preco: "3em"
                 };
+                
+                ultimaAtualizacao = new Date();
+                atualizarStatus('Dados atualizados com sucesso');
                 
                 // Primeiro carregamento
                 if (document.getElementById('titulo-categoria').textContent === "CARREGANDO...") {
                     setTimeout(() => {
                         document.getElementById('loadingScreen').style.display = 'none';
                         renderizar();
-                    }, 300);
+                    }, 500);
                 } else {
                     renderizar();
                 }
             } catch (e) {
                 console.error('Erro ao carregar dados:', e);
                 document.getElementById('titulo-categoria').textContent = "ERRO DE CONEXÃO";
+                atualizarStatus(`Erro: ${e.message}`, true);
             }
         }
 
@@ -255,7 +468,7 @@
                         ${segunda.map(i => criarLinha(i)).join('')}
                     </div>
                 `;
-            } else if (dadosPrecos[catAtual]) {
+            } else if (dadosPrecos[catAtual] && dadosPrecos[catAtual].length > 0) {
                 // Outras categorias: divide em 2 colunas
                 const itens = dadosPrecos[catAtual];
                 const meio = Math.ceil(itens.length / 2);
@@ -264,7 +477,11 @@
                     <div class="coluna">${itens.slice(meio).map(i => criarLinha(i)).join('')}</div>
                 `;
             } else {
-                display.innerHTML = '<div class="coluna" style="text-align: center; padding: 50px;"><p style="font-size: 1.5em;">Nenhum item disponível</p></div>';
+                display.innerHTML = `
+                    <div class="coluna" style="text-align: center; padding: 50px;">
+                        <p style="font-size: 1.8em; color: #aaa;">Nenhum item disponível</p>
+                    </div>
+                `;
             }
 
             // Adiciona promoções/ofertas se configurado
@@ -298,15 +515,15 @@
                         <div class="coluna">
                             <div class="sub-titulo" style="color: var(--cor-promocao);">PROMOÇÕES</div>
                             ${promosCat.map(p => `
-                                <div class="item-tabela promocao-item">
+                                <div class="item-tabela promocao">
                                     <span class="corte" style="color: var(--cor-promocao);">${p.nome}</span>
-                                    <span class="preco" style="color: var(--cor-promocao); font-size: 2.6em;">R$ ${p.preco_promocao}</span>
+                                    <span class="preco" style="color: var(--cor-promocao); font-size: 2.8em;">R$ ${p.preco_promocao}</span>
                                 </div>
                             `).join('')}
                         </div>
                     `;
                     
-                    // Adiciona como terceira coluna ou substitui
+                    // Adiciona como terceira coluna
                     if (display.children.length < 3) {
                         display.insertAdjacentHTML('beforeend', promoHtml);
                     }
@@ -315,9 +532,7 @@
 
             // Se tiver ofertas para mostrar
             if (config.mostrar_ofertas && dadosPrecos.ofertas && dadosPrecos.ofertas.length > 0) {
-                // Cria seção de ofertas em nova linha
                 const container = document.querySelector('.container');
-                const display = document.getElementById('display');
                 
                 // Remove ofertas antigas se existir
                 const ofertasAntigas = document.getElementById('ofertas-secao');
@@ -333,7 +548,7 @@
                         </div>
                         <div style="display: flex; gap: 30px; justify-content: center; flex-wrap: wrap;">
                             ${dadosPrecos.ofertas.map(o => `
-                                <div class="item-tabela oferta-item" style="width: 300px; padding: 20px; text-align: center; background: rgba(128, 255, 0, 0.05);">
+                                <div class="item-tabela oferta" style="width: 300px; padding: 20px; text-align: center; background: rgba(128, 255, 0, 0.08);">
                                     <div style="font-size: 2em; font-weight: bold; color: var(--cor-oferta); margin-bottom: 10px;">${o.nome}</div>
                                     <div style="font-size: 3em; font-weight: 900; color: var(--cor-oferta); font-family: 'Courier New', monospace;">
                                         R$ ${o.preco}
@@ -349,11 +564,44 @@
             }
         }
 
-        // 5. Atualização automática a cada 30 segundos
-        fetchDados();
-        setInterval(fetchDados, 30000);
+        // 5. Atualiza o status na barra
+        function atualizarStatus(mensagem, erro = false) {
+            const statusText = document.getElementById('statusText');
+            const statusDot = document.querySelector('.status-dot');
+            
+            statusText.textContent = mensagem;
+            
+            if (erro) {
+                statusText.style.color = '#FF4444';
+                statusDot.style.background = '#FF4444';
+            } else {
+                statusText.style.color = 'var(--cor-preco)';
+                statusDot.style.background = 'var(--cor-preco)';
+            }
+        }
 
-        // 6. Recarregar com F5
+        // 6. Atualização automática a cada 30 segundos
+        function iniciarAtualizacao() {
+            fetchDados();
+            setInterval(fetchDados, 30000); // A cada 30 segundos
+            
+            // Atualização contínua do status
+            setInterval(() => {
+                const agora = new Date();
+                const diffSegundos = Math.floor((agora - ultimaAtualizacao) / 1000);
+                
+                if (diffSegundos < 60) {
+                    atualizarStatus(`Atualizado há ${diffSegundos}s`);
+                } else if (diffSegundos < 3600) {
+                    const minutos = Math.floor(diffSegundos / 60);
+                    atualizarStatus(`Atualizado há ${minutos}m`);
+                } else {
+                    atualizarStatus(`Última: ${formatarDataHora(ultimaAtualizacao)}`);
+                }
+            }, 1000);
+        }
+
+        // 7. Recarregar com F5
         document.addEventListener('keydown', (e) => {
             if (e.key === 'F5' || (e.ctrlKey && e.key === 'r')) {
                 e.preventDefault();
@@ -361,6 +609,9 @@
                 fetchDados();
             }
         });
+
+        // Iniciar aplicação
+        window.addEventListener('load', iniciarAtualizacao);
     </script>
 </body>
 </html>
