@@ -11,7 +11,7 @@
             --cor-primaria: #FFD700; /* Dourado */
             --cor-preco: #00FF00;    /* Verde Neon */
             --cor-texto: #ffffff;
-            --transicao: 0.8s;
+            --transicao: 0.5s;
             --cor-promocao: #FF4444; /* Vermelho para promoções */
             --cor-novo: #00FFFF;     /* Ciano para novos itens */
         }
@@ -219,16 +219,6 @@
             transform-origin: left;
         }
 
-        .fade-out {
-            opacity: 0;
-            transform: scale(0.95);
-        }
-
-        .fade-in {
-            opacity: 1;
-            transform: scale(1);
-        }
-
         /* Rodapé com a Marca */
         .footer-tag {
             text-align: center;
@@ -376,10 +366,14 @@
 
     <script>
         let dadosPrecos = null;
-        let indexCat = 0;
-        const categorias = ['bovinos', 'suinos', 'aves'];
         let ultimaAtualizacao = new Date();
         let arquivoJson = 'precos.json'; // Nome do arquivo JSON
+        
+        // ========== CONFIGURAÇÃO DA CATEGORIA ==========
+        // Escolha AQUI qual categoria você quer mostrar:
+        // Opções: 'bovinos', 'suinos', 'aves'
+        const CATEGORIA_FIXA = 'bovinos'; // <<<<< MUDE AQUI <<<<<
+        // ===============================================
 
         // Função para formatar data e hora
         function formatarDataHora(data) {
@@ -413,6 +407,9 @@
                         document.getElementById('loadingScreen').style.display = 'none';
                         renderizar();
                     }, 500);
+                } else {
+                    // Atualiza os dados na tela
+                    renderizar();
                 }
             } catch (e) {
                 console.error('Erro ao carregar dados:', e);
@@ -427,7 +424,7 @@
 
             const display = document.getElementById('display');
             const titulo = document.getElementById('titulo-categoria');
-            const catAtual = categorias[indexCat];
+            const catAtual = CATEGORIA_FIXA;
 
             // Títulos amigáveis
             const nomesTitulos = {
@@ -479,21 +476,7 @@
             `;
         }
 
-        // 3. Sistema de Rotação (Troca de categoria)
-        setInterval(() => {
-            const display = document.getElementById('display');
-            display.classList.add('fade-out');
-
-            setTimeout(() => {
-                indexCat = (indexCat + 1) % categorias.length;
-                renderizar();
-                display.classList.remove('fade-out');
-                display.classList.add('fade-in');
-                setTimeout(() => display.classList.remove('fade-in'), 500);
-            }, 800);
-        }, 12000); // Troca a cada 12 segundos
-
-        // 4. Sincronização em tempo real (Verifica novos preços a cada 30 segundos)
+        // 3. Sincronização em tempo real (Verifica novos preços a cada 30 segundos)
         function iniciarAtualizacaoAutomatica() {
             fetchDados();
             setInterval(fetchDados, 30000); // A cada 30 segundos
@@ -540,20 +523,6 @@
                 atualizarStatus('Recarregando dados...');
                 fetchDados();
             }
-        });
-
-        // Clique na tela para próxima categoria
-        document.addEventListener('click', () => {
-            const display = document.getElementById('display');
-            display.classList.add('fade-out');
-
-            setTimeout(() => {
-                indexCat = (indexCat + 1) % categorias.length;
-                renderizar();
-                display.classList.remove('fade-out');
-                display.classList.add('fade-in');
-                setTimeout(() => display.classList.remove('fade-in'), 500);
-            }, 400);
         });
     </script>
 </body>
