@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Açougue Portal - Painel Digital</title>
+    <style>
+        :root {
+            --cor-fundo: #0a0a0a;
+            --cor-borda: #654321;
+            --cor-primaria: #FFD700; /* Dourado */
+            --cor-preco: #00FF00;    /* Verde Neon */
+            --cor-texto: #ffffff;
+            --transicao: 0.8s;
+            --cor-promocao: #FF4444; /* Vermelho para promoções */
+            --cor-novo: #00FFFF;     /* Ciano para novos itens */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--cor-fundo);
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            color: var(--cor-texto);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            background-image: linear-gradient(135deg, rgba(101, 67, 33, 0.3) 0%, rgba(0, 0, 0, 0.9) 100%);
+        }
+
+        .container {
+            width: 95%;
+            height: 92vh;
+            background: rgba(0, 0, 0, 0.95);
+            border: 8px solid var(--cor-borda);
+            border-radius: 35px;
+            padding: 50px;
+            box-shadow: 
+                0 0 60px rgba(255, 215, 0, 0.3),
+                inset 0 0 30px rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .header {
+            text-align: center;
+            border-bottom: 5px solid var(--cor-primaria);
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            position: relative;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--cor-primaria), transparent);
+        }
+
+        #titulo-categoria {
+            font-size: 5em;
+            font-weight: 900;
+            color: var(--cor-primaria);
+            text-transform: uppercase;
+            margin: 0;
+            letter-spacing: 8px;
+            text-shadow: 
+                0 0 20px rgba(255, 215, 0, 0.8),
+                3px 3px 15px rgba(0, 0, 0, 0.7);
+            background: linear-gradient(90deg, #FFD700, #FFA500, #FFD700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% auto;
+            animation: gradientFlow 3s linear infinite;
+        }
+
+        @keyframes gradientFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .conteudo-dinamico {
+            flex-grow: 1;
+            display: flex;
+            gap: 50px;
+            transition: opacity var(--transicao) ease-in-out;
+            position: relative;
+        }
+
+        .coluna {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 25px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 215, 0, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+        }
+
+        .sub-titulo {
+            font-size: 2.5em;
+            text-align: center;
+            color: var(--cor-primaria);
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 15px;
+            margin-bottom: 25px;
+            padding: 10px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .item-tabela {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            margin: 8px 0;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .item-tabela:hover {
+            background: rgba(255, 215, 0, 0.1);
+            transform: translateX(5px);
+            border-left: 4px solid var(--cor-primaria);
+        }
+
+        .item-tabela::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent 0%, rgba(255, 215, 0, 0.1) 50%, transparent 100%);
+            transform: translateX(-100%);
+            transition: transform 1.5s ease;
+        }
+
+        .item-tabela:hover::before {
+            transform: translateX(100%);
+        }
+
+        .item-tabela.promocao {
+            background: rgba(255, 68, 68, 0.1);
+            border-left: 4px solid var(--cor-promocao);
+            animation: pulse 2s infinite;
+        }
+
+        .item-tabela.novo {
+            background: rgba(0, 255, 255, 0.1);
+            border-left: 4px solid var(--cor-novo);
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 15px rgba(255, 68, 68, 0.3); }
+            50% { box-shadow: 0 0 25px rgba(255, 68, 68, 0.6); }
+        }
+
+        .corte {
+            font-size: 2em;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--cor-texto);
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+        }
+
+        .preco {
+            font-size: 2.8em;
+            font-weight: 900;
+            color: var(--cor-preco);
+            font-family: 'Courier New', monospace;
+            text-shadow: 0 0 10px rgba(0, 255, 0, 0.7);
+            position: relative;
+            display: inline-block;
+        }
+
+        .promocao .preco {
+            color: var(--cor-promocao);
+            text-shadow: 0 0 15px rgba(255, 68, 68, 0.8);
+        }
+
+        .preco::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--cor-preco);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s ease;
+        }
+
+        .item-tabela:hover .preco::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .fade-out {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+
+        .fade-in {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Rodapé com a Marca */
+        .footer-tag {
+            text-align: center;
+            font-size: 2em;
+            font-weight: bold;
+            color: var(--cor-primaria);
+            margin-top: 30px;
+            padding: 15px;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 15px;
+            border: 3px solid var(--cor-borda);
+            letter-spacing: 3px;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer-tag::before {
+            content: '★';
+            position: absolute;
+            left: 10px;
+            animation: starFloat 3s ease-in-out infinite;
+        }
+
+        .footer-tag::after {
+            content: '★';
+            position: absolute;
+            right: 10px;
+            animation: starFloat 3s ease-in-out infinite 1.5s;
+        }
+
+        @keyframes starFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Status de atualização */
+        .status-bar {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            color: var(--cor-preco);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            border: 2px solid var(--cor-preco);
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            background: var(--cor-preco);
+            border-radius: 50%;
+            display: inline-block;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* Loading inicial */
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--cor-fundo);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .loading-text {
+            font-size: 3em;
+            color: var(--cor-primaria);
+            font-weight: bold;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+        }
+
+        .loading-spinner {
+            width: 80px;
+            height: 80px;
+            border: 8px solid rgba(255, 215, 0, 0.3);
+            border-top: 8px solid var(--cor-primaria);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 1920px) {
+            #titulo-categoria { font-size: 4.5em; }
+            .sub-titulo { font-size: 2.2em; }
+            .corte { font-size: 1.8em; }
+            .preco { font-size: 2.5em; }
+        }
+
+        @media (max-width: 1366px) {
+            #titulo-categoria { font-size: 3.8em; }
+            .sub-titulo { font-size: 1.8em; }
+            .corte { font-size: 1.6em; }
+            .preco { font-size: 2.2em; }
+            .container { padding: 30px; height: 90vh; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="loading" id="loadingScreen">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">CARREGANDO PREÇOS...</div>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1 id="titulo-categoria">CARREGANDO...</h1>
+        </div>
+        
+        <div id="display" class="conteudo-dinamico">
+            <!-- Conteúdo será inserido aqui dinamicamente -->
+        </div>
+
+        <div class="footer-tag">QUALIDADE PORTAL</div>
+        
+        <div class="status-bar" id="statusBar">
+            <span class="status-dot"></span>
+            <span id="statusText">Atualizado agora</span>
+        </div>
+    </div>
+
+    <script>
+        let dadosPrecos = null;
+        let indexCat = 0;
+        const categorias = ['bovinos', 'suinos', 'aves'];
+        let ultimaAtualizacao = new Date();
+        let arquivoJson = 'precos.json'; // Nome do arquivo JSON
+
+        // Função para formatar data e hora
+        function formatarDataHora(data) {
+            return data.toLocaleTimeString('pt-BR', { 
+                hour: '2-digit', 
+                minute: '2-digit',
+                second: '2-digit'
+            });
+        }
+
+        // 1. Busca os dados (Lê o JSON local)
+        async function fetchDados() {
+            try {
+                // Adiciona timestamp para evitar cache
+                const timestamp = new Date().getTime();
+                const resposta = await fetch(`${arquivoJson}?t=${timestamp}`);
+                
+                if (!resposta.ok) {
+                    throw new Error(`Erro HTTP: ${resposta.status}`);
+                }
+                
+                dadosPrecos = await resposta.json();
+                ultimaAtualizacao = new Date();
+                
+                // Atualiza status
+                atualizarStatus('Dados atualizados com sucesso');
+                
+                // Se for o primeiro carregamento, exibe logo e remove loading
+                if (document.getElementById('titulo-categoria').textContent === "CARREGANDO...") {
+                    setTimeout(() => {
+                        document.getElementById('loadingScreen').style.display = 'none';
+                        renderizar();
+                    }, 500);
+                }
+            } catch (e) {
+                console.error('Erro ao carregar dados:', e);
+                document.getElementById('titulo-categoria').textContent = "ERRO DE CONEXÃO";
+                atualizarStatus('Erro ao carregar dados', true);
+            }
+        }
+
+        // 2. Monta o HTML na tela
+        function renderizar() {
+            if (!dadosPrecos) return;
+
+            const display = document.getElementById('display');
+            const titulo = document.getElementById('titulo-categoria');
+            const catAtual = categorias[indexCat];
+
+            // Títulos amigáveis
+            const nomesTitulos = {
+                'bovinos': 'CARNES BOVINAS',
+                'suinos': 'CARNES SUÍNAS',
+                'aves': 'AVES E OUTROS'
+            };
+
+            titulo.textContent = nomesTitulos[catAtual] || catAtual.toUpperCase();
+
+            if (catAtual === 'bovinos' && dadosPrecos.bovinos) {
+                // Lógica de 1ª e 2ª (Monitor 1)
+                const primeira = dadosPrecos.bovinos.filter(i => i.tipo === 'primeira');
+                const segunda = dadosPrecos.bovinos.filter(i => i.tipo === 'segunda');
+
+                display.innerHTML = `
+                    <div class="coluna">
+                        <div class="sub-titulo">CORTES DE 1ª</div>
+                        ${primeira.map(i => criarLinha(i)).join('')}
+                    </div>
+                    <div class="coluna">
+                        <div class="sub-titulo">CORTES DE 2ª</div>
+                        ${segunda.map(i => criarLinha(i)).join('')}
+                    </div>
+                `;
+            } else if (dadosPrecos[catAtual]) {
+                // Outras categorias: divide em 2 colunas genéricas
+                const itens = dadosPrecos[catAtual];
+                const meio = Math.ceil(itens.length / 2);
+                display.innerHTML = `
+                    <div class="coluna">${itens.slice(0, meio).map(i => criarLinha(i)).join('')}</div>
+                    <div class="coluna">${itens.slice(meio).map(i => criarLinha(i)).join('')}</div>
+                `;
+            } else {
+                display.innerHTML = '<div class="coluna" style="text-align: center; padding: 50px;"><p style="font-size: 2em;">Nenhum item disponível</p></div>';
+            }
+        }
+
+        function criarLinha(item) {
+            const classes = [];
+            if (item.promocao) classes.push('promocao');
+            if (item.novo) classes.push('novo');
+            
+            return `
+                <div class="item-tabela ${classes.join(' ')}">
+                    <span class="corte">${item.corte}</span>
+                    <span class="preco">R$ ${parseFloat(item.preco).toFixed(2).replace('.', ',')}</span>
+                </div>
+            `;
+        }
+
+        // 3. Sistema de Rotação (Troca de categoria)
+        setInterval(() => {
+            const display = document.getElementById('display');
+            display.classList.add('fade-out');
+
+            setTimeout(() => {
+                indexCat = (indexCat + 1) % categorias.length;
+                renderizar();
+                display.classList.remove('fade-out');
+                display.classList.add('fade-in');
+                setTimeout(() => display.classList.remove('fade-in'), 500);
+            }, 800);
+        }, 12000); // Troca a cada 12 segundos
+
+        // 4. Sincronização em tempo real (Verifica novos preços a cada 30 segundos)
+        function iniciarAtualizacaoAutomatica() {
+            fetchDados();
+            setInterval(fetchDados, 30000); // A cada 30 segundos
+            
+            // Atualização contínua do status
+            setInterval(() => {
+                const agora = new Date();
+                const diffSegundos = Math.floor((agora - ultimaAtualizacao) / 1000);
+                
+                if (diffSegundos < 60) {
+                    atualizarStatus(`Atualizado há ${diffSegundos}s`);
+                } else if (diffSegundos < 3600) {
+                    const minutos = Math.floor(diffSegundos / 60);
+                    atualizarStatus(`Atualizado há ${minutos}m`);
+                } else {
+                    atualizarStatus(`Última: ${formatarDataHora(ultimaAtualizacao)}`);
+                }
+            }, 1000);
+        }
+
+        // Atualiza o status na barra
+        function atualizarStatus(mensagem, erro = false) {
+            const statusText = document.getElementById('statusText');
+            const statusDot = document.querySelector('.status-dot');
+            
+            statusText.textContent = mensagem;
+            
+            if (erro) {
+                statusText.style.color = '#FF4444';
+                statusDot.style.background = '#FF4444';
+            } else {
+                statusText.style.color = 'var(--cor-preco)';
+                statusDot.style.background = 'var(--cor-preco)';
+            }
+        }
+
+        // Iniciar aplicação
+        window.addEventListener('load', iniciarAtualizacaoAutomatica);
+
+        // Tecla F5 para recarregar manualmente
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'F5' || (e.ctrlKey && e.key === 'r')) {
+                e.preventDefault();
+                atualizarStatus('Recarregando dados...');
+                fetchDados();
+            }
+        });
+
+        // Clique na tela para próxima categoria
+        document.addEventListener('click', () => {
+            const display = document.getElementById('display');
+            display.classList.add('fade-out');
+
+            setTimeout(() => {
+                indexCat = (indexCat + 1) % categorias.length;
+                renderizar();
+                display.classList.remove('fade-out');
+                display.classList.add('fade-in');
+                setTimeout(() => display.classList.remove('fade-in'), 500);
+            }, 400);
+        });
+    </script>
+</body>
+</html>
